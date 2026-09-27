@@ -10,6 +10,19 @@ stack: [Terraform, AWS Organizations, GitHub Actions, OPA]
 repo: https://github.com/muthukumar2510
 live: ""
 album: ""
+# Optional clickable diagram. col/row place each box on a grid; links draw arrows.
+architecture:
+  nodes:
+    - { id: dev, label: Engineer, sub: pull request, col: 0, row: 0, note: "Placeholder. Teams request a new account by opening a pull request with a few lines of config." }
+    - { id: ci, label: GitHub Actions, sub: plan + policy, col: 1, row: 0, note: "Placeholder. CI runs terraform plan and OPA policy checks; nothing merges without passing both." }
+    - { id: tf, label: Terraform, sub: modules, col: 2, row: 0, note: "Placeholder. Versioned modules create the account, networking, and baseline guardrails." }
+    - { id: org, label: AWS Organizations, sub: OUs + SCPs, col: 2, row: 1, note: "Placeholder. Service control policies block risky actions at the organisation level." }
+    - { id: acct, label: New account, sub: ready in 20 min, col: 1, row: 1, note: "Placeholder. The team gets a working account with logging, SSO and budgets already set up." }
+  links:
+    - [dev, ci]
+    - [ci, tf]
+    - [tf, org]
+    - [org, acct]
 metrics:
   - label: New account setup
     value: 2 days → 20 min

@@ -7,6 +7,7 @@ import EasterEggs from '../components/EasterEggs';
 import Toast from '../components/Toast';
 import Console from '../components/Console';
 import useInteractions from '../lib/useInteractions';
+import '../styles/tokens.css';
 import '../styles/globals.css';
 
 // Next has no fallback metrics for these families, so fallbacks are declared explicitly.

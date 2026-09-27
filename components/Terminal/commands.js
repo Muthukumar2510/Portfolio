@@ -1,6 +1,7 @@
 import profile from '../../content/profile';
 import skills from '../../content/skills';
 import experience from '../../content/experience';
+import certifications from '../../content/certifications';
 import {
   scrollToSection,
   setTheme,
@@ -80,6 +81,37 @@ const commands = [
       scrollToSection('writing');
       if (!site.posts.length) return ['No posts yet.'];
       return site.posts.map((p) => `  ${p.date}  [${p.type}] ${p.title}`);
+    },
+  },
+  {
+    name: 'certs',
+    description: 'Certifications',
+    run: () => {
+      scrollToSection('certifications');
+      if (!certifications.length) return ['No certifications listed yet.'];
+      return certifications.map((c) => `  ${c.date}  ${c.name} (${c.issuer})`);
+    },
+  },
+  {
+    name: 'trace',
+    description: 'Trace your request through this site',
+    run: async () => {
+      const t0 = performance.now();
+      try {
+        const d = await (await fetch('/api/trace', { cache: 'no-store' })).json();
+        const ms = Math.round(performance.now() - t0);
+        const where = [d.visitor?.city, d.visitor?.country].filter(Boolean).join(', ') || 'your browser';
+        return [
+          { text: `trace to ${profile.domain}`, tone: 'accent' },
+          `  1  ${where.padEnd(24)} you`,
+          `  2  ${(d.edge.code || 'local').padEnd(24)} edge · ${d.edge.name}`,
+          `  3  ${(d.fn.code || 'local').padEnd(24)} function · ${d.serverMs} ms`,
+          `  4  ${'upstash'.padEnd(24)} redis · ${d.redisMs != null ? `${d.redisMs} ms` : 'not connected'}`,
+          { text: `round trip ${ms} ms`, tone: 'muted' },
+        ];
+      } catch {
+        return [{ text: 'trace failed: network error', tone: 'warn' }];
+      }
     },
   },
   {

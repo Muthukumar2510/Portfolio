@@ -1,0 +1,112 @@
+/*
+ * Design tokens: the only place raw colours, sizes and timings may be written.
+ * Components use var(--token). `npm run lint:css` fails on raw hex/rgb colours outside this file.
+ */
+
+/* ---------- Colour (light) ---------- */
+:root,
+:root[data-theme='light'] {
+  --bg: #fafaf7;
+  --surface: #ffffff;
+  --text: #1c1c1e;
+  --muted: #6b6b70;
+  --border: #e6e5df;
+  --accent: #1a73e8;
+  --accent-soft: rgba(26, 115, 232, 0.1);
+  --on-accent: #ffffff;
+  --warn: #b7791f;
+  --off: #9a9aa0;
+  --scrim: rgba(0, 0, 0, 0.35);
+  --overlay: rgba(5, 6, 8, 0.94);
+  --on-overlay: #ffffff;
+  --on-overlay-muted: rgba(255, 255, 255, 0.15);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.18);
+
+  /* Terminal stays dark in both themes. */
+  --term-bg: #16181d;
+  --term-text: #d7dae0;
+  --term-accent: #8ab4f8;
+  --term-muted: #7d8590;
+  --term-warn: #fbbf24;
+  --term-line: rgba(255, 255, 255, 0.06);
+  --term-chip: rgba(255, 255, 255, 0.05);
+  --term-chip-border: rgba(255, 255, 255, 0.1);
+  --term-dot-close: #ff5f57;
+  --term-dot-min: #febc2e;
+  --term-dot-max: #28c840;
+}
+
+/* ---------- Colour (dark) ---------- */
+:root[data-theme='dark'] {
+  --bg: #0d0f12;
+  --surface: #14171c;
+  --text: #e6e8eb;
+  --muted: #8b929c;
+  --border: #242830;
+  --accent: #8ab4f8;
+  --accent-soft: rgba(138, 180, 248, 0.12);
+  --on-accent: #0d0f12;
+  --warn: #fbbf24;
+  --off: #5c636e;
+  --shadow: 0 0 0 1px var(--border);
+  --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.5);
+  --term-bg: #08090b;
+  --term-muted: #6e7681;
+}
+
+/* ---------- Scale ---------- */
+:root {
+  /* Spacing: 4px base. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* Type. */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-display: clamp(2.1rem, 4.6vw, 3.6rem);
+  --text-title: clamp(1.75rem, 3.2vw, 2.4rem);
+
+  /* Shape. */
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* Layout. */
+  --max: 1040px;
+  --max-prose: 760px;
+  --gutter: var(--space-4);
+  --nav-h: 52px;
+  --size-control: 2.5rem;
+  --size-control-sm: 2.125rem;
+  --size-badge: 3.5rem;
+
+  /* Motion. */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 0.15s;
+  --dur: 0.3s;
+  --dur-slow: 0.6s;
+
+  /* Layers. */
+  --z-nav: 50;
+  --z-panel: 60;
+  --z-console: 95;
+  --z-palette: 100;
+  --z-toast: 150;
+  --z-egg: 200;
+  --z-lightbox: 300;
+}

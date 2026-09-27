@@ -1,33 +1,30 @@
 import profile from '../../content/profile';
-import styles from './Sections.module.css';
+import Section from '../ui/Section';
+import styles from './About.module.css';
 
 export default function About() {
+  const facts = [
+    ['Role', profile.title],
+    ['Based in', profile.location],
+    ['Status', profile.status],
+  ];
   return (
-    <section id="about" className="section">
-      <div className="container reveal">
-        <h2 className="section-title">About</h2>
-        <div className={styles.aboutGrid}>
-          <div className={styles.aboutText}>
-            {profile.bio.map((p) => (
-              <p key={p}>{p}</p>
-            ))}
-          </div>
-          <dl className={styles.facts}>
-            <div>
-              <dt>role</dt>
-              <dd>{profile.title}</dd>
-            </div>
-            <div>
-              <dt>location</dt>
-              <dd>{profile.location}</dd>
-            </div>
-            <div>
-              <dt>status</dt>
-              <dd className={styles.ok}>{profile.status}</dd>
-            </div>
-          </dl>
+    <Section id="about" title="About">
+      <div className={styles.grid}>
+        <div className={styles.text}>
+          {profile.bio.map((p) => (
+            <p key={p}>{p}</p>
+          ))}
         </div>
+        <dl className={styles.facts}>
+          {facts.map(([k, v]) => (
+            <div key={k}>
+              <dt>{k}</dt>
+              <dd className={k === 'Status' ? styles.ok : ''}>{v}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
-    </section>
+    </Section>
   );
 }

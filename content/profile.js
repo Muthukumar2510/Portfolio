@@ -3,6 +3,10 @@ const profile = {
   name: 'Muthukumar Natarajan',
   handle: 'muthukumar',
   domain: 'muthukumar.dev',
+  // Public URL of the live site (used for canonical links, sitemap, share images). No trailing slash.
+  siteUrl: 'https://portfolio-ntci.vercel.app',
+  // GitHub repo of this site, shown in the changelog.
+  repo: 'Muthukumar2510/Portfolio',
   title: 'Cloud Engineer',
   headline: 'I build and run cloud platforms.',
   tagline: 'Cloud Engineer · DevOps · AWS, Kubernetes, Terraform',

@@ -80,6 +80,12 @@ export default function Terminal({ autoFocus = false, instant = false }) {
       setLines([]);
       return;
     }
+    if (out instanceof Promise) {
+      const pending = { text: 'working…', tone: 'muted', pending: true };
+      setLines((l) => [...l, { prompt: true, text: value }, pending]);
+      out.then((res) => setLines((l) => l.flatMap((line) => (line === pending ? res.map(normalize) : [line]))));
+      return;
+    }
     setLines((l) => [...l, { prompt: true, text: value }, ...out.map(normalize)]);
   }
 

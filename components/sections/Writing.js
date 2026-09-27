@@ -1,42 +1,26 @@
-import Link from 'next/link';
-import Image from 'next/image';
 import { useSite } from '../../lib/SiteContext';
-import { formatDate } from '../../lib/format';
-import styles from './Sections.module.css';
+import Section from '../ui/Section';
+import PostCard from '../cards/PostCard';
+import grid from '../ui/Grid.module.css';
+
+const HOME_LIMIT = 3;
 
 export default function Writing() {
   const { posts } = useSite();
   if (!posts.length) return null;
+  const latest = [...posts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, HOME_LIMIT);
   return (
-    <section id="writing" className="section">
-      <div className="container reveal">
-        <h2 className="section-title">Writing &amp; events</h2>
-        <ul className={styles.posts}>
-          {posts.map((p) => (
-            <li key={p.slug}>
-              <Link href={`/writing/${p.slug}`} className={styles.post} data-spotlight>
-                <span className={styles.postThumb}>
-                  {p.cover ? (
-                    <Image src={p.cover} alt="" fill sizes="96px" />
-                  ) : (
-                    <span className={styles.postGlyph}>{p.type === 'event' ? '◆' : '¶'}</span>
-                  )}
-                </span>
-                <span className={styles.postText}>
-                  <span className={styles.postMeta}>
-                    <span className={styles.tag}>{p.type}</span>
-                    {formatDate(p.date)}
-                    {p.location && <> · {p.location}</>}
-                    {p.imageCount > 0 && <> · {p.imageCount} photos</>}
-                  </span>
-                  <span className={styles.postTitle}>{p.title}</span>
-                  <span className={styles.muted}>{p.summary}</span>
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+    <Section
+      id="writing"
+      title="Writing & events"
+      intro="Notes from production, and the conferences and meetups where I learn out loud."
+      action={{ href: '/writing', label: 'All posts' }}
+    >
+      <div className={grid.three}>
+        {latest.map((p) => (
+          <PostCard key={p.slug} post={p} />
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }

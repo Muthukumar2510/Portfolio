@@ -1,0 +1,40 @@
+# Portfolio: development rules
+
+Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (token lint + build), which CI also runs on each pull request.
+
+## 1. Single source of truth
+- **Text/data lives only in `content/`.** Components never hard-code names, bios, links, dates or project facts.
+  - `content/profile.js`: identity, links, site URL, repo
+  - `content/skills.js`, `content/experience.js`, `content/certifications.js`
+  - `content/projects/*.md`, `content/posts/*.md`: one Markdown file per item (front matter = metadata)
+- **Media lives only in `public/media/<collection>/<slug>/`.** Files are discovered automatically by `lib/content.js`. Never list image paths by hand.
+- **Design values live only in `styles/tokens.css`.** Colours, type sizes, spacing, radii, shadows, timings, z-indexes.
+- Derived data (reading time, photo counts, previews, prev/next) is computed in `lib/content.js`, not in components.
+
+## 2. Styling
+- One `*.module.css` next to each component. No inline `style={{}}` except runtime values (e.g. a computed CSS variable).
+- Use tokens: `var(--space-4)`, `var(--text-sm)`, `var(--accent)`, `var(--z-nav)`. `npm run lint:css` fails on raw colours, raw font sizes and raw z-indexes outside `tokens.css`.
+- Need a new value? Add a token to `tokens.css` first, in both themes if it's a colour.
+- Mobile-first check at 375px: no horizontal scroll.
+
+## 3. Components
+- Reuse before creating:
+  - `components/ui/`: `Section` (every home section), `Button`, `Tag`/`TagList`, `StatusDot`, `Grid.module.css`
+  - `components/cards/`: `ProjectCard`, `PostCard` (used on home and list pages)
+  - `Gallery` (all photo collages + lightbox), `SocialLinks`, `Seo`, `EntryLayout`, `ListPage`
+- Home sections live in `components/sections/`, are composed in `pages/index.js`, and render nothing when their content is empty.
+- Site-wide data reaches components through `SiteContext` (`useSite()`), fed by `getSiteData()` in each page's `getStaticProps`.
+
+## 4. Behaviour
+- Respect `prefers-reduced-motion` for every animation; pause canvases when off-screen.
+- Pointer effects (`data-spotlight`, `data-tilt`, `data-magnetic`) are opt-in attributes handled by `lib/useInteractions.js`.
+- Keyboard: everything clickable is focusable; dialogs close on Escape.
+- API routes fail soft: return `null`s instead of 500s so the UI can hide the feature.
+
+## 5. Adding things
+- New project/post: add a Markdown file + optional media folder. Nothing else.
+- New home section: create it in `components/sections/` using `<Section>`, add it to `pages/index.js`, add its id to the nav/palette lists if it should be linkable.
+- New terminal command: add it to `components/Terminal/commands.js` (reads content via imports or the `site` argument).
+
+## 6. Before pushing
+`npm run check`, then open the site at 375px and 1440px in light and dark themes.
