@@ -35,7 +35,7 @@ export default function EntryLayout({ entry, basePath, backLabel }) {
       <Seo
         title={entry.title}
         description={entry.summary}
-        image={entry.cover || undefined}
+        image={entry.cover?.src}
         type="article"
         jsonLd={articleJsonLd(entry, `${basePath}/${entry.slug}`)}
       />
@@ -77,7 +77,7 @@ export default function EntryLayout({ entry, basePath, backLabel }) {
         ) : (
           entry.cover && (
             <div className={styles.cover}>
-              <Image src={entry.cover} alt="" fill priority sizes="(max-width: 1040px) 100vw, 1040px" />
+              <Image src={entry.cover.src} alt="" fill priority sizes="(max-width: 1040px) 100vw, 1040px" {...(entry.cover.blur ? { placeholder: 'blur', blurDataURL: entry.cover.blur } : {})} />
             </div>
           )
         )}

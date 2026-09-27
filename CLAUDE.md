@@ -1,6 +1,6 @@
 # Portfolio: development rules
 
-Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (token lint + build), which CI also runs on each pull request.
+Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (token lint + media check + build), which CI also runs on each pull request.
 
 ## 1. Single source of truth
 - **Text/data lives only in `content/`.** Components never hard-code names, bios, links, dates or project facts.
@@ -31,10 +31,16 @@ Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (to
 - Keyboard: everything clickable is focusable; dialogs close on Escape.
 - API routes fail soft: return `null`s instead of 500s so the UI can hide the feature.
 
-## 5. Adding things
+## 5. Honesty and safety
+- Never show a status, metric or claim the site can't back with data. Live values come from `/api/trace`, `/api/status`, `/api/visits` or build-time GitHub data; when unavailable, say so instead of faking it.
+- Photos must go through `npm run media` (strips GPS/EXIF, fixes rotation, caps size, writes `public/media/manifest.json`). CI fails on unprocessed photos; the Media workflow fixes them automatically on push.
+- The CSP in `next.config.js` allows only our own scripts plus the hashed theme script. Adding any third-party script, iframe or API means updating the CSP deliberately. Don't add `'unsafe-inline'` to `script-src`.
+- Drafts: `draft: true` in front matter shows in dev only.
+
+## 6. Adding things
 - New project/post: add a Markdown file + optional media folder. Nothing else.
 - New home section: create it in `components/sections/` using `<Section>`, add it to `pages/index.js`, add its id to the nav/palette lists if it should be linkable.
 - New terminal command: add it to `components/Terminal/commands.js` (reads content via imports or the `site` argument).
 
-## 6. Before pushing
+## 7. Before pushing
 `npm run check`, then open the site at 375px and 1440px in light and dark themes.

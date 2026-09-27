@@ -10,7 +10,7 @@ export default function PostCard({ post: p }) {
     <Link href={`/writing/${p.slug}`} className={styles.card} data-spotlight>
       <span className={styles.thumb}>
         {p.cover ? (
-          <Image src={p.cover} alt="" fill sizes="(max-width: 600px) 100vw, 320px" />
+          <Image src={p.cover.src} alt="" fill sizes="(max-width: 600px) 100vw, 320px" {...(p.cover.blur ? { placeholder: 'blur', blurDataURL: p.cover.blur } : {})} />
         ) : (
           <span className={styles.glyph} aria-hidden="true">
             {p.type === 'event' ? '◆' : '¶'}

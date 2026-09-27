@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint:css": "node scripts/lint-css.mjs",
-    "check": "npm run lint:css && npm run build"
+    "check": "npm run lint:css && npm run media:check && npm run build",
+    "media": "node scripts/media.mjs",
+    "media:check": "node scripts/media.mjs --check"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
@@ -15,5 +17,8 @@
     "next": "^16.3.6",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5"
   }
 }
