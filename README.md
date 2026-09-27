@@ -59,7 +59,7 @@ If the site goes down, the workflow fails and GitHub emails you. Until monitorin
 
 ## Quality gates
 The **Quality** workflow builds the site in production mode and fails the pull request if any of these fail:
-- Lighthouse budget (worst of home, a project page and /writing): performance ≥ 85, accessibility ≥ 95, best practices ≥ 95, SEO ≥ 95
+- Lighthouse budget (median of 3 runs per page; worst of home, a project page and /writing): performance ≥ 85, accessibility ≥ 95, best practices ≥ 95, SEO ≥ 95
 - All six security headers present, and no `'unsafe-inline'` scripts
 - Zero broken internal links (crawled from the sitemap)
 

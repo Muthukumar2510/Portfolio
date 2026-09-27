@@ -21,6 +21,8 @@ const REQUIRED_HEADERS = [
   'permissions-policy',
 ];
 const LH_PAGES = ['/', '/projects/this-site', '/writing'];
+const LH_RUNS = Number(process.env.LH_RUNS || 3);
+const median = (xs) => [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)];
 
 const failures = [];
 const fail = (msg) => {
@@ -63,7 +65,8 @@ for (const page of pages) {
 if (broken.length) fail(`broken links: ${[...new Set(broken)].join('; ')}`);
 console.log(`  ${seen.size} URLs checked, ${broken.length} broken`);
 
-// 3. Lighthouse (median-free: worst score across pages must meet budget)
+// 3. Lighthouse: median of LH_RUNS runs per page (Lighthouse's recommended way to cut variance);
+//    the worst page's median must meet the budget.
 console.log('Lighthouse');
 const scores = { performance: 100, accessibility: 100, 'best-practices': 100, seo: 100 };
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'lh-'));
@@ -94,15 +97,22 @@ function runLighthouse(page, out, attempts = 3) {
     }
   }
 }
+// Warm the server and route caches so the first audited page isn't penalised for a cold start.
+for (const page of LH_PAGES) await fetch(`${BASE}${page}`).then((r) => r.arrayBuffer());
+
 for (const page of LH_PAGES) {
-  const out = path.join(tmp, `${page.replace(/\W+/g, '_') || 'home'}.json`);
-  runLighthouse(page, out);
-  const report = JSON.parse(fs.readFileSync(out, 'utf8'));
+  const runs = {};
+  for (let i = 0; i < LH_RUNS; i++) {
+    const out = path.join(tmp, `${page.replace(/\W+/g, '_') || 'home'}-${i}.json`);
+    runLighthouse(page, out);
+    const report = JSON.parse(fs.readFileSync(out, 'utf8'));
+    for (const [k, v] of Object.entries(report.categories)) (runs[k] ||= []).push(Math.round(v.score * 100));
+  }
   const line = [];
-  for (const [k, v] of Object.entries(report.categories)) {
-    const s = Math.round(v.score * 100);
-    scores[k] = Math.min(scores[k], s);
-    line.push(`${k} ${s}`);
+  for (const [k, xs] of Object.entries(runs)) {
+    const m = median(xs);
+    scores[k] = Math.min(scores[k], m);
+    line.push(`${k} ${m}${xs.length > 1 ? ` (${xs.join('/')})` : ''}`);
   }
   console.log(`  ${page}: ${line.join(' · ')}`);
 }
