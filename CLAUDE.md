@@ -36,6 +36,7 @@ Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (to
 - Photos must go through `npm run media` (strips GPS/EXIF, fixes rotation, caps size, writes `public/media/manifest.json`). CI fails on unprocessed photos; the Media workflow fixes them automatically on push.
 - The CSP in `next.config.js` allows only our own scripts plus the hashed theme script. Adding any third-party script, iframe or API means updating the CSP deliberately. Don't add `'unsafe-inline'` to `script-src`.
 - Drafts: `draft: true` in front matter shows in dev only.
+- Quality budgets live in `scripts/quality.mjs`. Don't lower them to get green: fix the regression (Lighthouse output names the cause).
 
 ## 6. Adding things
 - New project/post: add a Markdown file + optional media folder. Nothing else.

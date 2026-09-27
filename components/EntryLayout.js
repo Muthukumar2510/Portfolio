@@ -6,6 +6,7 @@ import ProjectCover from './ProjectCover';
 import ArchitectureDiagram from './ArchitectureDiagram';
 import Button from './ui/Button';
 import { TagList } from './ui/Tag';
+import RepoStats from './ui/RepoStats';
 import { formatDate } from '../lib/format';
 import { articleJsonLd } from '../lib/seo';
 import styles from './EntryLayout.module.css';
@@ -98,6 +99,8 @@ export default function EntryLayout({ entry, basePath, backLabel }) {
             ))}
           </div>
         )}
+
+        <RepoStats stats={entry.repoStats} full />
 
         {entry.architecture && <ArchitectureDiagram spec={entry.architecture} />}
 

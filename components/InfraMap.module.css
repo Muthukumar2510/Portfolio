@@ -39,6 +39,19 @@
   overflow: visible;
 }
 
+.tall {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .wide {
+    display: none;
+  }
+  .tall {
+    display: block;
+  }
+}
+
 .links {
   transform: translate(calc(var(--px) * 0.5), calc(var(--py) * 0.5));
   transition: transform 0.4s var(--ease);

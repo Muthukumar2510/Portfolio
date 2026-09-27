@@ -57,6 +57,23 @@ Add `draft: true` to a post or project's front matter. It shows in `npm run dev`
 
 If the site goes down, the workflow fails and GitHub emails you. Until monitoring runs, the status bar honestly says "monitoring not connected".
 
+## Quality gates
+The **Quality** workflow builds the site in production mode and fails the pull request if any of these fail:
+- Lighthouse budget (worst of home, a project page and /writing): performance ≥ 85, accessibility ≥ 95, best practices ≥ 95, SEO ≥ 95
+- All six security headers present, and no `'unsafe-inline'` scripts
+- Zero broken internal links (crawled from the sitemap)
+
+On `main`, the result is published to Redis and shown in the home page's **How this site runs** section. Run it locally with `npm run build && npx next start` then `BASE=http://localhost:3000 node scripts/quality.mjs`.
+
+## Live project stats
+Add `github: owner/repo` to a project's front matter to show its CI status, last push, stars and languages (fetched at build time, refreshed hourly).
+
+## Running costs
+`content/costs.js` lists each service, plan and free-tier limit. The Redis usage bar is estimated from real visitor numbers.
+
+## Daily refresh
+The **Refresh** workflow rebuilds the site every day so GitHub stats stay current. Create a Deploy Hook in Vercel (Settings → Git → Deploy Hooks) and save it as the repo secret `VERCEL_DEPLOY_HOOK`.
+
 ## Security
 Strict security headers are set in `next.config.js`: Content-Security-Policy (only this site's own scripts), HSTS, frame blocking, and a locked-down Permissions-Policy.
 

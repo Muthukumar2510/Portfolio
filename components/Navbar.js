@@ -61,7 +61,7 @@ export default function Navbar() {
   return (
     <header className={`${styles.nav} ${hidden ? styles.hidden : ''} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.bar}>
-        <Link href="/" className={styles.brand} aria-label={`${profile.name}, home`}>
+        <Link href="/" className={styles.brand} aria-label={`${profile.name.split(' ')[0]}, home`}>
           <span className={styles.logo} aria-hidden="true">
             {profile.name
               .split(' ')

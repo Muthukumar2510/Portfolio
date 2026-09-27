@@ -15,7 +15,7 @@ import styles from './CommandPalette.module.css';
 
 function buildItems({ projects, posts }) {
   return [
-  ...['projects', 'about', 'experience', 'skills', 'certifications', 'moments', 'writing', 'changelog', 'contact'].map((id) => ({
+  ...['projects', 'about', 'experience', 'skills', 'certifications', 'moments', 'writing', 'operations', 'contact'].map((id) => ({
     group: 'Go to',
     label: id[0].toUpperCase() + id.slice(1),
     hint: `#${id}`,

@@ -119,7 +119,6 @@ function linkPath(layout, a, b) {
 
 export default function InfraMap({ onTrace }) {
   const wrapRef = useRef(null);
-  const [mode, setMode] = useState('wide');
   const [trace, setTrace] = useState(null);
   const [rtt, setRtt] = useState(null);
   const [active, setActive] = useState('edge');
@@ -142,9 +141,6 @@ export default function InfraMap({ onTrace }) {
   useEffect(() => {
     setReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     doTrace();
-    const ro = new ResizeObserver(([e]) => setMode(e.contentRect.width < 640 ? 'tall' : 'wide'));
-    ro.observe(wrapRef.current);
-    return () => ro.disconnect();
   }, [doTrace]);
 
   // Gentle parallax so the diagram responds to the cursor.
@@ -170,27 +166,26 @@ export default function InfraMap({ onTrace }) {
     };
   }, [reduced]);
 
-  const layout = LAYOUTS[mode];
-  const [bw, bh] = layout.box;
-  const [nw, nh] = layout.size;
   const info = describe(trace, rtt);
   const current = info[active];
-  const maxMeta = mode === 'wide' ? 22 : 17;
 
-  return (
-    <div className={styles.wrap} ref={wrapRef}>
-      <div className={styles.lanes} aria-hidden="true">
-        <span><i className={styles.req} /> request path</span>
-        <span><i className={styles.dep} /> deploy path</span>
-      </div>
+  // Both layouts render; CSS shows one per breakpoint so nothing shifts after hydration.
+  const diagram = (mode) => {
+    const layout = LAYOUTS[mode];
+    const [bw, bh] = layout.box;
+    const [nw, nh] = layout.size;
+    const maxMeta = mode === 'wide' ? 22 : 17;
+    const arrowId = `arrow-${mode}`;
+    return (
       <svg
-        className={styles.svg}
+        key={mode}
+        className={`${styles.svg} ${styles[mode]}`}
         viewBox={`0 0 ${bw} ${bh}`}
         role="group"
         aria-label={`Live diagram of how this website is served. Your request went through ${info.edge.meta}.`}
       >
         <defs>
-          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <marker id={arrowId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" className={styles.arrowHead} />
           </marker>
         </defs>
@@ -201,7 +196,7 @@ export default function InfraMap({ onTrace }) {
             const on = active === l.from || active === l.to;
             return (
               <g key={id}>
-                <path id={id} d={d} className={`${styles.link} ${styles[l.lane]} ${on ? styles.linkOn : ''}`} markerEnd="url(#arrow)" />
+                <path id={id} d={d} className={`${styles.link} ${styles[l.lane]} ${on ? styles.linkOn : ''}`} markerEnd={`url(#${arrowId})`} />
                 {!reduced && (
                   <circle r={l.lane === 'req' ? 5 : 4} className={`${styles.packet} ${styles[`${l.lane}Packet`]}`}>
                     <animateMotion
@@ -230,7 +225,6 @@ export default function InfraMap({ onTrace }) {
                 tabIndex={0}
                 role="button"
                 aria-pressed={on}
-                aria-label={`${n.title}: ${n.meta}`}
                 onClick={() => setActive(id)}
                 onMouseEnter={() => setActive(id)}
                 onFocus={() => setActive(id)}
@@ -249,6 +243,17 @@ export default function InfraMap({ onTrace }) {
           })}
         </g>
       </svg>
+    );
+  };
+
+  return (
+    <div className={styles.wrap} ref={wrapRef}>
+      <div className={styles.lanes} aria-hidden="true">
+        <span><i className={styles.req} /> request path</span>
+        <span><i className={styles.dep} /> deploy path</span>
+      </div>
+      {diagram('wide')}
+      {diagram('tall')}
 
       <div className={styles.detail} aria-live="polite">
         <div>
