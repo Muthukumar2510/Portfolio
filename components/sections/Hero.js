@@ -1,40 +1,48 @@
 import profile from '../../content/profile';
-import Terminal from '../Terminal/Terminal';
+import ParticleHero from '../ParticleHero';
 import Avatar from '../Avatar';
-import VisitorCount from '../VisitorCount';
+import { openConsole } from '../../lib/actions';
 import styles from './Sections.module.css';
 
 export default function Hero() {
+  const initials = profile.name
+    .split(' ')
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join('');
+
   return (
     <section id="top" className={styles.hero}>
       <div className="container">
         <div className={styles.heroGrid}>
           <div className={styles.heroText}>
             <div className={styles.identity}>
-              <Avatar size={56} />
+              {profile.avatar && <Avatar size={48} />}
               <p className={styles.status}>
                 <span className={styles.pulse} aria-hidden="true" />
                 {profile.status}
               </p>
             </div>
             <h1 className={styles.heroTitle}>
-              {profile.name}
-              <span className={styles.heroAccent}>{profile.headline}</span>
+              {profile.headline}
             </h1>
-            <p className={styles.heroSub}>{profile.tagline}</p>
+            <p className={styles.heroSub}>
+              I&apos;m {profile.name}, a {profile.title.toLowerCase()} based in {profile.location.split(',')[0]}.{' '}
+              {profile.bio[0]}
+            </p>
             <div className={styles.heroCtas}>
-              <a href="#projects" className={styles.btnPrimary}>See my work</a>
-              <a href="#contact" className={styles.btnGhost}>Contact</a>
-              <a href={profile.resumeUrl} className={styles.btnGhost} target="_blank" rel="noopener noreferrer">
-                Resume ↗
+              <a href="#projects" className={styles.btnPrimary} data-magnetic>
+                See my work
+              </a>
+              <a href="#contact" className={styles.btnGhost} data-magnetic>
+                Get in touch
               </a>
             </div>
-            <VisitorCount className={styles.visits} />
+            <button type="button" className={styles.consoleHint} onClick={openConsole}>
+              Open the terminal <kbd>`</kbd>
+            </button>
           </div>
-          <div className={styles.terminalWrap}>
-            <div className={styles.glow} aria-hidden="true" />
-            <Terminal />
-          </div>
+          <ParticleHero initials={initials} />
         </div>
       </div>
     </section>

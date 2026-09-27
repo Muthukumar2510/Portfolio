@@ -29,7 +29,6 @@ export default function Contact() {
   return (
     <section id="contact" className="section">
       <div className="container reveal">
-        <p className="section-label">$ ./contact.sh</p>
         <h2 className="section-title">Let&apos;s talk</h2>
         <div className={styles.contactGrid}>
           <div>
@@ -49,7 +48,7 @@ export default function Contact() {
               ))}
             </div>
             <div className={styles.heroCtas}>
-              <a href={mailtoFor(reason)} className={styles.btnPrimary}>
+              <a href={mailtoFor(reason)} className={styles.btnPrimary} data-magnetic>
                 Open drafted email
               </a>
               <button type="button" className={styles.btnGhost} onClick={copyEmail}>

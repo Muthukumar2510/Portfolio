@@ -10,7 +10,6 @@ export default function Projects() {
   return (
     <section id="projects" className="section">
       <div className="container reveal">
-        <p className="section-label">$ docker ps --all</p>
         <h2 className="section-title">Projects</h2>
         <div className={styles.projects}>
           {projects.map((p) => (
@@ -19,11 +18,14 @@ export default function Projects() {
               href={`/projects/${p.slug}`}
               id={`project-${p.slug}`}
               className={`${styles.card} ${p.featured ? styles.featured : ''}`}
+              data-spotlight
             >
-              <ProjectCover
-                project={p}
-                sizes={p.featured ? '(max-width: 860px) 100vw, 560px' : '(max-width: 860px) 100vw, 480px'}
-              />
+              <div data-tilt className={styles.coverWrap}>
+                <ProjectCover
+                  project={p}
+                  sizes={p.featured ? '(max-width: 860px) 100vw, 560px' : '(max-width: 860px) 100vw, 480px'}
+                />
+              </div>
               <div className={styles.cardBody}>
                 <div className={styles.cardHead}>
                   <span className={styles.cardStatus}>

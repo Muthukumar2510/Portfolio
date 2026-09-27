@@ -1,0 +1,48 @@
+.wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 560px;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+  touch-action: pan-y;
+}
+
+.dots {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.dot,
+.dotOn {
+  border: 0;
+  background: transparent;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 999px;
+  color: var(--muted);
+  transition: background 0.2s, color 0.2s;
+}
+
+.dotOn {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.dot:hover {
+  color: var(--text);
+}

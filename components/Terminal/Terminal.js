@@ -16,7 +16,7 @@ const bootScript = [
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-export default function Terminal() {
+export default function Terminal({ autoFocus = false, instant = false }) {
   const site = useSite();
   const [lines, setLines] = useState([]);
   const [typing, setTyping] = useState('');
@@ -29,7 +29,7 @@ export default function Terminal() {
 
   useEffect(() => {
     let cancelled = false;
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduced = instant || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     (async () => {
       for (const step of bootScript) {
@@ -60,10 +60,10 @@ export default function Terminal() {
   }, []);
 
   useEffect(() => {
-    if (booted && window.matchMedia('(pointer: fine)').matches) {
+    if (booted && (autoFocus || window.matchMedia('(pointer: fine)').matches)) {
       inputRef.current?.focus({ preventScroll: true });
     }
-  }, [booted]);
+  }, [booted, autoFocus]);
 
   useEffect(() => {
     const el = bodyRef.current;

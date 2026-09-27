@@ -10,12 +10,11 @@ export default function Writing() {
   return (
     <section id="writing" className="section">
       <div className="container reveal">
-        <p className="section-label">$ tail -f journal.log</p>
         <h2 className="section-title">Writing &amp; events</h2>
         <ul className={styles.posts}>
           {posts.map((p) => (
             <li key={p.slug}>
-              <Link href={`/writing/${p.slug}`} className={styles.post}>
+              <Link href={`/writing/${p.slug}`} className={styles.post} data-spotlight>
                 <span className={styles.postThumb}>
                   {p.cover ? (
                     <Image src={p.cover} alt="" fill sizes="96px" />

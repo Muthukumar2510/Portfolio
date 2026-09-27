@@ -1,6 +1,6 @@
 # Portfolio: Muthukumar Natarajan
 
-A personal site styled like a cloud console. It opens with an interactive terminal, then shows projects, experience, writing and events.
+A personal site for a cloud engineer. It opens with an interactive particle illustration (cloud → initials → Kubernetes) that reacts to your cursor, then shows projects, experience, writing and events. A hidden terminal drops down when you press the backtick key (`).
 
 ## Where everything lives
 
@@ -30,7 +30,7 @@ Same steps, in `content/posts/` and `public/media/posts/<name>/`. Set `type: blo
 Photos are resized, compressed and lazy-loaded automatically. Any size or orientation works, and they're shown in order of filename (`01.jpg`, `02.jpg`, …).
 
 ## Live visitor counter
-The visitor count uses a free Upstash Redis database. In Vercel, go to **Storage → Create → Upstash for Redis** and connect it to this project. Vercel adds the environment variables and the counter appears automatically. Until then it stays hidden.
+The header shows how many people are on the site right now. Clicking it shows today, the last 7 days and the all-time total. It uses a free Upstash Redis database: in Vercel, go to **Storage → Create → Upstash for Redis** and connect it to this project. Vercel adds the environment variables and the counter appears on the next deploy. Until then it stays hidden.
 
 ## Run it on your computer
 ```bash
@@ -45,4 +45,4 @@ Then open http://localhost:3000. Edits to files in `content/` and `public/media/
 3. Every push after that gets its own preview link, and pushes to `main` update the live site.
 
 ## Features
-Interactive terminal (try `help`), Ctrl/⌘+K search, light and dark themes, drafted-email contact, a detailed page per project, photo collages with a full-screen viewer, and a live visitor count. There are a few easter eggs too, for example `sudo hire-me` or the Konami code.
+Interactive particle hero, drop-down terminal (press ` and try `help`), Ctrl/⌘+K search, a spotlight and tilt on cards when you hover them, magnetic buttons, light and dark themes, drafted-email contact, a detailed page per project, photo collages with a full-screen viewer, and a live visitor count. There are a few easter eggs too, for example `sudo hire-me` or the Konami code.
