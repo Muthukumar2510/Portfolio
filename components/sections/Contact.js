@@ -28,7 +28,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="section">
-      <div className="container">
+      <div className="container reveal">
         <p className="section-label">$ ./contact.sh</p>
         <h2 className="section-title">Let&apos;s talk</h2>
         <div className={styles.contactGrid}>

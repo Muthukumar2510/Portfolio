@@ -34,10 +34,10 @@
 }
 
 :root {
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --radius: 12px;
-  --max: 960px;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --max: 1040px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 *,
@@ -56,9 +56,52 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
-  transition: background 0.25s ease, color 0.25s ease;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease);
+}
+
+h1, h2, h3 {
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+
+.js .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+.divider {
+  height: 1px;
+  max-width: var(--max);
+  margin: 0 auto;
+  background: linear-gradient(90deg, transparent, var(--border) 20%, var(--accent) 50%, var(--border) 80%, transparent);
+  opacity: 0.6;
 }
 
 a {
@@ -90,20 +133,29 @@ button {
 }
 
 .section {
-  padding: 88px 0 24px;
+  padding: 96px 0 32px;
 }
 
 .section-label {
   font-family: var(--font-mono);
   font-size: 0.8rem;
+  font-weight: 500;
   color: var(--accent);
   margin: 0 0 8px;
 }
 
 .section-title {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  letter-spacing: -0.02em;
-  margin: 0 0 32px;
+  font-size: clamp(1.75rem, 3.2vw, 2.4rem);
+  margin: 0 0 40px;
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: 64px 0 16px;
+  }
+  .section-title {
+    margin-bottom: 28px;
+  }
 }
 
 .flash {
@@ -127,6 +179,7 @@ button {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;

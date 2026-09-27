@@ -15,7 +15,13 @@ All content lives in `data/`:
 - `profile.js`: name, bio, email, socials, `bookingUrl`, `formspreeId`
 - `skills.js`, `experience.js`, `projects.js`
 
-Replace `public/resume.pdf` with your resume. Theme colors are in `styles/globals.css`.
+Replace `public/resume.pdf` with your resume.
+
+## Images (no CMS or storage needed)
+1. Put the file in `public/images/`, e.g. `public/images/profile.jpg` or `public/images/projects/infra-blueprint.png`.
+2. Set its path in the data file: `avatar: '/images/profile.jpg'` in `profile.js`, or `image: '/images/projects/infra-blueprint.png'` on a project.
+
+`next/image` resizes, compresses and lazy-loads them automatically. A square avatar and 16:9 project screenshots look best. If a field is empty, the site shows your initials or a generated cover instead. Theme colors are in `styles/globals.css`. Fonts are Google Sans and Google Sans Code, set in `pages/_app.js`.
 
 ## Run
 ```bash

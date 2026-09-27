@@ -1,5 +1,6 @@
 import profile from '../../data/profile';
 import Terminal from '../Terminal/Terminal';
+import Avatar from '../Avatar';
 import styles from './Sections.module.css';
 
 export default function Hero() {
@@ -8,10 +9,13 @@ export default function Hero() {
       <div className="container">
         <div className={styles.heroGrid}>
           <div className={styles.heroText}>
-            <p className={styles.status}>
-              <span className={styles.pulse} aria-hidden="true" />
-              {profile.status}
-            </p>
+            <div className={styles.identity}>
+              <Avatar size={56} />
+              <p className={styles.status}>
+                <span className={styles.pulse} aria-hidden="true" />
+                {profile.status}
+              </p>
+            </div>
             <h1 className={styles.heroTitle}>
               Hi, I&apos;m {profile.name.split(' ')[0]}.
               <br />
@@ -25,7 +29,10 @@ export default function Hero() {
               </a>
             </div>
           </div>
-          <Terminal />
+          <div className={styles.terminalWrap}>
+            <div className={styles.glow} aria-hidden="true" />
+            <Terminal />
+          </div>
         </div>
       </div>
     </section>

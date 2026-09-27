@@ -5,7 +5,7 @@ export default function Skills() {
   const total = skills.reduce((n, g) => n + g.items.length, 0);
   return (
     <section id="skills" className="section">
-      <div className="container">
+      <div className="container reveal">
         <p className="section-label">$ kubectl get skills</p>
         <h2 className="section-title">Skills status board</h2>
         <div className={styles.board}>

@@ -4,7 +4,7 @@ import styles from './Sections.module.css';
 export default function Experience() {
   return (
     <section id="experience" className="section">
-      <div className="container">
+      <div className="container reveal">
         <p className="section-label">$ git log --career</p>
         <h2 className="section-title">Deployment log</h2>
         <ol className={styles.log}>

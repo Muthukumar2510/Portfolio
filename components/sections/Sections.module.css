@@ -1,6 +1,7 @@
 /* Hero */
 .hero {
   padding: 72px 0 32px;
+  overflow-x: clip;
 }
 
 .heroGrid {
@@ -12,6 +13,32 @@
 
 .heroText {
   min-width: 0;
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 28px;
+}
+
+.identity .status {
+  margin: 0;
+}
+
+.terminalWrap {
+  position: relative;
+  min-width: 0;
+}
+
+.glow {
+  position: absolute;
+  inset: -12% -8%;
+  z-index: -1;
+  background: radial-gradient(closest-side, var(--accent-soft), transparent 75%);
+  filter: blur(20px);
+  opacity: 0.9;
+  pointer-events: none;
 }
 
 .status {
@@ -327,24 +354,63 @@
 /* Projects */
 .projects {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
 }
 
 .card {
   display: flex;
   flex-direction: column;
+  gap: 18px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface);
-  padding: 20px;
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  padding: 12px 12px 22px;
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease), opacity 0.7s var(--ease);
 }
 
 .card:hover {
-  transform: translateY(-3px);
-  border-color: var(--accent);
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
   box-shadow: var(--shadow);
+}
+
+.card:hover img,
+.card:hover [class*='grid'] {
+  transform: scale(1.04);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0 10px;
+}
+
+.featured {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  align-items: center;
+  gap: 28px;
+  padding: 12px;
+}
+
+.featured .cardBody {
+  padding: 8px 16px 8px 0;
+}
+
+.featured h3 {
+  font-size: 1.5rem;
+}
+
+.featuredTag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 2px 8px;
+  border-radius: 6px;
 }
 
 .cardHead {
@@ -506,8 +572,17 @@
     grid-template-columns: 1fr;
     gap: 32px;
   }
-  .boardGrid {
+  .boardGrid,
+  .projects,
+  .featured {
     grid-template-columns: 1fr;
+  }
+  .featured {
+    gap: 18px;
+    padding: 12px 12px 22px;
+  }
+  .featured .cardBody {
+    padding: 0 10px;
   }
   .boardGroup:nth-child(odd) {
     border-right: 0;

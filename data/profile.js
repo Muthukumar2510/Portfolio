@@ -11,6 +11,8 @@ const profile = {
     'I design, automate, and operate cloud infrastructure that stays boring in production — in the best way.',
     'I care about reliable pipelines, infrastructure as code, and systems that heal themselves before anyone gets paged.',
   ],
+  // Drop a square photo in public/images/ and set e.g. '/images/profile.jpg'. Empty = initials.
+  avatar: '',
   email: 'muthukumar@example.com',
   resumeUrl: '/resume.pdf',
   bookingUrl: '',
