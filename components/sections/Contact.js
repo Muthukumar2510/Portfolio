@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import profile from '../../data/profile';
+import profile from '../../content/profile';
 import { copyEmail, mailtoFor, mailtoPresets, toast } from '../../lib/actions';
 import styles from './Sections.module.css';
 

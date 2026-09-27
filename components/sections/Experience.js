@@ -1,4 +1,4 @@
-import experience from '../../data/experience';
+import experience from '../../content/experience';
 import styles from './Sections.module.css';
 
 export default function Experience() {

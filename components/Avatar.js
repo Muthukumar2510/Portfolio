@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import profile from '../data/profile';
+import profile from '../content/profile';
 import styles from './Avatar.module.css';
 
 export default function Avatar({ size = 56 }) {

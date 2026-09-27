@@ -1,7 +1,6 @@
-import profile from '../../data/profile';
-import skills from '../../data/skills';
-import experience from '../../data/experience';
-import projects from '../../data/projects';
+import profile from '../../content/profile';
+import skills from '../../content/skills';
+import experience from '../../content/experience';
 import {
   scrollToSection,
   setTheme,
@@ -10,6 +9,7 @@ import {
   openResume,
   fireEgg,
   mailtoFor,
+  openPath,
 } from '../../lib/actions';
 
 // Output lines: plain strings, or { text, tone } where tone is 'accent' | 'muted' | 'warn'.
@@ -59,10 +59,37 @@ const commands = [
   },
   {
     name: 'projects',
-    description: 'Services I have deployed',
-    run: () => {
+    description: 'Services I have deployed: projects [name]',
+    run: (args, site) => {
+      const hit = args[0] && site.projects.find((p) => p.slug.startsWith(args[0].toLowerCase()));
+      if (hit) {
+        openPath(`/projects/${hit.slug}`);
+        return [`Opening ${hit.title}\u2026`];
+      }
       scrollToSection('projects');
-      return projects.map((p) => `  [${p.status}] ${p.title} — ${p.description}`);
+      return [
+        ...site.projects.map((p) => `  [${p.status}] ${p.slug.padEnd(18)} ${p.summary}`),
+        { text: "Open one with 'projects <name>', e.g. 'projects " + (site.projects[0]?.slug || '') + "'.", tone: 'muted' },
+      ];
+    },
+  },
+  {
+    name: 'posts',
+    description: 'Blog posts and events',
+    run: (args, site) => {
+      scrollToSection('writing');
+      if (!site.posts.length) return ['No posts yet.'];
+      return site.posts.map((p) => `  ${p.date}  [${p.type}] ${p.title}`);
+    },
+  },
+  {
+    name: 'stats',
+    description: 'Live traffic for this site',
+    run: () => {
+      const n = typeof window !== 'undefined' ? window.__visits : null;
+      return n == null
+        ? [{ text: 'Visitor counter is not connected yet.', tone: 'muted' }]
+        : [`requests served   ${n.toLocaleString()}`, { text: 'Counted once per browser per day.', tone: 'muted' }];
     },
   },
   {
@@ -147,19 +174,19 @@ const commands = [
       return [{ text: 'Wake up, visitor…', tone: 'accent' }];
     },
   },
-  { name: 'ls', hidden: true, run: () => ['about/  skills/  experience/  projects/  contact/  resume.pdf'] },
+  { name: 'ls', hidden: true, run: () => ['about/  skills/  experience/  projects/  writing/  contact/  resume.pdf'] },
   { name: 'pwd', hidden: true, run: () => [`/home/visitor/${profile.domain}`] },
   { name: 'exit', hidden: true, run: () => ['There is no escape. But you can scroll ↓'] },
 ];
 
 export const commandNames = commands.map((c) => c.name);
 
-export function runCommand(input) {
+export function runCommand(input, site = { projects: [], posts: [] }) {
   const [name, ...args] = input.trim().split(/\s+/);
   if (!name) return [];
   const cmd = commands.find((c) => c.name === name.toLowerCase());
   if (!cmd) return [{ text: `command not found: ${name}. Type 'help' to see what I can do.`, tone: 'warn' }];
-  return cmd.run(args);
+  return cmd.run(args, site);
 }
 
 export function complete(partial) {

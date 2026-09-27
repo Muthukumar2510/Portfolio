@@ -1,26 +1,28 @@
-import projects from '../../data/projects';
+import Link from 'next/link';
+import { useSite } from '../../lib/SiteContext';
 import ProjectCover from '../ProjectCover';
 import styles from './Sections.module.css';
 
 const statusClass = { live: 'dotOk', building: 'dotWarn', archived: 'dotOff' };
 
 export default function Projects() {
-  const ordered = [...projects].sort((a, b) => Number(!!b.featured) - Number(!!a.featured));
+  const { projects } = useSite();
   return (
     <section id="projects" className="section">
       <div className="container reveal">
         <p className="section-label">$ docker ps --all</p>
-        <h2 className="section-title">Deployed services</h2>
+        <h2 className="section-title">Projects</h2>
         <div className={styles.projects}>
-          {ordered.map((p) => (
-            <article
+          {projects.map((p) => (
+            <Link
               key={p.slug}
+              href={`/projects/${p.slug}`}
               id={`project-${p.slug}`}
               className={`${styles.card} ${p.featured ? styles.featured : ''}`}
             >
               <ProjectCover
                 project={p}
-                sizes={p.featured ? '(max-width: 860px) 100vw, 560px' : '(max-width: 860px) 100vw, 340px'}
+                sizes={p.featured ? '(max-width: 860px) 100vw, 560px' : '(max-width: 860px) 100vw, 480px'}
               />
               <div className={styles.cardBody}>
                 <div className={styles.cardHead}>
@@ -31,26 +33,20 @@ export default function Projects() {
                   {p.featured && <span className={styles.featuredTag}>featured</span>}
                 </div>
                 <h3>{p.title}</h3>
-                <p>{p.description}</p>
+                <p>{p.summary}</p>
+                {p.metrics?.[0] && (
+                  <p className={styles.cardMetric}>
+                    <strong>{p.metrics[0].value}</strong> {p.metrics[0].label.toLowerCase()}
+                  </p>
+                )}
                 <ul className={styles.tags}>
-                  {p.tags.map((t) => (
+                  {(p.stack || []).map((t) => (
                     <li key={t}>{t}</li>
                   ))}
                 </ul>
-                <div className={styles.cardLinks}>
-                  {p.repo && (
-                    <a href={p.repo} target="_blank" rel="noopener noreferrer">
-                      source ↗
-                    </a>
-                  )}
-                  {p.live && (
-                    <a href={p.live} target="_blank" rel="noopener noreferrer">
-                      live ↗
-                    </a>
-                  )}
-                </div>
+                <span className={styles.readMore}>Read the case study →</span>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import profile from '../data/profile';
+import profile from '../content/profile';
 
 const commit = process.env.NEXT_PUBLIC_COMMIT;
 const built = process.env.NEXT_PUBLIC_BUILD_TIME;

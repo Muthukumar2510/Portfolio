@@ -4,7 +4,8 @@ const profile = {
   handle: 'muthukumar',
   domain: 'muthukumar.dev',
   title: 'Cloud Engineer',
-  tagline: 'Cloud Engineer · DevOps Enthusiast · Problem Solver',
+  headline: 'I build and run cloud platforms.',
+  tagline: 'Cloud Engineer · DevOps · AWS, Kubernetes, Terraform',
   location: 'Chennai, India',
   status: 'Open to new opportunities',
   bio: [

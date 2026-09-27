@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react';
-import profile from '../data/profile';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import profile from '../content/profile';
 import { openPalette } from '../lib/actions';
 import ThemeToggle from './ThemeToggle';
 import styles from './Navbar.module.css';
 
-const links = ['about', 'skills', 'experience', 'projects', 'contact'];
+const links = ['projects', 'about', 'skills', 'experience', 'writing', 'contact'];
 
 export default function Navbar() {
   const [active, setActive] = useState('');
   const [isMac, setIsMac] = useState(false);
+  const { asPath } = useRouter();
 
   useEffect(() => {
+    setActive('');
     setIsMac(/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent));
     const observer = new IntersectionObserver(
       (entries) => {
@@ -23,18 +27,18 @@ export default function Navbar() {
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, []);
+  }, [asPath]);
 
   return (
     <header className={styles.nav}>
       <div className={`container ${styles.inner}`}>
-        <a href="#top" className={styles.brand}>
+        <Link href="/" className={styles.brand}>
           <span className={styles.brandPrompt}>~/</span>
           {profile.handle}
-        </a>
+        </Link>
         <nav aria-label="Sections" className={styles.links}>
           {links.map((id) => (
-            <a key={id} href={`#${id}`} className={active === id ? styles.active : ''}>
+            <a key={id} href={`/#${id}`} className={active === id ? styles.active : ''}>
               {id}
             </a>
           ))}

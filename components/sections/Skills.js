@@ -1,4 +1,4 @@
-import skills from '../../data/skills';
+import skills from '../../content/skills';
 import styles from './Sections.module.css';
 
 export default function Skills() {

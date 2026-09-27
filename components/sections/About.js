@@ -1,4 +1,4 @@
-import profile from '../../data/profile';
+import profile from '../../content/profile';
 import styles from './Sections.module.css';
 
 export default function About() {

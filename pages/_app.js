@@ -1,4 +1,10 @@
 import { Google_Sans, Google_Sans_Code } from 'next/font/google';
+import { SiteProvider } from '../lib/SiteContext';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import CommandPalette from '../components/CommandPalette';
+import EasterEggs from '../components/EasterEggs';
+import Toast from '../components/Toast';
 import '../styles/globals.css';
 
 // Next has no fallback metrics for these families, so fallbacks are declared explicitly.
@@ -19,14 +25,22 @@ const mono = Google_Sans_Code({
 
 export default function App({ Component, pageProps }) {
   return (
-    <>
+    <SiteProvider value={pageProps.site || { projects: [], posts: [] }}>
       <style jsx global>{`
         :root {
           --font-sans: ${sans.style.fontFamily};
           --font-mono: ${mono.style.fontFamily};
         }
       `}</style>
-      <Component {...pageProps} />
-    </>
+      <a href="#main" className="sr-only">Skip to content</a>
+      <Navbar />
+      <main id="main">
+        <Component {...pageProps} />
+      </main>
+      <Footer />
+      <CommandPalette />
+      <EasterEggs />
+      <Toast />
+    </SiteProvider>
   );
 }

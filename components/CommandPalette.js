@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import profile from '../data/profile';
-import projects from '../data/projects';
+import profile from '../content/profile';
+import { useSite } from '../lib/SiteContext';
 import {
   scrollToSection,
   toggleTheme,
@@ -9,11 +9,13 @@ import {
   openUrl,
   mailtoFor,
   fireEgg,
+  openPath,
 } from '../lib/actions';
 import styles from './CommandPalette.module.css';
 
-const items = [
-  ...['about', 'skills', 'experience', 'projects', 'contact'].map((id) => ({
+function buildItems({ projects, posts }) {
+  return [
+  ...['about', 'projects', 'skills', 'experience', 'writing', 'contact'].map((id) => ({
     group: 'Go to',
     label: id[0].toUpperCase() + id.slice(1),
     hint: `#${id}`,
@@ -22,8 +24,14 @@ const items = [
   ...projects.map((p) => ({
     group: 'Projects',
     label: p.title,
-    hint: p.tags.join(' · '),
-    run: () => scrollToSection(`project-${p.slug}`),
+    hint: (p.stack || []).join(' · '),
+    run: () => openPath(`/projects/${p.slug}`),
+  })),
+  ...posts.map((p) => ({
+    group: 'Writing & events',
+    label: p.title,
+    hint: `${p.type} · ${p.date}`,
+    run: () => openPath(`/writing/${p.slug}`),
   })),
   { group: 'Actions', label: 'Copy email address', hint: profile.email, run: copyEmail },
   { group: 'Actions', label: 'Draft a hiring email', hint: 'opens mail client', run: () => (window.location.href = mailtoFor('hiring')) },
@@ -32,7 +40,8 @@ const items = [
   ...(profile.bookingUrl ? [{ group: 'Actions', label: 'Book a call', hint: 'calendar', run: () => openUrl(profile.bookingUrl) }] : []),
   ...profile.socials.map((s) => ({ group: 'Links', label: s.label, hint: s.url.replace(/^https?:\/\//, ''), run: () => openUrl(s.url) })),
   { group: 'Fun', label: 'Enter the matrix', hint: 'trust me', run: () => fireEgg('matrix') },
-];
+  ];
+}
 
 function score(label, query) {
   const l = label.toLowerCase();
@@ -46,6 +55,8 @@ function score(label, query) {
 }
 
 export default function CommandPalette() {
+  const site = useSite();
+  const items = useMemo(() => buildItems(site), [site]);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [index, setIndex] = useState(0);
@@ -86,7 +97,7 @@ export default function CommandPalette() {
         .map((it) => ({ ...it, s: Math.max(score(it.label, query), score(it.group, query) && query ? 1 : 0) }))
         .filter((it) => it.s > 0)
         .sort((a, b) => b.s - a.s),
-    [query]
+    [query, items]
   );
 
   useEffect(() => {

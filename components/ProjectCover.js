@@ -9,10 +9,10 @@ function hueFor(slug) {
 }
 
 export default function ProjectCover({ project, sizes }) {
-  if (project.image) {
+  if (project.cover) {
     return (
       <div className={styles.frame}>
-        <Image src={project.image} alt={`${project.title} screenshot`} fill sizes={sizes} className={styles.img} />
+        <Image src={project.cover} alt={`${project.title} screenshot`} fill sizes={sizes} className={styles.img} />
       </div>
     );
   }

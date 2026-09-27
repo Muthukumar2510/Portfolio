@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import profile from '../../data/profile';
+import profile from '../../content/profile';
 import { runCommand, complete } from './commands';
+import { useSite } from '../../lib/SiteContext';
 import styles from './Terminal.module.css';
 
 const PROMPT = `visitor@${profile.handle}:~$`;
@@ -16,6 +17,7 @@ const bootScript = [
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export default function Terminal() {
+  const site = useSite();
   const [lines, setLines] = useState([]);
   const [typing, setTyping] = useState('');
   const [booted, setBooted] = useState(false);
@@ -69,7 +71,7 @@ export default function Terminal() {
   }, [lines, typing]);
 
   function submit(value) {
-    const out = runCommand(value);
+    const out = runCommand(value, site);
     if (value.trim()) {
       history.current.unshift(value);
       historyIdx.current = -1;
@@ -165,7 +167,7 @@ export default function Terminal() {
         )}
       </div>
       <div className={styles.chips} aria-label="Quick commands">
-        {['help', 'whoami', 'skills', 'projects', 'contact'].map((c) => (
+        {['help', 'whoami', 'projects', 'skills', 'contact'].map((c) => (
           <button
             key={c}
             type="button"
