@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import profile from '../content/profile';
+import { failoverFor } from '../lib/regions';
 import styles from './InfraMap.module.css';
 
 // Coordinates are in viewBox units; "wide" is desktop, "tall" is phones.
@@ -50,8 +51,9 @@ function relTime(iso) {
   return `${Math.round(s / 86400)} d ago`;
 }
 
-function describe(trace, rtt) {
+function describe(trace, rtt, chaos) {
   const t = trace || {};
+  const backup = chaos?.backup;
   const where = [t.visitor?.city, t.visitor?.country].filter(Boolean).join(', ');
   return {
     you: {
@@ -63,10 +65,17 @@ function describe(trace, rtt) {
     edge: {
       title: 'Edge network',
       label: 'Edge',
-      meta: t.edge ? `${t.edge.name}${t.edge.code ? ` · ${t.edge.code}` : ''}` : '…',
+      meta:
+        chaos?.phase === 'down'
+          ? `${t.edge?.name || 'edge'} · DOWN`
+          : backup && chaos.phase !== 'idle'
+            ? `${backup.name} · ${backup.code}`
+            : t.edge
+              ? `${t.edge.name}${t.edge.code ? ` · ${t.edge.code}` : ''}`
+              : '…',
       detail:
         'Vercel’s edge network routed you to the closest point of presence. Pages and images are cached here, so most requests never reach a server.',
-      stat: rtt != null ? `${rtt} ms round trip` : null,
+      stat: backup && chaos.phase !== 'down' && chaos.phase !== 'idle' ? `${(rtt || 0) + backup.extraMs} ms via failover` : rtt != null ? `${rtt} ms round trip` : null,
     },
     fn: {
       title: 'Serverless function',
@@ -124,6 +133,38 @@ export default function InfraMap({ onTrace }) {
   const [active, setActive] = useState('edge');
   const [run, setRun] = useState(0);
   const [reduced, setReduced] = useState(false);
+  const [chaos, setChaos] = useState({ phase: 'idle', log: [], backup: null });
+  const timers = useRef([]);
+
+  // Scripted outage: kill the visitor's edge, detect, alert, fail over, recover. Purely client-side.
+  const simulateOutage = useCallback(() => {
+    timers.current.forEach(clearTimeout);
+    const edge = trace?.edge?.code ? trace.edge : { code: 'bom1', name: 'Mumbai' };
+    const backup = failoverFor(edge.code);
+    const t0 = performance.now();
+    const at = (ms, fn) => timers.current.push(setTimeout(fn, ms));
+    const log = (text, tone) => setChaos((c) => ({ ...c, log: [...c.log, { ms: Math.round(performance.now() - t0), text, tone }] }));
+    setActive('edge');
+    setChaos({ phase: 'down', backup, log: [{ ms: 0, text: `Edge ${edge.name} (${edge.code}) stops responding`, tone: 'bad' }] });
+    at(700, () => log('Health checks fail 3/3 from the edge network', 'bad'));
+    at(1100, () => log('Alert fired → on-call paged', 'bad'));
+    at(1700, () => {
+      setChaos((c) => ({ ...c, phase: 'failover' }));
+      log(`Edge routing drops ${edge.code} and sends traffic to ${backup.name} (${backup.code})`);
+    });
+    at(2500, () => {
+      setChaos((c) => ({ ...c, phase: 'recovered' }));
+      log(`Requests succeed again, with about +${backup.extraMs} ms extra latency`, 'ok');
+    });
+    at(3000, () => log(`Recovered in ${((performance.now() - t0) / 1000).toFixed(1)} s without manual action. (Simulation, timings compressed.)`, 'ok'));
+  }, [trace]);
+
+  const restore = useCallback(() => {
+    timers.current.forEach(clearTimeout);
+    setChaos({ phase: 'idle', log: [], backup: null });
+  }, []);
+
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
   const doTrace = useCallback(async () => {
     const t0 = performance.now();
@@ -166,7 +207,8 @@ export default function InfraMap({ onTrace }) {
     };
   }, [reduced]);
 
-  const info = describe(trace, rtt);
+  const info = describe(trace, rtt, chaos);
+  const down = chaos.phase === 'down';
   const current = info[active];
 
   // Both layouts render; CSS shows one per breakpoint so nothing shifts after hydration.
@@ -194,10 +236,11 @@ export default function InfraMap({ onTrace }) {
             const d = linkPath(layout, l.from, l.to);
             const id = `p-${mode}-${l.from}-${l.to}`;
             const on = active === l.from || active === l.to;
+            const broken = down && l.lane === 'req' && (l.from === 'edge' || l.to === 'edge');
             return (
               <g key={id}>
-                <path id={id} d={d} className={`${styles.link} ${styles[l.lane]} ${on ? styles.linkOn : ''}`} markerEnd={`url(#${arrowId})`} />
-                {!reduced && (
+                <path id={id} d={d} className={`${styles.link} ${styles[l.lane]} ${on ? styles.linkOn : ''} ${broken ? styles.linkDown : ''}`} markerEnd={`url(#${arrowId})`} />
+                {!reduced && !(down && l.lane === 'req') && (
                   <circle r={l.lane === 'req' ? 5 : 4} className={`${styles.packet} ${styles[`${l.lane}Packet`]}`}>
                     <animateMotion
                       key={`${id}-${run}`}
@@ -220,7 +263,7 @@ export default function InfraMap({ onTrace }) {
             return (
               <g
                 key={id}
-                className={`${styles.node} ${on ? styles.nodeOn : ''} ${id === 'you' ? styles.you : ''}`}
+                className={`${styles.node} ${on ? styles.nodeOn : ''} ${id === 'you' ? styles.you : ''} ${id === 'edge' && down ? styles.nodeDown : ''} ${id === 'edge' && chaos.phase === 'recovered' ? styles.nodeHealed : ''}`}
                 transform={`translate(${x - nw / 2}, ${y - nh / 2})`}
                 tabIndex={0}
                 role="button"
@@ -256,16 +299,46 @@ export default function InfraMap({ onTrace }) {
       {diagram('tall')}
 
       <div className={styles.detail} aria-live="polite">
-        <div>
-          <p className={styles.detailTitle}>
-            {current.title}
-            {current.stat && <span className={styles.stat}>{current.stat}</span>}
-          </p>
-          <p className={styles.detailText}>{current.detail}</p>
+        {chaos.phase === 'idle' ? (
+          <div>
+            <p className={styles.detailTitle}>
+              {current.title}
+              {current.stat && <span className={styles.stat}>{current.stat}</span>}
+            </p>
+            <p className={styles.detailText}>{current.detail}</p>
+          </div>
+        ) : (
+          <div className={styles.incident}>
+            <p className={styles.detailTitle}>
+              Simulated incident
+              <span className={chaos.phase === 'recovered' ? styles.stat : styles.statBad}>{chaos.phase === 'recovered' ? 'resolved' : chaos.phase === 'down' ? 'outage' : 'failing over'}</span>
+            </p>
+            <ol className={styles.timeline}>
+              {chaos.log.map((e) => (
+                <li key={e.ms + e.text} className={e.tone ? styles[`tl_${e.tone}`] : ''}>
+                  <time>+{(e.ms / 1000).toFixed(1)}s</time>
+                  <span>{e.text}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+        <div className={styles.actions}>
+          {chaos.phase === 'idle' ? (
+            <>
+              <button type="button" className={styles.retrace} onClick={doTrace}>
+                Trace again
+              </button>
+              <button type="button" className={`${styles.retrace} ${styles.chaosBtn}`} onClick={simulateOutage}>
+                Simulate an outage
+              </button>
+            </>
+          ) : (
+            <button type="button" className={styles.retrace} onClick={restore} disabled={chaos.phase !== 'recovered'}>
+              Restore {trace?.edge?.name && trace.edge.name !== 'local' ? trace.edge.name : 'region'}
+            </button>
+          )}
         </div>
-        <button type="button" className={styles.retrace} onClick={doTrace}>
-          Trace again
-        </button>
       </div>
       <p className={styles.caption}>
         Designed, built and operated by {profile.name}.

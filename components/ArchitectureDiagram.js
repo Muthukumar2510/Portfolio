@@ -17,7 +17,7 @@ export default function ArchitectureDiagram({ spec }) {
 
   const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
   const cols = Math.max(...nodes.map((n) => n.col)) + 1;
-  const rows = Math.max(...nodes.map((n) => n.row)) + 1;
+  const rows = Math.ceil(Math.max(...nodes.map((n) => n.row))) + 1;
   const W = cols * CELL_W;
   const H = rows * CELL_H;
   const cx = (n) => n.col * CELL_W + CELL_W / 2;

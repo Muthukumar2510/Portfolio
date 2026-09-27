@@ -1,0 +1,58 @@
+name: New post or event
+description: Publish a blog post or event from anywhere (works in the GitHub mobile app). A pull request is opened automatically.
+title: 'Post: '
+labels: [new-post]
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      options:
+        - event
+        - blog
+    validations:
+      required: true
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      placeholder: KubeCon India 2026
+    validations:
+      required: true
+  - type: input
+    id: date
+    attributes:
+      label: Date
+      description: YYYY-MM-DD. Leave empty for today.
+      placeholder: '2026-12-11'
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: For events.
+      placeholder: Hyderabad, India
+  - type: input
+    id: summary
+    attributes:
+      label: One-line summary
+      description: Shown on cards and in link previews.
+    validations:
+      required: true
+  - type: textarea
+    id: body
+    attributes:
+      label: Story
+      description: Markdown. Drag photos in here; they become the collage (GPS and camera data are stripped automatically).
+    validations:
+      required: true
+  - type: input
+    id: album
+    attributes:
+      label: Google Photos album link
+      placeholder: https://photos.app.goo.gl/…
+  - type: checkboxes
+    id: options
+    attributes:
+      label: Options
+      options:
+        - label: Save as draft (not shown on the live site)

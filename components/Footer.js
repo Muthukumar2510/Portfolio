@@ -20,6 +20,7 @@ export default function Footer() {
             <Link href="/projects">Projects</Link>
             <Link href="/writing">Writing</Link>
             <Link href="/status">Status</Link>
+            <Link href="/infra">Infra</Link>
             <a href="/rss.xml">RSS</a>
             <a href={repo} target="_blank" rel="noopener noreferrer">
               Source

@@ -7,6 +7,7 @@ export async function getServerSideProps({ res }) {
     { loc: '/projects', priority: '0.8' },
     { loc: '/writing', priority: '0.8' },
     { loc: '/status', priority: '0.5' },
+    { loc: '/infra', priority: '0.5' },
     ...getCollection('projects').map((p) => ({ loc: `/projects/${p.slug}`, lastmod: p.date, priority: '0.7' })),
     ...getCollection('posts').map((p) => ({ loc: `/writing/${p.slug}`, lastmod: p.date, priority: '0.6' })),
   ];

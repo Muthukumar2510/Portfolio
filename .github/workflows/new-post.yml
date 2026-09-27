@@ -1,0 +1,60 @@
+name: New post
+
+# Issue → pull request. Open an issue with the "New post or event" form (GitHub app works too).
+# Only the repository owner can trigger this. Repo setting required:
+#   Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests".
+# Note: PRs opened by GITHUB_TOKEN don't trigger other workflows; CI runs once you push to the PR or merge.
+
+on:
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: new-post-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  create:
+    if: contains(github.event.issue.labels.*.name, 'new-post') && github.event.issue.user.login == github.repository_owner
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build post from issue
+        id: post
+        run: node scripts/issue-to-post.mjs
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Strip photo metadata
+        run: npm run media
+      - name: Open pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLUG: ${{ steps.post.outputs.slug }}
+          TITLE: ${{ steps.post.outputs.title }}
+          PHOTOS: ${{ steps.post.outputs.photos }}
+          ISSUE: ${{ github.event.issue.number }}
+        run: |
+          branch="post/${SLUG}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898183+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add content/posts public/media
+          git commit -m "Add post: ${TITLE}"
+          git push -f origin "$branch"
+          url=$(gh pr create --head "$branch" --title "Post: ${TITLE}" --body "From #${ISSUE}. ${PHOTOS} photo(s), metadata stripped. Merge to publish.
+
+          Closes #${ISSUE}" 2>/dev/null || gh pr view "$branch" --json url -q .url)
+          gh issue comment "$ISSUE" --body "Pull request ready: ${url}. Preview it from the Vercel link on the PR, then merge to publish."
