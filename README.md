@@ -74,6 +74,25 @@ Add `github: owner/repo` to a project's front matter to show its CI status, last
 ## Daily refresh
 The **Refresh** workflow rebuilds the site every day so GitHub stats stay current. Create a Deploy Hook in Vercel (Settings → Git → Deploy Hooks) and save it as the repo secret `VERCEL_DEPLOY_HOOK`.
 
+## Post from your phone
+Open a new issue in the repo and choose **New post or event** (works in the GitHub mobile app). Fill in the title, date and story, and drag photos into the story box. A workflow turns it into a post, strips photo metadata, and opens a pull request; merge it to publish.
+One-time setup: **Settings → Actions → General → Workflow permissions → Allow GitHub Actions to create and approve pull requests**. Only the repo owner can trigger it.
+
+## Infrastructure as code
+`infra/terraform/` defines everything the site runs on: the Upstash database, the Vercel project and its environment variables, an optional custom domain, and the GitHub Actions secrets and variables. CI validates it on every change, and `/infra` draws it.
+To apply it (or adopt your existing setup):
+```bash
+cd infra/terraform
+export VERCEL_API_TOKEN=… GITHUB_TOKEN=… TF_VAR_upstash_email=… TF_VAR_upstash_api_key=…
+terraform init
+terraform import vercel_project.portfolio <existing-project-id>   # adopt instead of recreate
+terraform plan
+terraform apply
+```
+
+## Outage simulation
+The home page map has a **Simulate an outage** button. It plays a scripted incident (edge down → health checks fail → alert → failover to the nearest region → recovery) entirely in the browser. Nothing real is affected.
+
 ## Security
 Strict security headers are set in `next.config.js`: Content-Security-Policy (only this site's own scripts), HSTS, frame blocking, and a locked-down Permissions-Policy.
 

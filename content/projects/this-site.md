@@ -45,6 +45,9 @@ A portfolio usually *describes* skills. I wanted this one to *demonstrate* them:
 - **Quality gates.** Every pull request runs a design-token lint, a photo metadata check, a production build, Lighthouse with a score budget, and a crawler that fails on broken internal links. The latest scores are published to the site.
 - **Photo pipeline.** Pushed photos are automatically stripped of GPS and camera metadata, resized, and given blurred placeholders.
 - **Security.** A strict Content-Security-Policy (hash-based, no inline scripts), HSTS, and locked-down permissions.
+- **Infrastructure as code.** Redis, the Vercel project, its environment variables and the CI secrets are Terraform. The [infra page](/infra) draws the dependency graph straight from the code.
+- **Chaos demo.** The home page's *Simulate an outage* button walks through detection, alerting and failover to the nearest region.
+- **Post from anywhere.** A GitHub issue form turns into a pull request with the post and cleaned photos, so publishing works from a phone.
 
 ## Decisions
 

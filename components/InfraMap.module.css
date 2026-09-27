@@ -210,9 +210,102 @@
   font-weight: 500;
 }
 
-.retrace:hover {
+.retrace:hover:not(:disabled) {
   border-color: var(--accent);
   color: var(--accent);
+}
+
+.retrace:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.chaosBtn:hover:not(:disabled) {
+  border-color: var(--warn);
+  color: var(--warn);
+}
+
+/* Outage simulation. */
+.linkDown.req {
+  stroke: var(--warn);
+  stroke-dasharray: 3 6;
+}
+
+.nodeDown .box {
+  stroke: var(--warn);
+  stroke-width: 2;
+  fill: color-mix(in srgb, var(--warn) 12%, var(--surface));
+  animation: alarm 0.8s ease-in-out infinite;
+}
+
+.nodeHealed .box {
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+@keyframes alarm {
+  50% {
+    fill: color-mix(in srgb, var(--warn) 28%, var(--surface));
+  }
+}
+
+.statBad {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--warn);
+  background: color-mix(in srgb, var(--warn) 14%, transparent);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.incident {
+  min-width: 0;
+  flex: 1;
+}
+
+.timeline {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  font-size: var(--text-sm);
+}
+
+.timeline li {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  gap: var(--space-3);
+  padding: 2px 0;
+  color: var(--muted);
+  animation: fadeIn var(--dur) var(--ease);
+}
+
+.timeline time {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  padding-top: 2px;
+}
+
+.tl_bad span {
+  color: var(--warn);
+}
+
+.tl_ok span {
+  color: var(--accent);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
 }
 
 .caption {

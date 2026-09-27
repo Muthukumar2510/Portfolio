@@ -39,6 +39,8 @@ function buildItems({ projects, posts }) {
   { group: 'Actions', label: 'Toggle theme', hint: 'light / dark', run: toggleTheme },
   ...(profile.bookingUrl ? [{ group: 'Actions', label: 'Book a call', hint: 'calendar', run: () => openUrl(profile.bookingUrl) }] : []),
   ...profile.socials.filter((s) => s.url).map((s) => ({ group: 'Links', label: s.label, hint: s.url.replace(/^https?:\/\//, ''), run: () => openUrl(s.url) })),
+  { group: 'Go to', label: 'Status page', hint: '/status', run: () => openPath('/status') },
+  { group: 'Go to', label: 'Infrastructure as code', hint: '/infra', run: () => openPath('/infra') },
   { group: 'Fun', label: 'Enter the matrix', hint: 'trust me', run: () => fireEgg('matrix') },
   ];
 }
