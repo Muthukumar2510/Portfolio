@@ -8,6 +8,8 @@ export default function DotField({ className }) {
     const canvas = ref.current;
     const ctx = canvas.getContext('2d');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Touch screens have no cursor to react to, so skip the animation (and its CPU cost) entirely.
+    if (!window.matchMedia('(pointer: fine)').matches) return undefined;
     const GAP = 26;
     let w = 0;
     let h = 0;

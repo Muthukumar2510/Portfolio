@@ -27,17 +27,18 @@ export default function Hero() {
             <span className={styles.sep} aria-hidden="true">/</span>
             <span>{profile.location}</span>
           </p>
-          <h1 className={styles.title}>
+          {/* Static headline (it's the LCP element); live values go in the line below. */}
+          <h1 className={styles.title}>Your request just crossed four systems to reach this page.</h1>
+          <p className={styles.sub}>
             {edge ? (
               <>
-                Your request just went through <span className={styles.accent}>{edge}</span> to reach this page.
+                It entered through <span className={styles.accent}>{edge}</span>
+                {trace?.rtt != null && <> in {trace.rtt} ms</>}.{' '}
               </>
             ) : (
-              'Your request just crossed four systems to reach this page.'
+              'Here\u2019s the path it took, measured live. '
             )}
-          </h1>
-          <p className={styles.sub}>
-            Here&apos;s the path it took, measured live. Hover over any part to see what it does and why it&apos;s built that way.
+            Hover over any part to see what it does and why it&apos;s built that way.
           </p>
         </div>
 

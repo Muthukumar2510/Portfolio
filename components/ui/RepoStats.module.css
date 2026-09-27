@@ -1,0 +1,97 @@
+.wrap {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.full {
+  margin: 0 0 var(--space-8);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.dot {
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.passing {
+  color: var(--accent);
+}
+
+.failing {
+  color: var(--warn);
+}
+
+.running {
+  color: var(--muted);
+}
+
+.langs {
+  margin-top: var(--space-4);
+}
+
+.bar {
+  display: flex;
+  height: var(--space-2);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: var(--border);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  list-style: none;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.swatch {
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: 50%;
+}
+
+/* Language shades derive from the accent so they follow the theme. */
+.l0 {
+  background: var(--accent);
+}
+
+.l1 {
+  background: color-mix(in srgb, var(--accent) 60%, var(--text));
+}
+
+.l2 {
+  background: color-mix(in srgb, var(--accent) 35%, var(--muted));
+}
+
+.l3 {
+  background: var(--muted);
+}

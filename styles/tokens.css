@@ -11,10 +11,11 @@
   --text: #1c1c1e;
   --muted: #6b6b70;
   --border: #e6e5df;
-  --accent: #1a73e8;
-  --accent-soft: rgba(26, 115, 232, 0.1);
+  /* #1967d2 keeps small text ≥ 4.5:1 on --bg and on --accent-soft (WCAG AA). */
+  --accent: #1967d2;
+  --accent-soft: rgba(25, 103, 210, 0.08);
   --on-accent: #ffffff;
-  --warn: #b7791f;
+  --warn: #9a6212;
   --off: #9a9aa0;
   --scrim: rgba(0, 0, 0, 0.35);
   --overlay: rgba(5, 6, 8, 0.94);

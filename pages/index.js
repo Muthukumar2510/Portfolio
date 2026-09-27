@@ -7,11 +7,11 @@ import Skills from '../components/sections/Skills';
 import Certifications from '../components/sections/Certifications';
 import Moments from '../components/sections/Moments';
 import Writing from '../components/sections/Writing';
-import Changelog from '../components/sections/Changelog';
+import Operations from '../components/sections/Operations';
 import Contact from '../components/sections/Contact';
 import useReveal from '../lib/useReveal';
 import { getSiteData, getMoments } from '../lib/content';
-import { getChangelog } from '../lib/github';
+import { getChangelog, withRepoStats } from '../lib/github';
 import { personJsonLd } from '../lib/seo';
 
 export default function Home({ moments, commits }) {
@@ -27,7 +27,7 @@ export default function Home({ moments, commits }) {
       <Certifications />
       <Moments moments={moments} />
       <Writing />
-      <Changelog commits={commits} />
+      <Operations commits={commits} />
       <Contact />
     </>
   );
@@ -35,7 +35,12 @@ export default function Home({ moments, commits }) {
 
 export async function getStaticProps() {
   return {
-    props: { site: getSiteData(), moments: getMoments(), commits: await getChangelog() },
+    props: { site: await siteWithStats(), moments: getMoments(), commits: await getChangelog() },
     revalidate: 3600,
   };
+}
+
+async function siteWithStats() {
+  const site = getSiteData();
+  return { ...site, projects: await withRepoStats(site.projects) };
 }

@@ -1,0 +1,25 @@
+name: Refresh
+
+# Daily rebuild so build-time data (GitHub stats, changelog) never goes stale, even with no commits.
+# Setup: Vercel → Project → Settings → Git → Deploy Hooks → create one for "main",
+# then add it as the repo secret VERCEL_DEPLOY_HOOK.
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Trigger Vercel deploy hook
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "VERCEL_DEPLOY_HOOK not set; skipping."
+            exit 0
+          fi
+          curl -fsS -X POST "$HOOK"

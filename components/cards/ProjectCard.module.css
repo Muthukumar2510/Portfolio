@@ -62,6 +62,10 @@
   font-weight: 600;
 }
 
+.stats {
+  margin-top: var(--space-4);
+}
+
 .more {
   margin-top: auto;
   padding-top: var(--space-4);

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import ProjectCover from '../ProjectCover';
 import StatusDot from '../ui/StatusDot';
 import { Tag, TagList } from '../ui/Tag';
+import RepoStats from '../ui/RepoStats';
 import styles from './ProjectCard.module.css';
 
 export default function ProjectCard({ project: p, large = false }) {
@@ -23,6 +24,11 @@ export default function ProjectCard({ project: p, large = false }) {
           </p>
         )}
         <TagList items={p.stack} label="Tech stack" />
+        {p.repoStats && (
+          <div className={styles.stats}>
+            <RepoStats stats={p.repoStats} />
+          </div>
+        )}
         <span className={styles.more}>Read the case study →</span>
       </div>
     </Link>

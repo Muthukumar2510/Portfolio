@@ -1,14 +1,29 @@
+import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Google_Sans, Google_Sans_Code } from 'next/font/google';
 import { SiteProvider } from '../lib/SiteContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import CommandPalette from '../components/CommandPalette';
-import EasterEggs from '../components/EasterEggs';
 import Toast from '../components/Toast';
-import Console from '../components/Console';
 import useInteractions from '../lib/useInteractions';
 import '../styles/tokens.css';
 import '../styles/globals.css';
+
+// Interactive extras load after first paint, off the critical path.
+const Console = dynamic(() => import('../components/Console'), { ssr: false });
+const CommandPalette = dynamic(() => import('../components/CommandPalette'), { ssr: false });
+const EasterEggs = dynamic(() => import('../components/EasterEggs'), { ssr: false });
+
+function useIdle() {
+  const [idle, setIdle] = useState(false);
+  useEffect(() => {
+    const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 1200));
+    const id = ric(() => setIdle(true), { timeout: 2500 });
+    return () => (window.cancelIdleCallback || clearTimeout)(id);
+  }, []);
+  return idle;
+}
+
 
 // Next has no fallback metrics for these families, so fallbacks are declared explicitly.
 const sans = Google_Sans({
@@ -28,6 +43,7 @@ const mono = Google_Sans_Code({
 
 export default function App({ Component, pageProps }) {
   useInteractions();
+  const idle = useIdle();
   return (
     <SiteProvider value={pageProps.site || { projects: [], posts: [] }}>
       <style jsx global>{`
@@ -42,9 +58,13 @@ export default function App({ Component, pageProps }) {
         <Component {...pageProps} />
       </main>
       <Footer />
-      <Console />
-      <CommandPalette />
-      <EasterEggs />
+      {idle && (
+        <>
+          <Console />
+          <CommandPalette />
+          <EasterEggs />
+        </>
+      )}
       <Toast />
     </SiteProvider>
   );

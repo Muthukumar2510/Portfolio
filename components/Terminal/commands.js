@@ -115,6 +115,14 @@ const commands = [
     },
   },
   {
+    name: 'ops',
+    description: 'How this site is built, tested and run',
+    run: () => {
+      scrollToSection('operations');
+      return ['Quality gates, running costs and recent commits: scrolling you there.'];
+    },
+  },
+  {
     name: 'stats',
     description: 'Live traffic for this site',
     run: () => {
