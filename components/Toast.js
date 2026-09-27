@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import styles from './Toast.module.css';
+
+const VISIBLE_MS = 2600;
 
 export default function Toast() {
   const [message, setMessage] = useState(null);
@@ -8,7 +11,7 @@ export default function Toast() {
     const onToast = (e) => {
       setMessage(e.detail);
       clearTimeout(timer);
-      timer = setTimeout(() => setMessage(null), 2600);
+      timer = setTimeout(() => setMessage(null), VISIBLE_MS);
     };
     window.addEventListener('app:toast', onToast);
     return () => {
@@ -18,30 +21,8 @@ export default function Toast() {
   }, []);
 
   return (
-    <div role="status" aria-live="polite" style={wrap}>
-      {message && <div style={box}>{message}</div>}
+    <div role="status" aria-live="polite" className={styles.wrap}>
+      {message && <div className={styles.box}>{message}</div>}
     </div>
   );
 }
-
-const wrap = {
-  position: 'fixed',
-  bottom: 24,
-  left: 0,
-  right: 0,
-  display: 'flex',
-  justifyContent: 'center',
-  pointerEvents: 'none',
-  zIndex: 150,
-  padding: '0 16px',
-};
-
-const box = {
-  background: 'var(--text)',
-  color: 'var(--bg)',
-  fontFamily: 'var(--font-mono)',
-  fontSize: '0.85rem',
-  padding: '10px 16px',
-  borderRadius: 10,
-  boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-};

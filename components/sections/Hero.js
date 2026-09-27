@@ -1,52 +1,64 @@
+import { useState } from 'react';
 import profile from '../../content/profile';
-import ParticleHero from '../ParticleHero';
+import InfraMap from '../InfraMap';
+import DotField from '../DotField';
 import Avatar from '../Avatar';
 import SocialLinks from '../SocialLinks';
+import StatusBar from '../StatusBar';
+import Button from '../ui/Button';
 import { openConsole } from '../../lib/actions';
-import styles from './Sections.module.css';
+import styles from './Hero.module.css';
 
+// Shows instead of tells: the hero is a live trace of how this very page reached the visitor.
 export default function Hero() {
-  const initials = profile.name
-    .split(' ')
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join('');
+  const [trace, setTrace] = useState(null);
+  const edge = trace?.edge?.name && trace.edge.name !== 'local' ? trace.edge.name : null;
 
   return (
     <section id="top" className={styles.hero}>
+      <DotField className={styles.dotField} />
       <div className="container">
-        <div className={styles.heroGrid}>
-          <div className={styles.heroText}>
-            <div className={styles.identity}>
-              {profile.avatar && <Avatar size={48} />}
-              <p className={styles.status}>
-                <span className={styles.pulse} aria-hidden="true" />
-                {profile.status}
-              </p>
-            </div>
-            <h1 className={styles.heroTitle}>
-              {profile.headline}
-            </h1>
-            <p className={styles.heroSub}>
-              I&apos;m {profile.name}, a {profile.title.toLowerCase()} based in {profile.location.split(',')[0]}.{' '}
-              {profile.bio[0]}
-            </p>
-            <div className={styles.heroCtas}>
-              <a href="#projects" className={styles.btnPrimary} data-magnetic>
-                See my work
-              </a>
-              <a href="#contact" className={styles.btnGhost} data-magnetic>
-                Get in touch
-              </a>
-            </div>
-            <SocialLinks withEmail className={styles.heroSocials} />
+        <div className={styles.top}>
+          <p className={styles.byline}>
+            {profile.avatar && <Avatar size={28} />}
+            <span className={styles.name}>{profile.name}</span>
+            <span className={styles.sep} aria-hidden="true">/</span>
+            <span>{profile.title}</span>
+            <span className={styles.sep} aria-hidden="true">/</span>
+            <span>{profile.location}</span>
+          </p>
+          <h1 className={styles.title}>
+            {edge ? (
+              <>
+                Your request just went through <span className={styles.accent}>{edge}</span> to reach this page.
+              </>
+            ) : (
+              'Your request just crossed four systems to reach this page.'
+            )}
+          </h1>
+          <p className={styles.sub}>
+            Here&apos;s the path it took, measured live. Hover over any part to see what it does and why it&apos;s built that way.
+          </p>
+        </div>
+
+        <InfraMap onTrace={setTrace} />
+
+        <div className={styles.bottom}>
+          <div className={styles.ctas}>
+            <Button href="#projects">See what else I&apos;ve built</Button>
+            <Button href="#contact" variant="ghost">
+              Get in touch
+            </Button>
+          </div>
+          <div className={styles.meta}>
+            <SocialLinks withEmail />
             <button type="button" className={styles.consoleHint} onClick={openConsole}>
               Open the terminal <kbd>`</kbd>
             </button>
           </div>
-          <ParticleHero initials={initials} />
         </div>
       </div>
+      <StatusBar trace={trace} />
     </section>
   );
 }

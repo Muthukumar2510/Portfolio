@@ -9,4 +9,4 @@ album: ""
 
 Placeholder. Write what you went for, the two or three talks that changed how you think, and who you met.
 
-Drop the photos into `public/media/posts/kubecon-india-2025/` and they appear below as a collage. Paste your Google Photos share link into `album` at the top of this file to add a "View full album" button.
+Drop the photos into `public/media/posts/kubecon-india-2025/` and they appear above as a collage. Paste your Google Photos share link into `album` at the top of this file to add a "View full album" button.

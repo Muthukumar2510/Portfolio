@@ -19,7 +19,7 @@
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
   font-weight: 500;
   transition: color 0.2s, border-color 0.2s, background 0.2s;
 }

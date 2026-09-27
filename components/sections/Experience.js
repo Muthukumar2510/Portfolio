@@ -1,31 +1,31 @@
 import experience from '../../content/experience';
-import styles from './Sections.module.css';
+import Section from '../ui/Section';
+import { Tag } from '../ui/Tag';
+import styles from './Experience.module.css';
 
 export default function Experience() {
+  if (!experience.length) return null;
   return (
-    <section id="experience" className="section">
-      <div className="container reveal">
-        <h2 className="section-title">Experience</h2>
-        <ol className={styles.log}>
-          {experience.map((e, i) => (
-            <li key={e.version} className={styles.logItem}>
-              <div className={styles.logMeta}>
-                <span className={styles.tag}>{e.version}</span>
-                {i === 0 && <span className={styles.current}>current</span>}
-                <span className={styles.muted}>{e.period}</span>
-              </div>
-              <h3>
-                {e.role} <span className={styles.muted}>@ {e.company}</span>
-              </h3>
-              <ul>
-                {e.highlights.map((h) => (
-                  <li key={h}>{h}</li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </section>
+    <Section id="experience" title="Experience">
+      <ol className={styles.log}>
+        {experience.map((e, i) => (
+          <li key={e.version} className={styles.item}>
+            <div className={styles.meta}>
+              <Tag tone="accent">{e.version}</Tag>
+              {i === 0 && <span className={styles.current}>current</span>}
+              <span>{e.period}</span>
+            </div>
+            <h3 className={styles.role}>
+              {e.role} <span className={styles.company}>@ {e.company}</span>
+            </h3>
+            <ul className={styles.highlights}>
+              {e.highlights.map((h) => (
+                <li key={h}>{h}</li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    </Section>
   );
 }

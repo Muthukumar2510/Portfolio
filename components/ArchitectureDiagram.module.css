@@ -1,0 +1,90 @@
+.wrap {
+  margin: 0 0 var(--space-12);
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.caption {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  margin-bottom: var(--space-3);
+}
+
+.scroll {
+  overflow-x: auto;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.link {
+  stroke: var(--border);
+  stroke-width: 2;
+  transition: stroke var(--dur-fast);
+}
+
+.linkOn {
+  stroke: var(--accent);
+}
+
+.arrow {
+  fill: var(--muted);
+}
+
+.node {
+  cursor: pointer;
+  outline: none;
+}
+
+.box {
+  fill: var(--bg);
+  stroke: var(--border);
+  stroke-width: 1.5;
+  transition: stroke var(--dur-fast), fill var(--dur-fast);
+}
+
+.node:hover .box,
+.node:focus-visible .box {
+  stroke: var(--accent);
+}
+
+.nodeOn .box {
+  stroke: var(--accent);
+  stroke-width: 2;
+  fill: var(--accent-soft);
+}
+
+.label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  fill: var(--text);
+  font-family: var(--font-sans);
+}
+
+.sub {
+  font-size: var(--text-xs);
+  fill: var(--muted);
+  font-family: var(--font-mono);
+}
+
+.note {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+}
+
+.note strong {
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+.note p {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}

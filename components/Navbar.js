@@ -7,7 +7,7 @@ import ThemeToggle from './ThemeToggle';
 import VisitorChip from './VisitorChip';
 import styles from './Navbar.module.css';
 
-const links = ['projects', 'about', 'experience', 'writing', 'contact'];
+const links = ['projects', 'experience', 'moments', 'writing', 'contact'];
 const useIsoLayout = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
 export default function Navbar() {

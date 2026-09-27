@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint:css": "node scripts/lint-css.mjs",
+    "check": "npm run lint:css && npm run build"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

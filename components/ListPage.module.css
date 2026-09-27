@@ -1,0 +1,67 @@
+.page {
+  padding-top: var(--space-12);
+  padding-bottom: var(--space-8);
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: var(--space-8);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.back:hover {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.title {
+  font-size: var(--text-display);
+  margin: 0 0 var(--space-3);
+}
+
+.intro {
+  color: var(--muted);
+  font-size: var(--text-lg);
+  max-width: 60ch;
+  margin: 0 0 var(--space-8);
+}
+
+.filters {
+  display: inline-flex;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  margin-bottom: var(--space-8);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+}
+
+.filter,
+.filterOn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  border: 0;
+  background: transparent;
+  padding: var(--space-1) var(--space-4);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  color: var(--muted);
+  transition: background var(--dur-fast), color var(--dur-fast);
+}
+
+.filterOn {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.filter:hover {
+  color: var(--text);
+}
+
+.count {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  opacity: 0.7;
+}

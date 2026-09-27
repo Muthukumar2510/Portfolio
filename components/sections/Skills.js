@@ -1,50 +1,51 @@
 import skills from '../../content/skills';
-import styles from './Sections.module.css';
+import Section from '../ui/Section';
+import styles from './Skills.module.css';
+
+const BARS = 10;
 
 export default function Skills() {
+  if (!skills.length) return null;
   const total = skills.reduce((n, g) => n + g.items.length, 0);
   return (
-    <section id="skills" className="section">
-      <div className="container reveal">
-        <h2 className="section-title">Tools I work with</h2>
-        <div className={styles.board}>
-          <div className={styles.boardHead}>
-            <span>
-              <span className={styles.dotOk} /> All systems operational
-            </span>
-            <span className={styles.muted}>{total} services</span>
-          </div>
-          <div className={styles.boardGrid}>
-            {skills.map((g) => (
-              <div key={g.group} className={styles.boardGroup}>
-                <h3>{g.group}</h3>
-                <ul>
-                  {g.items.map((s) => (
-                    <li key={s.name}>
-                      <span className={styles.skillName}>
-                        <span className={styles.dotOk} aria-hidden="true" />
-                        {s.name}
-                      </span>
-                      <span
-                        className={styles.uptime}
-                        role="meter"
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                        aria-valuenow={s.level}
-                        aria-label={`${s.name} proficiency`}
-                      >
-                        {Array.from({ length: 10 }, (_, i) => (
-                          <i key={i} className={i < Math.round(s.level / 10) ? styles.on : ''} />
-                        ))}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+    <Section id="skills" title="Tools I work with">
+      <div className={styles.board}>
+        <div className={styles.head}>
+          <span className={styles.ok}>
+            <span className={styles.dot} aria-hidden="true" /> All systems operational
+          </span>
+          <span className={styles.count}>{total} services</span>
+        </div>
+        <div className={styles.groups}>
+          {skills.map((g) => (
+            <div key={g.group} className={styles.group}>
+              <h3 className={styles.groupTitle}>{g.group}</h3>
+              <ul className={styles.list}>
+                {g.items.map((s) => (
+                  <li key={s.name}>
+                    <span className={styles.name}>
+                      <span className={styles.dot} aria-hidden="true" />
+                      {s.name}
+                    </span>
+                    <span
+                      className={styles.meter}
+                      role="meter"
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-valuenow={s.level}
+                      aria-label={`${s.name} proficiency`}
+                    >
+                      {Array.from({ length: BARS }, (_, i) => (
+                        <i key={i} className={i < Math.round((s.level / 100) * BARS) ? styles.on : ''} />
+                      ))}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

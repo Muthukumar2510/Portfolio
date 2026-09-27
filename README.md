@@ -1,6 +1,6 @@
 # Portfolio: Muthukumar Natarajan
 
-A personal site for a cloud engineer. It opens with an interactive particle illustration (cloud → initials → Kubernetes) that reacts to your cursor, then shows projects, experience, writing and events. A hidden terminal drops down when you press the backtick key (`).
+A personal site for a cloud engineer that shows instead of tells. The home page opens with a live map of the visitor's own request travelling through this site's infrastructure (edge, function, Redis, deploy pipeline), measured in real time. Below it: projects with architecture diagrams, experience, certifications, a big-photo Moments section for events, writing, and the site's own commit history. A hidden terminal drops down when you press the backtick key (`).
 
 ## Where everything lives
 
@@ -10,13 +10,14 @@ All text is in `content/`, and all photos are in `public/media/`. You never need
 | --- | --- |
 | Name, bio, email, socials, resume/booking links | `content/profile.js` |
 | Skills (status board) | `content/skills.js` |
-| Work history (deployment log) | `content/experience.js` |
+| Work history | `content/experience.js` |
+| Certifications | `content/certifications.js` (badges in `public/media/certs/`) |
 | A project (one file each) | `content/projects/<name>.md` |
 | A blog post or event (one file each) | `content/posts/<name>.md` |
 | Photos for a project | `public/media/projects/<name>/` |
 | Photos for a post or event | `public/media/posts/<name>/` |
 | Resume | `public/resume.pdf` |
-| Colors | `styles/globals.css` (top of the file) |
+| Design tokens (colours, spacing, type) | `styles/tokens.css` |
 
 ### Add a project
 1. Copy `content/projects/infra-blueprint.md` to `content/projects/my-project.md` and fill it in. The top section sets title, summary, status, role, stack, links and metrics; the rest is the write-up in Markdown.
@@ -25,12 +26,30 @@ All text is in `content/`, and all photos are in `public/media/`. You never need
 The new project appears on the home page, in the terminal (`projects`), and in the Ctrl/⌘+K search automatically.
 
 ### Add a blog post or event
-Same steps, in `content/posts/` and `public/media/posts/<name>/`. Set `type: blog` or `type: event` at the top of the file. For events, paste a Google Photos share link into `album:` to add a "View the full album" button. Put your best photos in the folder so they show as a collage. Google Photos links can't be embedded as images reliably.
+Same steps, in `content/posts/` and `public/media/posts/<name>/`. Set `type: blog` or `type: event` at the top of the file.
+
+**Event photos:** drop your photos into `public/media/posts/<name>/` (name them `01.jpg`, `02.jpg`… to control order; `cover.jpg` becomes the card image). They're laid out automatically as a collage:
+- 1 photo: full width · 2: 60/40 split · 3: one large + two stacked · 4: one large + three stacked · 5 or more: a large feature tile with a grid around it, and "+N" opens the rest.
+- The newest event shows as a big collage in the home page's **Moments** section. Older events appear as album stacks under it.
+- Clicking any photo opens a full-screen viewer (arrow keys or swipe).
+
+**Google Photos:** paste your share link into `album:` in the file's front matter to add a "View the full album on Google Photos" button. Google Photos links can't be embedded as images reliably, so copy the best 5–10 photos into the folder for the collage.
+
+All blog posts and events are listed at `/writing` (filter by Blog or Events). All projects are at `/projects`.
+
+### Architecture diagrams
+Add an `architecture:` block to a project's front matter (see `content/projects/infra-blueprint.md`) to get a clickable diagram on its page.
 
 Photos are resized, compressed and lazy-loaded automatically. Any size or orientation works, and they're shown in order of filename (`01.jpg`, `02.jpg`, …).
 
 ## Live visitor counter
 The header shows how many people are on the site right now. Clicking it shows today, the last 7 days and the all-time total. It uses a free Upstash Redis database: in Vercel, go to **Storage → Create → Upstash for Redis** and connect it to this project. Vercel adds the environment variables and the counter appears on the next deploy. Until then it stays hidden.
+
+## Contact form
+The form works out of the box by opening the visitor's email app with their message filled in. To receive messages directly instead, create a free form at formspree.io and put its ID in `formspreeId` in `content/profile.js`.
+
+## Rules for changing the code
+See [`CLAUDE.md`](CLAUDE.md): single source of truth, shared components, and design tokens (no hard-coded colours or sizes). `npm run check` runs the token lint and the build; GitHub Actions runs it on every pull request.
 
 ## Run it on your computer
 ```bash
@@ -45,4 +64,4 @@ Then open http://localhost:3000. Edits to files in `content/` and `public/media/
 3. Every push after that gets its own preview link, and pushes to `main` update the live site.
 
 ## Features
-Interactive particle hero, drop-down terminal (press ` and try `help`), Ctrl/⌘+K search, a spotlight and tilt on cards when you hover them, magnetic buttons, light and dark themes, drafted-email contact, a detailed page per project, photo collages with a full-screen viewer, and a live visitor count. There are a few easter eggs too, for example `sudo hire-me` or the Konami code.
+Live infrastructure map, site status bar and changelog, clickable architecture diagrams, certifications, a big-photo Moments section, list pages for projects and writing, sitemap, search-engine data and generated share images, a custom 404 page, drop-down terminal (press ` and try `help`), Ctrl/⌘+K search, a spotlight and tilt on cards when you hover them, magnetic buttons, light and dark themes, drafted-email contact, a detailed page per project, photo collages with a full-screen viewer, and a live visitor count. There are a few easter eggs too, for example `sudo hire-me` or the Konami code.
