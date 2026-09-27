@@ -1,0 +1,27 @@
+// PLACEHOLDER content — replace with your real details.
+const profile = {
+  name: 'Muthukumar Natarajan',
+  handle: 'muthukumar',
+  domain: 'muthukumar.dev',
+  title: 'Cloud Engineer',
+  headline: 'I build and run cloud platforms.',
+  tagline: 'Cloud Engineer · DevOps · AWS, Kubernetes, Terraform',
+  location: 'Chennai, India',
+  status: 'Open to new opportunities',
+  bio: [
+    'I design, automate, and operate cloud infrastructure that stays boring in production — in the best way.',
+    'I care about reliable pipelines, infrastructure as code, and systems that heal themselves before anyone gets paged.',
+  ],
+  // Drop a square photo in public/images/ and set e.g. '/images/profile.jpg'. Empty = initials.
+  avatar: '',
+  email: 'muthukumar@example.com',
+  resumeUrl: '/resume.pdf',
+  bookingUrl: '',
+  formspreeId: '',
+  socials: [
+    { label: 'GitHub', url: 'https://github.com/muthukumar2510' },
+    { label: 'LinkedIn', url: 'https://www.linkedin.com/' },
+  ],
+};
+
+export default profile;
