@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import profile from '../../content/profile';
 import { copyEmail, mailtoFor, mailtoPresets, toast } from '../../lib/actions';
+import SocialLinks from '../SocialLinks';
 import styles from './Sections.module.css';
 
 export default function Contact() {
@@ -60,15 +61,7 @@ export default function Contact() {
                 </a>
               )}
             </div>
-            <ul className={styles.socials}>
-              {profile.socials.map((s) => (
-                <li key={s.label}>
-                  <a href={s.url} target="_blank" rel="noopener noreferrer">
-                    {s.label} ↗
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <SocialLinks labels className={styles.socials} />
           </div>
 
           {profile.formspreeId ? (

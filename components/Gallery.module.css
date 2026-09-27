@@ -137,8 +137,8 @@
 }
 
 .controls button:hover {
-  border-color: #4ade80;
-  color: #4ade80;
+  border-color: #8ab4f8;
+  color: #8ab4f8;
 }
 
 @media (max-width: 720px) {

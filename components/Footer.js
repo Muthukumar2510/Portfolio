@@ -1,4 +1,5 @@
 import profile from '../content/profile';
+import SocialLinks from './SocialLinks';
 
 const commit = process.env.NEXT_PUBLIC_COMMIT;
 const built = process.env.NEXT_PUBLIC_BUILD_TIME;
@@ -9,6 +10,7 @@ export default function Footer() {
     <footer style={footer}>
       <div className="container" style={inner}>
         <span>© {new Date(built || Date.now()).getFullYear()} {profile.name}</span>
+        <SocialLinks withEmail />
         <span style={mono}>
           <span style={{ color: 'var(--accent)' }}>●</span> build {commit} · deployed {date}
         </span>
@@ -29,6 +31,7 @@ const inner = {
   display: 'flex',
   flexWrap: 'wrap',
   justifyContent: 'space-between',
+  alignItems: 'center',
   gap: 12,
 };
 
