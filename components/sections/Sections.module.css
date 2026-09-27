@@ -73,8 +73,12 @@
   margin: 0 0 32px;
 }
 
-.consoleHint {
+.heroSocials {
   margin-top: 28px;
+}
+
+.consoleHint {
+  margin-top: 20px;
   padding: 0;
   border: 0;
   background: none;
@@ -517,13 +521,7 @@
 }
 
 .socials {
-  display: flex;
-  gap: 20px;
-  list-style: none;
-  padding: 0;
-  margin: 24px 0 0;
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
+  margin-top: 24px;
 }
 
 .form,

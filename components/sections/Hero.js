@@ -1,6 +1,7 @@
 import profile from '../../content/profile';
 import ParticleHero from '../ParticleHero';
 import Avatar from '../Avatar';
+import SocialLinks from '../SocialLinks';
 import { openConsole } from '../../lib/actions';
 import styles from './Sections.module.css';
 
@@ -38,6 +39,7 @@ export default function Hero() {
                 Get in touch
               </a>
             </div>
+            <SocialLinks withEmail className={styles.heroSocials} />
             <button type="button" className={styles.consoleHint} onClick={openConsole}>
               Open the terminal <kbd>`</kbd>
             </button>

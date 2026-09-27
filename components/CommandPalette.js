@@ -38,7 +38,7 @@ function buildItems({ projects, posts }) {
   { group: 'Actions', label: 'Open resume', hint: 'PDF', run: openResume },
   { group: 'Actions', label: 'Toggle theme', hint: 'light / dark', run: toggleTheme },
   ...(profile.bookingUrl ? [{ group: 'Actions', label: 'Book a call', hint: 'calendar', run: () => openUrl(profile.bookingUrl) }] : []),
-  ...profile.socials.map((s) => ({ group: 'Links', label: s.label, hint: s.url.replace(/^https?:\/\//, ''), run: () => openUrl(s.url) })),
+  ...profile.socials.filter((s) => s.url).map((s) => ({ group: 'Links', label: s.label, hint: s.url.replace(/^https?:\/\//, ''), run: () => openUrl(s.url) })),
   { group: 'Fun', label: 'Enter the matrix', hint: 'trust me', run: () => fireEgg('matrix') },
   ];
 }

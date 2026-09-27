@@ -112,7 +112,7 @@ export default function ParticleHero({ initials }) {
 
     function colors() {
       const css = getComputedStyle(document.documentElement);
-      return { accent: css.getPropertyValue('--accent').trim() || '#0f7b5f', text: css.getPropertyValue('--text').trim() || '#111' };
+      return { accent: css.getPropertyValue('--accent').trim() || '#1a73e8', text: css.getPropertyValue('--text').trim() || '#111' };
     }
     let palette = colors();
 

@@ -26,7 +26,7 @@ export default function EasterEggs() {
     };
     window.addEventListener('keydown', onKey);
     window.addEventListener('app:egg', onEgg);
-    console.log('%c> hey, curious one. try the Konami code, or type `sudo hire-me` in the terminal.', 'color:#4ade80;font-family:monospace');
+    console.log('%c> hey, curious one. try the Konami code, or type `sudo hire-me` in the terminal.', 'color:#8ab4f8;font-family:monospace');
     return () => {
       window.removeEventListener('keydown', onKey);
       window.removeEventListener('app:egg', onEgg);
@@ -49,7 +49,7 @@ export default function EasterEggs() {
 
     let draw;
     if (egg === 'confetti') {
-      const colors = ['#4ade80', '#60a5fa', '#fbbf24', '#f472b6', '#a78bfa'];
+      const colors = ['#1a73e8', '#8ab4f8', '#fbbf24', '#f472b6', '#a78bfa'];
       const parts = Array.from({ length: 160 }, () => ({
         x: w / 2 + (Math.random() - 0.5) * 120,
         y: h * 0.6,
@@ -86,7 +86,7 @@ export default function EasterEggs() {
       draw = () => {
         ctx.fillStyle = 'rgba(0,0,0,0.08)';
         ctx.fillRect(0, 0, w, h);
-        ctx.fillStyle = '#4ade80';
+        ctx.fillStyle = '#8ab4f8';
         ctx.font = `${size}px monospace`;
         drops.forEach((y, i) => {
           ctx.fillText(glyphs[Math.floor(Math.random() * glyphs.length)], i * size, y * size);

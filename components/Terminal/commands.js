@@ -103,7 +103,7 @@ const commands = [
       }
       return [
         `email     ${profile.email}`,
-        ...profile.socials.map((s) => `${s.label.toLowerCase().padEnd(9)} ${s.url}`),
+        ...profile.socials.filter((s) => s.url).map((s) => `${s.label.toLowerCase().padEnd(9)} ${s.url}`),
         { text: "Try 'email' to copy my address or 'contact hire' for a ready-made email.", tone: 'muted' },
       ];
     },
