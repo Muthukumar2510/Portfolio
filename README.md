@@ -42,6 +42,27 @@ Add an `architecture:` block to a project's front matter (see `content/projects/
 
 Photos are resized, compressed and lazy-loaded automatically. Any size or orientation works, and they're shown in order of filename (`01.jpg`, `02.jpg`, …).
 
+## Photos: automatic privacy and optimisation
+Phone photos contain GPS location data. Every photo is cleaned automatically:
+- Push photos to `public/media/…` and the **Media** GitHub workflow strips all metadata (GPS, camera, timestamps), fixes rotation, caps the size at 2400px, generates blurred loading previews, and commits the result.
+- Or run `npm run media` locally before committing. CI (`npm run media:check`) refuses photos that still carry metadata.
+
+## Drafts
+Add `draft: true` to a post or project's front matter. It shows in `npm run dev` but not on the live site.
+
+## Status page and monitoring
+`/status` shows real uptime (24h/7d/30d/90d), response times, a 90-day uptime bar and incidents. A GitHub Actions job checks the site every 15 minutes. To turn it on, open the repo's **Settings → Secrets and variables → Actions**:
+- **Variables:** `SITE_URL` = your live URL, e.g. `https://portfolio-ntci.vercel.app`
+- **Secrets:** `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` (the same values Vercel shows for your Upstash database)
+
+If the site goes down, the workflow fails and GitHub emails you. Until monitoring runs, the status bar honestly says "monitoring not connected".
+
+## Security
+Strict security headers are set in `next.config.js`: Content-Security-Policy (only this site's own scripts), HSTS, frame blocking, and a locked-down Permissions-Policy.
+
+## RSS
+Posts are available at `/rss.xml`.
+
 ## Live visitor counter
 The header shows how many people are on the site right now. Clicking it shows today, the last 7 days and the all-time total. It uses a free Upstash Redis database: in Vercel, go to **Storage → Create → Upstash for Redis** and connect it to this project. Vercel adds the environment variables and the counter appears on the next deploy. Until then it stays hidden.
 

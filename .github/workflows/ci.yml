@@ -22,6 +22,8 @@ jobs:
       - run: npm ci
       - name: Design tokens
         run: npm run lint:css
+      - name: Media (no GPS/EXIF, manifest up to date)
+        run: npm run media:check
       - name: Build
         run: npm run build
         env:

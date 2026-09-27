@@ -39,8 +39,8 @@ export default function Moments({ moments }) {
             <li key={m.slug}>
               <Link href={`/writing/${m.slug}`} className={styles.album}>
                 <span className={styles.albumStack} aria-hidden="true">
-                  {(m.preview.length ? m.preview.slice(0, 3) : [null]).map((src, i) => (
-                    <span key={i} style={src ? { backgroundImage: `url(${src})` } : undefined} />
+                  {(m.preview.length ? m.preview.slice(0, 3) : [null]).map((img, i) => (
+                    <span key={i} style={img ? { backgroundImage: `url(${img.src})` } : undefined} />
                   ))}
                 </span>
                 <span className={styles.albumTitle}>{m.title}</span>

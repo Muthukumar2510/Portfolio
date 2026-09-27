@@ -38,6 +38,18 @@
   color: var(--accent);
 }
 
+.bad {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--warn);
+}
+
+.bad .dot {
+  background: var(--warn);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--warn) 25%, transparent);
+}
+
 .dot {
   width: 7px;
   height: 7px;

@@ -1,0 +1,36 @@
+name: Monitor
+
+# Synthetic uptime check. Results feed the status bar and /status page.
+# Setup: repo Settings → Secrets and variables → Actions
+#   Variables: SITE_URL (e.g. https://portfolio-ntci.vercel.app)
+#   Secrets:   UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN (same values as in Vercel)
+# A failed check fails this workflow, and GitHub emails you about it.
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: monitor
+  cancel-in-progress: false
+
+jobs:
+  check:
+    if: ${{ vars.SITE_URL != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            scripts/monitor.mjs
+            lib/monitor.mjs
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/monitor.mjs
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}

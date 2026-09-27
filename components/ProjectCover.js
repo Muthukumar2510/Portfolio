@@ -12,7 +12,14 @@ export default function ProjectCover({ project, sizes }) {
   if (project.cover) {
     return (
       <div className={styles.frame}>
-        <Image src={project.cover} alt={`${project.title} screenshot`} fill sizes={sizes} className={styles.img} />
+        <Image
+          src={project.cover.src}
+          alt={`${project.title} screenshot`}
+          fill
+          sizes={sizes}
+          className={styles.img}
+          {...(project.cover.blur ? { placeholder: 'blur', blurDataURL: project.cover.blur } : {})}
+        />
       </div>
     );
   }

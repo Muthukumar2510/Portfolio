@@ -6,6 +6,8 @@ import styles from './Gallery.module.css';
 // One 2x2 hero tile plus singles: 5 or 9 tiles fill complete rows at both 4 and 2 columns.
 const tileCount = (n) => (n >= 9 ? 9 : n >= 5 ? 5 : n);
 
+const blurProps = (img) => (img.blur ? { placeholder: 'blur', blurDataURL: img.blur } : {});
+
 // size: 'default' (article pages) | 'hero' (home Moments, taller tiles).
 // total: real photo count when `images` is only a preview; moreHref: where the "+N" tile goes.
 export default function Gallery({ images, title, album, size = 'default', total, moreHref }) {
@@ -21,17 +23,18 @@ export default function Gallery({ images, title, album, size = 'default', total,
     <section className={`${styles.wrap} ${size === 'hero' ? styles.hero : ''}`} aria-label="Photos">
       {images.length > 0 && (
         <div className={`${styles.grid} ${styles[layout]}`}>
-          {tiles.map((src, i) => (
+          {tiles.map((img, i) => (
             <button
-              key={src}
+              key={img.src}
               type="button"
               className={styles.tile}
               onClick={() => onTile(i)}
               aria-label={hidden > 0 && i === tiles.length - 1 ? `See all ${total ?? images.length} photos` : `Open photo ${i + 1} of ${images.length}`}
             >
               <Image
-                src={src}
+                src={img.src}
                 alt={`${title}, photo ${i + 1}`}
+                {...blurProps(img)}
                 fill
                 sizes={i === 0 ? '(max-width: 720px) 100vw, 800px' : '(max-width: 720px) 50vw, 400px'}
               />
@@ -88,7 +91,7 @@ function Lightbox({ images, start, title, onClose }) {
       }}
     >
       <div className={styles.stage} onClick={(e) => e.stopPropagation()}>
-        <Image key={images[i]} src={images[i]} alt={`${title}, photo ${i + 1}`} fill sizes="100vw" priority />
+        <Image key={images[i].src} src={images[i].src} alt={`${title}, photo ${i + 1}`} {...blurProps(images[i])} fill sizes="100vw" priority />
       </div>
       <div className={styles.bar} onClick={(e) => e.stopPropagation()}>
         <span>

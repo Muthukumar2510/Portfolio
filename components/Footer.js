@@ -19,6 +19,8 @@ export default function Footer() {
           <nav className={styles.links} aria-label="Footer">
             <Link href="/projects">Projects</Link>
             <Link href="/writing">Writing</Link>
+            <Link href="/status">Status</Link>
+            <a href="/rss.xml">RSS</a>
             <a href={repo} target="_blank" rel="noopener noreferrer">
               Source
             </a>
