@@ -1,0 +1,46 @@
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease);
+}
+
+.scrimOn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 95;
+  padding: 16px 0 12px;
+  transform: translateY(-105%);
+  transition: transform 0.45s var(--ease);
+}
+
+.open {
+  transform: none;
+}
+
+.hint {
+  width: fit-content;
+  margin: 10px auto 0;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: var(--term-bg);
+  font-size: 0.75rem;
+  color: #d7dae0;
+}
+
+.hint kbd {
+  font-family: var(--font-mono);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  padding: 0 5px;
+}

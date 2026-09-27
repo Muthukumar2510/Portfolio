@@ -30,7 +30,6 @@ export default function EntryLayout({ entry, basePath, backLabel }) {
         <Link href={`/#${basePath.slice(1)}`} className={styles.back}>
           ← {backLabel}
         </Link>
-        <p className="section-label">$ cat {entry.collection}/{entry.slug}.md</p>
         <h1 className={styles.title}>{entry.title}</h1>
         {entry.summary && <p className={styles.summary}>{entry.summary}</p>}
 

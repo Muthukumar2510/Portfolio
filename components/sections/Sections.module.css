@@ -6,9 +6,10 @@
 
 .heroGrid {
   display: grid;
-  grid-template-columns: 1fr 1.15fr;
-  gap: 48px;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 32px;
   align-items: center;
+  min-height: min(640px, calc(100vh - 120px));
 }
 
 .heroText {
@@ -26,20 +27,7 @@
   margin: 0;
 }
 
-.terminalWrap {
-  position: relative;
-  min-width: 0;
-}
 
-.glow {
-  position: absolute;
-  inset: -12% -8%;
-  z-index: -1;
-  background: radial-gradient(closest-side, var(--accent-soft), transparent 75%);
-  filter: blur(20px);
-  opacity: 0.9;
-  pointer-events: none;
-}
 
 .status {
   display: inline-flex;
@@ -71,20 +59,50 @@
 }
 
 .heroTitle {
-  font-size: clamp(2rem, 5vw, 3.1rem);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  margin: 0 0 16px;
+  font-size: clamp(2.5rem, 6vw, 4.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  margin: 0 0 24px;
 }
 
-.heroAccent {
-  color: var(--accent);
-}
 
 .heroSub {
   color: var(--muted);
-  font-size: 1.05rem;
-  margin: 0 0 28px;
+  font-size: 1.125rem;
+  max-width: 34em;
+  margin: 0 0 32px;
+}
+
+.consoleHint {
+  margin-top: 28px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.consoleHint:hover {
+  color: var(--text);
+}
+
+@media (pointer: coarse) {
+  .consoleHint kbd {
+    display: none;
+  }
+}
+
+.consoleHint kbd {
+  font-family: var(--font-mono);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  padding: 0 6px;
+  margin: 0 2px;
+}
+
+.coverWrap {
+  border-radius: var(--radius-sm);
 }
 
 .heroCtas {
@@ -375,9 +393,8 @@
   box-shadow: var(--shadow);
 }
 
-.card:hover img,
-.card:hover [class*='grid'] {
-  transform: scale(1.04);
+.card:hover img {
+  transform: scale(1.03);
 }
 
 .cardBody {
@@ -593,27 +610,14 @@
   .hero {
     padding-top: 40px;
   }
+  .heroGrid {
+    min-height: 0;
+  }
 }
 
 /* Hero additions */
-.heroAccent {
-  display: block;
-  margin-top: 6px;
-  font-size: 0.62em;
-  letter-spacing: -0.02em;
-}
 
-.visits {
-  display: inline-block;
-  margin-top: 20px;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--muted);
-}
 
-.visits span {
-  color: var(--accent);
-}
 
 /* Project card as link */
 a.card,
@@ -641,9 +645,6 @@ a.card:hover {
   color: var(--accent);
 }
 
-.readMore::after {
-  content: '';
-}
 
 .card:hover .readMore {
   text-decoration: underline;

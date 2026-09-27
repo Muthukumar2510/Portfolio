@@ -6,8 +6,7 @@ export default function Skills() {
   return (
     <section id="skills" className="section">
       <div className="container reveal">
-        <p className="section-label">$ kubectl get skills</p>
-        <h2 className="section-title">Skills status board</h2>
+        <h2 className="section-title">Tools I work with</h2>
         <div className={styles.board}>
           <div className={styles.boardHead}>
             <span>

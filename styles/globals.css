@@ -258,3 +258,34 @@ button {
   border-top: 1px solid var(--border);
   margin: 40px 0;
 }
+
+[data-spotlight] {
+  position: relative;
+  isolation: isolate;
+}
+
+[data-spotlight]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), var(--accent-soft), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+  pointer-events: none;
+}
+
+[data-spotlight]:hover::before {
+  opacity: 1;
+}
+
+[data-tilt] {
+  transition: transform 0.5s var(--ease);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+[data-magnetic] {
+  transition: transform 0.35s var(--ease), background 0.2s, border-color 0.2s !important;
+}

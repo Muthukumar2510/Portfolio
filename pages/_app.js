@@ -5,6 +5,8 @@ import Footer from '../components/Footer';
 import CommandPalette from '../components/CommandPalette';
 import EasterEggs from '../components/EasterEggs';
 import Toast from '../components/Toast';
+import Console from '../components/Console';
+import useInteractions from '../lib/useInteractions';
 import '../styles/globals.css';
 
 // Next has no fallback metrics for these families, so fallbacks are declared explicitly.
@@ -24,6 +26,7 @@ const mono = Google_Sans_Code({
 });
 
 export default function App({ Component, pageProps }) {
+  useInteractions();
   return (
     <SiteProvider value={pageProps.site || { projects: [], posts: [] }}>
       <style jsx global>{`
@@ -38,6 +41,7 @@ export default function App({ Component, pageProps }) {
         <Component {...pageProps} />
       </main>
       <Footer />
+      <Console />
       <CommandPalette />
       <EasterEggs />
       <Toast />

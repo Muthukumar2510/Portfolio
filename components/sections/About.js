@@ -5,7 +5,6 @@ export default function About() {
   return (
     <section id="about" className="section">
       <div className="container reveal">
-        <p className="section-label">$ cat about.md</p>
         <h2 className="section-title">About</h2>
         <div className={styles.aboutGrid}>
           <div className={styles.aboutText}>
