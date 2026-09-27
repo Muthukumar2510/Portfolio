@@ -67,22 +67,36 @@ console.log(`  ${seen.size} URLs checked, ${broken.length} broken`);
 console.log('Lighthouse');
 const scores = { performance: 100, accessibility: 100, 'best-practices': 100, seo: 100 };
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'lh-'));
+
+// Lighthouse occasionally fails to record a trace (e.g. NO_NAVSTART). That's a tool error, not a
+// score, so retry the run; scores themselves are never retried or averaged.
+function runLighthouse(page, out, attempts = 3) {
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      execFileSync(
+        'npx',
+        [
+          '--yes',
+          'lighthouse@12',
+          `${BASE}${page}`,
+          '--quiet',
+          '--output=json',
+          `--output-path=${out}`,
+          '--only-categories=performance,accessibility,best-practices,seo',
+          '--chrome-flags=--headless=new --no-sandbox',
+        ],
+        { stdio: ['ignore', 'ignore', 'inherit'] }
+      );
+      return;
+    } catch (e) {
+      if (i === attempts) throw e;
+      console.log(`  ${page}: Lighthouse run failed (attempt ${i}/${attempts}), retrying`);
+    }
+  }
+}
 for (const page of LH_PAGES) {
   const out = path.join(tmp, `${page.replace(/\W+/g, '_') || 'home'}.json`);
-  execFileSync(
-    'npx',
-    [
-      '--yes',
-      'lighthouse@12',
-      `${BASE}${page}`,
-      '--quiet',
-      '--output=json',
-      `--output-path=${out}`,
-      '--only-categories=performance,accessibility,best-practices,seo',
-      '--chrome-flags=--headless=new --no-sandbox',
-    ],
-    { stdio: ['ignore', 'ignore', 'inherit'] }
-  );
+  runLighthouse(page, out);
   const report = JSON.parse(fs.readFileSync(out, 'utf8'));
   const line = [];
   for (const [k, v] of Object.entries(report.categories)) {
