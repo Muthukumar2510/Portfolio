@@ -22,8 +22,30 @@
 }
 
 .title {
+  position: relative;
   font-size: var(--text-title);
   margin: 0;
+  padding-bottom: var(--space-3);
+}
+
+/* Brand underline that draws in when the section reveals. */
+.title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: var(--space-16);
+  height: var(--space-1);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--story-1), var(--story-2), var(--story-3));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-slow) var(--ease) 200ms;
+}
+
+:global(.reveal.in) .title::after,
+:global(html:not(.js)) .title::after {
+  transform: scaleX(1);
 }
 
 .intro {

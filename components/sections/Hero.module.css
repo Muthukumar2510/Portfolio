@@ -90,3 +90,22 @@
     width: var(--size-portrait-sm);
   }
 }
+
+/* Entrance: supporting lines rise in one after another. The h1 is left static (it's the LCP element). */
+.enter {
+  animation: rise var(--dur-slow) var(--ease) both;
+  animation-delay: calc(var(--i) * 90ms + 120ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-3));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter {
+    animation: none;
+  }
+}

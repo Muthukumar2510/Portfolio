@@ -87,11 +87,13 @@
   --text-2xl: 1.5rem;
   --text-display: clamp(2.1rem, 4.6vw, 3.6rem);
   --text-title: clamp(1.75rem, 3.2vw, 2.4rem);
+  --text-watermark: clamp(4rem, 14.5vw, 16rem);
 
   /* Shape. */
-  --radius-sm: 8px;
-  --radius: 14px;
-  --radius-lg: 20px;
+  --radius-xs: 6px;
+  --radius-sm: 12px;
+  --radius: 20px;
+  --radius-lg: 28px;
   --radius-pill: 999px;
 
   /* Layout. */

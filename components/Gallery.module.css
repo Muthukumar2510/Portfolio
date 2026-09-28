@@ -24,6 +24,7 @@
   display: block;
   padding: 0;
   border: 0;
+  border-radius: var(--radius);
   background: var(--border);
   overflow: hidden;
   cursor: zoom-in;

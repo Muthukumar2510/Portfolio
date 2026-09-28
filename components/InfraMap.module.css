@@ -21,7 +21,7 @@
 .lanes i {
   width: 18px;
   height: 2px;
-  border-radius: 2px;
+  border-radius: var(--radius-xs);
 }
 
 .lanes .req {
@@ -189,7 +189,7 @@
   color: var(--accent);
   background: var(--accent-soft);
   padding: 2px 8px;
-  border-radius: 6px;
+  border-radius: var(--radius-xs);
 }
 
 .detailText {
@@ -203,7 +203,7 @@
   flex-shrink: 0;
   height: 36px;
   padding: 0 14px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border);
   background: var(--bg);
   font-size: var(--text-sm);

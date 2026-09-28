@@ -28,6 +28,8 @@ export default function StoryField() {
     let parts = [];
     let grid = [];
     let colors = [];
+    let stopStr = [];
+    let meta = null;
     let muted = 'rgb(128,128,128)';
     let dark = false;
     let raf = 0;
@@ -45,6 +47,7 @@ export default function StoryField() {
     const readColors = () => {
       const css = getComputedStyle(document.documentElement);
       const stops = ['--story-1', '--story-2', '--story-3'].map((v) => hexToRgb(css.getPropertyValue(v).trim() || '#1a73e8'));
+      stopStr = stops.map((c) => `rgb(${c.join(',')})`);
       const m = hexToRgb(css.getPropertyValue('--muted').trim() || '#888888');
       muted = `rgb(${m.join(',')})`;
       dark = document.documentElement.dataset.theme === 'dark';
@@ -106,6 +109,7 @@ export default function StoryField() {
 
     const targets = (sc) => {
       if (sc.hero) {
+        meta = null;
         return grid.map((g) => ({ x: g.x + Math.sin(t * g.speed + g.phase) * 4, y: g.y + Math.cos(t * g.speed * 0.8 + g.phase) * 4, lit: false, shape: false }));
       }
       const section = sc.el.closest('section');
@@ -117,6 +121,7 @@ export default function StoryField() {
       const sy = s;
       const cx = sc.r.width > s * 1.2 && w >= 600 ? sc.r.right - s / 2 : sc.r.left + sc.r.width / 2;
       const cy = sc.r.top + sc.r.height / 2;
+      meta = { cx, cy, s };
       return sample(SHAPES[sc.id](p, t), n).map((q) => ({ x: cx + (q.x - 0.5) * sx, y: cy + (q.y - 0.5) * sy, lit: q.lit, shape: true }));
     };
 
@@ -127,7 +132,18 @@ export default function StoryField() {
       // Same feel at 30, 60 or 120 fps; particles later in the path settle a touch later, so shapes "draw" in.
       const base = dt ? 1 - Math.exp(-dt * 4.2) : 1;
       ctx.clearRect(0, 0, w, h);
+      // A soft halo behind the picture gives it depth without competing with the text.
+      if (meta) {
+        const halo = ctx.createRadialGradient(meta.cx, meta.cy, 0, meta.cx, meta.cy, meta.s * 0.75);
+        halo.addColorStop(0, stopStr[1] || '#888');
+        halo.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.globalAlpha = dark ? 0.16 : 0.1;
+        ctx.fillStyle = halo;
+        ctx.fillRect(meta.cx - meta.s, meta.cy - meta.s, meta.s * 2, meta.s * 2);
+        ctx.globalAlpha = 1;
+      }
       ctx.globalCompositeOperation = dark && sc.hero ? 'lighter' : 'source-over';
+      let settledSum = 0;
       for (let i = 0; i < n; i++) {
         const p = parts[i];
         const g = tg[i];
@@ -154,6 +170,12 @@ export default function StoryField() {
         // Particles in flight between shapes stay faint, so the hand-off never paints over content.
         const away = Math.hypot(tx - p.x, ty - p.y);
         const settle = clamp(1 - away / 140);
+        p.settle = settle;
+        if (g.shape) {
+          settledSum += settle;
+          // Settled shape particles are drawn as strokes below; only highlights and a few sparkles stay as dots.
+          if (settle > 0.9 && p.lit < 0.5 && i % 6) continue;
+        }
         let alpha;
         let size;
         if (g.shape) {
@@ -172,6 +194,34 @@ export default function StoryField() {
       }
       ctx.globalAlpha = 1;
       ctx.globalCompositeOperation = 'source-over';
+
+      // Join neighbouring particles (they're ordered along the path) into smooth gradient strokes.
+      if (meta && settledSum / n > 0.35) {
+        const grad = ctx.createLinearGradient(meta.cx - meta.s / 2, meta.cy - meta.s / 2, meta.cx + meta.s / 2, meta.cy + meta.s / 2);
+        stopStr.forEach((c, j) => grad.addColorStop(j / Math.max(1, stopStr.length - 1), c));
+        const gap = Math.max(6, (meta.s * 4) / n) * 3;
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.8;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.globalAlpha = clamp((settledSum / n - 0.35) / 0.4) * (dark ? 0.95 : 0.85);
+        if (dark) {
+          ctx.shadowColor = stopStr[1];
+          ctx.shadowBlur = 8;
+        }
+        ctx.beginPath();
+        for (let i = 1; i < n; i++) {
+          const a = parts[i - 1];
+          const b = parts[i];
+          if (a.settle > 0.8 && b.settle > 0.8 && Math.hypot(b.x - a.x, b.y - a.y) < gap) {
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+          }
+        }
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+        ctx.globalAlpha = 1;
+      }
     };
 
     const frame = (now) => {

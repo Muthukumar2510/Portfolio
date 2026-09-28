@@ -31,13 +31,14 @@
 .groups {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--border);
+  gap: var(--space-3);
+  padding: var(--space-3);
 }
 
 .group {
   padding: var(--space-5);
-  background: var(--surface);
+  border-radius: var(--radius);
+  background: var(--bg);
 }
 
 .groupTitle {
@@ -85,7 +86,7 @@
 .meter i {
   width: 6px;
   height: 18px;
-  border-radius: 2px;
+  border-radius: var(--radius-xs);
   background: var(--border);
 }
 
