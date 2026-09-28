@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint:css": "node scripts/lint-css.mjs",
-    "check": "npm run lint:css && npm run media:check && npm run build",
+    "check": "npm run lint:css && npm run media:check && npm run brands:check && npm run build",
     "media": "node scripts/media.mjs",
-    "media:check": "node scripts/media.mjs --check"
+    "media:check": "node scripts/media.mjs --check",
+    "brands": "node scripts/brands.mjs",
+    "brands:check": "node scripts/brands.mjs --check"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
@@ -19,6 +21,7 @@
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "sharp": "^0.35.5"
+    "sharp": "^0.35.5",
+    "simple-icons": "^16.33.0"
   }
 }

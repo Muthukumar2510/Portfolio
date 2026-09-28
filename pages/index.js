@@ -1,5 +1,6 @@
 import Seo from '../components/Seo';
 import Hero from '../components/sections/Hero';
+import Overview from '../components/sections/Overview';
 import Projects from '../components/sections/Projects';
 import About from '../components/sections/About';
 import Experience from '../components/sections/Experience';
@@ -20,6 +21,7 @@ export default function Home({ moments, commits }) {
     <>
       <Seo jsonLd={personJsonLd()} />
       <Hero />
+      <Overview />
       <Projects />
       <About />
       <Experience />

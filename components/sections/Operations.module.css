@@ -23,50 +23,11 @@
   font-size: var(--text-sm);
 }
 
-/* Lighthouse-style score rings. --v (0–100) drives the arc. */
 .scores {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-3);
   margin: var(--space-6) 0;
-}
-
-.score {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
-  text-align: center;
-}
-
-.ring {
-  --c: var(--accent);
-  display: grid;
-  place-items: center;
-  width: var(--space-16);
-  height: var(--space-16);
-  border-radius: 50%;
-  background:
-    radial-gradient(closest-side, var(--surface) 78%, transparent 80% 100%),
-    conic-gradient(var(--c) calc(var(--v) * 1%), var(--border) 0);
-  font-weight: 600;
-  font-size: var(--text-lg);
-  font-variant-numeric: tabular-nums;
-  color: var(--c);
-}
-
-.good {
-  --c: var(--accent);
-}
-
-.mid,
-.bad {
-  --c: var(--warn);
-}
-
-.scoreLabel {
-  font-size: var(--text-xs);
-  color: var(--muted);
 }
 
 .facts {
@@ -122,6 +83,9 @@
 }
 
 .serviceName {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
   font-weight: 600;
 }
 

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import certifications from '../../content/certifications';
 import Section from '../ui/Section';
+import BrandIcon, { brandFor } from '../ui/BrandIcon';
 import styles from './Certifications.module.css';
 
 function monthLabel(ym) {
@@ -40,7 +41,13 @@ export default function Certifications() {
                 {...(c.url ? { href: c.url, target: '_blank', rel: 'noopener noreferrer' } : {})}
               >
                 <span className={styles.badge}>
-                  {c.badge ? <Image src={c.badge} alt="" width={64} height={64} /> : <span>{initials(c.issuer)}</span>}
+                  {c.badge ? (
+                    <Image src={c.badge} alt="" width={64} height={64} />
+                  ) : brandFor(c.name) || brandFor(c.issuer) ? (
+                    <BrandIcon name={brandFor(c.name) ? c.name : c.issuer} />
+                  ) : (
+                    <span>{initials(c.issuer)}</span>
+                  )}
                 </span>
                 <span className={styles.body}>
                   <span className={styles.name}>{c.name}</span>

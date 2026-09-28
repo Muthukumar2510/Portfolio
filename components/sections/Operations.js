@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
 import profile from '../../content/profile';
 import costs from '../../content/costs';
 import useVisitors from '../../lib/useVisitors';
+import useQuality from '../../lib/useQuality';
 import Section from '../ui/Section';
+import ScoreRing from '../ui/ScoreRing';
+import BrandIcon from '../ui/BrandIcon';
 import styles from './Operations.module.css';
 
 // Rough Redis commands: ~30 per visit (count + heartbeats + trace) plus 2 per uptime check (96/day).
@@ -17,26 +19,8 @@ function rel(iso) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
-function Score({ label, value }) {
-  const tone = value >= 90 ? styles.good : value >= 50 ? styles.mid : styles.bad;
-  return (
-    <div className={styles.score}>
-      <span className={`${styles.ring} ${tone}`} style={{ '--v': value }}>
-        {value}
-      </span>
-      <span className={styles.scoreLabel}>{label}</span>
-    </div>
-  );
-}
-
 function Quality() {
-  const [q, setQ] = useState(undefined);
-  useEffect(() => {
-    fetch('/api/quality')
-      .then((r) => r.json())
-      .then(setQ)
-      .catch(() => setQ(null));
-  }, []);
+  const q = useQuality();
   const repo = `https://github.com/${profile.repo}`;
 
   return (
@@ -52,10 +36,10 @@ function Quality() {
       ) : (
         <>
           <div className={styles.scores}>
-            <Score label="Performance" value={q.lighthouse.performance} />
-            <Score label="Accessibility" value={q.lighthouse.accessibility} />
-            <Score label="Best practices" value={q.lighthouse['best-practices']} />
-            <Score label="SEO" value={q.lighthouse.seo} />
+            <ScoreRing label="Performance" value={q.lighthouse.performance} />
+            <ScoreRing label="Accessibility" value={q.lighthouse.accessibility} />
+            <ScoreRing label="Best practices" value={q.lighthouse['best-practices']} />
+            <ScoreRing label="SEO" value={q.lighthouse.seo} />
           </div>
           <ul className={styles.facts}>
             <li>
@@ -95,7 +79,10 @@ function Costs() {
           return (
             <li key={s.name}>
               <div className={styles.serviceHead}>
-                <span className={styles.serviceName}>{s.name}</span>
+                <span className={styles.serviceName}>
+                  <BrandIcon name={s.name} tint />
+                  {s.name}
+                </span>
                 <span className={styles.plan}>
                   {s.plan} · ${s.monthly}
                 </span>

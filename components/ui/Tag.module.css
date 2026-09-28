@@ -8,7 +8,10 @@
 }
 
 .tag {
-  display: inline-block;
+  --size-brand: var(--text-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   line-height: 1.6;

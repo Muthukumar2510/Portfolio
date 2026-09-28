@@ -1,5 +1,8 @@
 import skills from '../../content/skills';
 import Section from '../ui/Section';
+import BrandIcon, { brandFor } from '../ui/BrandIcon';
+
+const hasLogo = (name) => Boolean(brandFor(name));
 import styles from './Skills.module.css';
 
 const BARS = 10;
@@ -24,7 +27,7 @@ export default function Skills() {
                 {g.items.map((s) => (
                   <li key={s.name}>
                     <span className={styles.name}>
-                      <span className={styles.dot} aria-hidden="true" />
+                      {hasLogo(s.name) ? <BrandIcon name={s.name} tint /> : <span className={styles.dot} aria-hidden="true" />}
                       {s.name}
                     </span>
                     <span

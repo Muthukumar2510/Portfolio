@@ -11,15 +11,16 @@ import {
   fireEgg,
   openPath,
 } from '../lib/actions';
+import { ALL_ITEMS } from '../lib/nav';
 import styles from './CommandPalette.module.css';
 
 function buildItems({ projects, posts }) {
   return [
-  ...['projects', 'about', 'experience', 'skills', 'certifications', 'moments', 'writing', 'operations', 'contact'].map((id) => ({
+  ...ALL_ITEMS.filter((n) => n.id !== 'home').map((n) => ({
     group: 'Go to',
-    label: id[0].toUpperCase() + id.slice(1),
-    hint: `#${id}`,
-    run: () => scrollToSection(id),
+    label: n.label,
+    hint: n.section ? `#${n.section}` : n.href,
+    run: () => (n.section ? scrollToSection(n.section) : openPath(n.href)),
   })),
   ...projects.map((p) => ({
     group: 'Projects',
@@ -39,8 +40,6 @@ function buildItems({ projects, posts }) {
   { group: 'Actions', label: 'Toggle theme', hint: 'light / dark', run: toggleTheme },
   ...(profile.bookingUrl ? [{ group: 'Actions', label: 'Book a call', hint: 'calendar', run: () => openUrl(profile.bookingUrl) }] : []),
   ...profile.socials.filter((s) => s.url).map((s) => ({ group: 'Links', label: s.label, hint: s.url.replace(/^https?:\/\//, ''), run: () => openUrl(s.url) })),
-  { group: 'Go to', label: 'Status page', hint: '/status', run: () => openPath('/status') },
-  { group: 'Go to', label: 'Infrastructure as code', hint: '/infra', run: () => openPath('/infra') },
   { group: 'Fun', label: 'Enter the matrix', hint: 'trust me', run: () => fireEgg('matrix') },
   ];
 }
