@@ -10,7 +10,7 @@ export default function Moments({ moments }) {
   const [lead, ...rest] = moments;
 
   return (
-    <Section id="moments" title="Moments" intro="Events, talks and people. The part of the work that doesn't fit in a repo." wide>
+    <Section stage="band" id="moments" title="Moments" intro="Events, talks and people. The part of the work that doesn't fit in a repo." wide>
       <article className={styles.lead}>
         <header className={styles.leadHead}>
           <div>

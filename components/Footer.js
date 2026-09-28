@@ -3,6 +3,7 @@ import profile from '../content/profile';
 import { NAV, hrefFor } from '../lib/nav';
 import SocialLinks from './SocialLinks';
 import Button from './ui/Button';
+import { toggleConsole } from '../lib/actions';
 import styles from './Footer.module.css';
 
 const commit = process.env.NEXT_PUBLIC_COMMIT;
@@ -71,9 +72,14 @@ export default function Footer() {
             <span className={styles.build}>
               <span className={styles.dot} aria-hidden="true" /> build {commit} · {built ? built.slice(0, 10) : ''}
             </span>
-            <a href="#top" className={styles.top}>
-              Back to top ↑
-            </a>
+            <span className={styles.bottomLinks}>
+              <button type="button" className={styles.top} onClick={toggleConsole}>
+                Open terminal <kbd>`</kbd>
+              </button>
+              <a href="#top" className={styles.top}>
+                Back to top ↑
+              </a>
+            </span>
           </div>
         </div>
       </div>

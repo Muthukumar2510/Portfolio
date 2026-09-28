@@ -17,6 +17,8 @@
   --story-1: #1a73e8;
   --story-2: #9334e6;
   --story-3: #12a4af;
+  --glow-opacity: 0.22;
+  --grain-opacity: 0.05;
   --accent-soft: rgba(25, 103, 210, 0.08);
   --on-accent: #ffffff;
   --warn: #9a6212;
@@ -53,6 +55,8 @@
   --story-1: #8ab4f8;
   --story-2: #d7aefb;
   --story-3: #5ee2d6;
+  --glow-opacity: 0.2;
+  --grain-opacity: 0.06;
   --accent-soft: rgba(138, 180, 248, 0.12);
   --on-accent: #0d0f12;
   --warn: #fbbf24;
@@ -88,6 +92,7 @@
   --text-display: clamp(2.1rem, 4.6vw, 3.6rem);
   --text-title: clamp(1.75rem, 3.2vw, 2.4rem);
   --text-watermark: clamp(4rem, 14.5vw, 16rem);
+  --text-watermark-sm: clamp(4rem, 9vw, 7.5rem);
 
   /* Shape. */
   --radius-xs: 6px;
@@ -107,9 +112,11 @@
   --size-brand: 1.125rem;
   --tabbar-h: 3.75rem;
   --size-portrait: clamp(12rem, 24vw, 19rem);
-  --size-story-w: clamp(8rem, 14vw, 11.5rem);
-  --size-story-h: 7rem;
-  --size-story-h-sm: 5rem;
+  --size-story-w: clamp(9rem, 17vw, 14rem);
+  --size-story-h: 8.5rem;
+  --size-story-h-sm: 5.5rem;
+  --size-story-band: 7.5rem;
+  --size-story-side: clamp(14rem, 24vw, 20rem);
   --size-portrait-sm: 8rem;
 
   /* Motion. */

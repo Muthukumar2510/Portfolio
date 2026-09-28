@@ -76,7 +76,7 @@ export default function StoryField() {
       let i = 0;
       for (let y = gap / 2; y < h; y += gap) {
         for (let x = gap / 2; x < w; x += gap, i++) {
-          grid.push({ x: x + (rand(i) - 0.5) * gap * 0.7, y: y + (rand(i + 7) - 0.5) * gap * 0.7, phase: rand(i + 3) * 6.28, speed: 0.3 + rand(i + 5) * 0.5 });
+          grid.push({ x: x + (rand(i) - 0.5) * gap * 0.7, y: y + (rand(i + 7) - 0.5) * gap * 0.7, phase: rand(i + 3) * 6.28, speed: 0.3 + rand(i + 5) * 0.5, layer: Math.floor(rand(i + 11) * 3) });
         }
       }
       if (grid.length !== n) {
@@ -95,6 +95,7 @@ export default function StoryField() {
         const id = el.dataset.storySlot;
         if (!SHAPES[id]) continue;
         const r = el.getBoundingClientRect();
+        if (!r.width || !r.height) continue; // hidden stage (e.g. the side column on small screens)
         if (r.bottom < -h * 0.2 || r.top > h * 1.1) continue;
         const d = Math.abs(r.top + r.height / 2 - h * 0.45);
         if (d < bestD) {
@@ -112,23 +113,53 @@ export default function StoryField() {
     const targets = (sc) => {
       if (sc.hero) {
         meta = null;
-        return grid.map((g) => ({ x: g.x + Math.sin(t * g.speed + g.phase) * 4, y: g.y + Math.cos(t * g.speed * 0.8 + g.phase) * 4, lit: false, shape: false }));
+        // Three depth layers drift and parallax at different rates, so the field reads as 3D space.
+        const sy = window.scrollY;
+        return grid.map((g) => {
+          const depth = [0.35, 0.7, 1.2][g.layer];
+          return {
+            x: g.x + Math.sin(t * g.speed * depth + g.phase) * 4 * depth,
+            y: g.y + Math.cos(t * g.speed * 0.8 * depth + g.phase) * 4 * depth - sy * 0.15 * depth,
+            lit: false,
+            shape: false,
+            layer: g.layer,
+          };
+        });
       }
       const section = sc.el.closest('section');
       const sr = section ? section.getBoundingClientRect() : sc.r;
       const p = clamp((h * 0.55 - sr.top) / Math.max(1, sr.height));
-      // Uniform scale keeps circles round; the picture sits at the slot's inner edge (right on desktop).
-      const s = Math.min(sc.r.width, sc.r.height);
-      const sx = s;
-      const sy = s;
-      const cx = sc.r.width > s * 1.2 && w >= 600 ? sc.r.right - s / 2 : sc.r.left + sc.r.width / 2;
-      const cy = sc.r.top + sc.r.height / 2;
-      meta = { cx, cy, s };
-      return sample(SHAPES[sc.id](p, t), n).map((q) => ({ x: cx + (q.x - 0.5) * sx, y: cy + (q.y - 0.5) * sy, lit: q.lit, shape: true }));
+      const fn = SHAPES[sc.id];
+      let pts;
+      if (fn.fit === 'rect') {
+        // Wide/tall stages: the shape fills the whole box and adapts to its aspect ratio.
+        const aspect = sc.r.width / sc.r.height;
+        pts = sample(fn(p, t, aspect), n, sc.r.width, sc.r.height).map((q) => ({ x: sc.r.left + q.x * sc.r.width, y: sc.r.top + q.y * sc.r.height, lit: q.lit, ghost: q.ghost, shape: true }));
+        meta = { cx: sc.r.left + sc.r.width / 2, cy: sc.r.top + sc.r.height / 2, s: Math.min(sc.r.width, sc.r.height) * 1.4 };
+      } else {
+        // Square shapes keep circles round; the picture sits at the slot's inner edge (right on desktop).
+        const s = Math.min(sc.r.width, sc.r.height);
+        const cx = sc.r.width > s * 1.2 && w >= 600 ? sc.r.right - s / 2 : sc.r.left + sc.r.width / 2;
+        const cy = sc.r.top + sc.r.height / 2;
+        pts = sample(fn(p, t, 1), n, s, s).map((q) => ({ x: cx + (q.x - 0.5) * s, y: cy + (q.y - 0.5) * s, lit: q.lit, ghost: q.ghost, shape: true }));
+        meta = { cx, cy, s };
+      }
+      // Typical spacing between neighbours along the path (median), used to decide which neighbours to join.
+      const d = [];
+      for (let i = 1; i < pts.length; i += 3) d.push(Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y));
+      d.sort((x, y) => x - y);
+      meta.gap = Math.max(4, (d[d.length >> 1] || 4) * 3);
+      return pts;
     };
 
+    let lastScene = '';
     const draw = (dt) => {
       const sc = scene();
+      const sceneId = sc.hero ? 'top' : sc.id;
+      if (sceneId !== lastScene) {
+        lastScene = sceneId;
+        document.documentElement.dataset.scene = sceneId;
+      }
       const tg = targets(sc);
       const quiet = sc.hero ? quietRect() : null;
       // Same feel at 30, 60 or 120 fps; particles later in the path settle a touch later, so shapes "draw" in.
@@ -146,6 +177,7 @@ export default function StoryField() {
       }
       ctx.globalCompositeOperation = dark && sc.hero ? 'lighter' : 'source-over';
       let settledSum = 0;
+      let visible = 0;
       for (let i = 0; i < n; i++) {
         const p = parts[i];
         const g = tg[i];
@@ -173,6 +205,9 @@ export default function StoryField() {
         const away = Math.hypot(tx - p.x, ty - p.y);
         const settle = clamp(1 - away / 140);
         p.settle = settle;
+        p.ghost = g.ghost;
+        if (g.ghost) continue;
+        if (g.shape) visible++;
         if (g.shape) {
           settledSum += settle;
           // Settled shape particles are drawn as strokes below; only highlights and a few sparkles stay as dots.
@@ -184,8 +219,8 @@ export default function StoryField() {
           alpha = (dark ? 0.42 : 0.5) * (0.25 + 0.75 * settle) + p.lit * (dark ? 0.4 : 0.35);
           size = 1.1 + p.lit * 0.8;
         } else {
-          alpha = (dark ? 0.3 : 0.26) + near * 0.6;
-          size = 1 + near * 1.4;
+          alpha = [0.14, 0.24, 0.36][g.layer] * (dark ? 1.15 : 1) + near * 0.6;
+          size = [0.7, 1, 1.5][g.layer] + near * 1.4;
           if (quiet && p.x > quiet.left - 16 && p.x < quiet.right + 16 && p.y > quiet.top - 16 && p.y < quiet.bottom + 16) alpha *= 0.3;
         }
         ctx.globalAlpha = Math.min(1, alpha);
@@ -198,16 +233,17 @@ export default function StoryField() {
       ctx.globalCompositeOperation = 'source-over';
 
       // Join neighbouring particles (they're ordered along the path) into smooth gradient strokes.
-      if (meta && settledSum / n > 0.35) {
+      const settledRatio = settledSum / Math.max(1, visible);
+      if (meta && settledRatio > 0.35) {
         const grad = ctx.createLinearGradient(meta.cx - meta.s / 2, meta.cy - meta.s / 2, meta.cx + meta.s / 2, meta.cy + meta.s / 2);
         stopStr.forEach((c, j) => grad.addColorStop(j / Math.max(1, stopStr.length - 1), c));
-        const gap = Math.max(6, (meta.s * 4) / n) * 3;
+        const gap = meta.gap;
         ctx.strokeStyle = grad;
         ctx.lineWidth = 1.8;
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
-        ctx.globalAlpha = clamp((settledSum / n - 0.35) / 0.4) * (dark ? 0.95 : 0.85);
-        if (dark) {
+        ctx.globalAlpha = clamp((settledRatio - 0.35) / 0.4) * (dark ? 0.95 : 0.85);
+        if (dark && fine) {
           ctx.shadowColor = stopStr[1];
           ctx.shadowBlur = 8;
         }
@@ -215,7 +251,7 @@ export default function StoryField() {
         for (let i = 1; i < n; i++) {
           const a = parts[i - 1];
           const b = parts[i];
-          if (a.settle > 0.8 && b.settle > 0.8 && Math.hypot(b.x - a.x, b.y - a.y) < gap) {
+          if (!a.ghost && !b.ghost && a.settle > 0.8 && b.settle > 0.8 && Math.hypot(b.x - a.x, b.y - a.y) < gap) {
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
           }
@@ -226,8 +262,15 @@ export default function StoryField() {
       }
     };
 
+    // Phones and tablets run the "light" tier: 30 fps and no glow, to save battery and keep scrolling smooth.
+    const minFrame = fine ? 0 : 1 / 30;
     const frame = (now) => {
-      const dt = last ? Math.min(0.05, (now - last) / 1000) : 0.016;
+      if (!last) last = now - 1000 / 60;
+      const dt = Math.min(0.05, (now - last) / 1000);
+      if (dt < minFrame) {
+        raf = document.hidden ? 0 : requestAnimationFrame(frame);
+        return;
+      }
       last = now;
       t += dt;
       mouse.active += ((mouse.x > -9999 ? 1 : 0) - mouse.active) * (1 - Math.exp(-dt * 5));
@@ -278,6 +321,7 @@ export default function StoryField() {
     document.addEventListener('visibilitychange', start);
     return () => {
       (window.cancelIdleCallback || clearTimeout)(idleId);
+      delete document.documentElement.dataset.scene;
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', onResize);
       window.removeEventListener('scroll', onScroll);

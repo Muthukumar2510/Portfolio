@@ -11,6 +11,10 @@ const profile = {
   headline: 'I build and run cloud platforms.',
   tagline: 'Cloud Engineer · DevOps · AWS, Kubernetes, Terraform',
   location: 'Chennai, India',
+  // IANA time zone, used to show your local time next to the contact form.
+  timezone: 'Asia/Kolkata',
+  // Typical reply time, shown on the contact form.
+  replyTime: 'within a day or two',
   status: 'Open to new opportunities',
   bio: [
     'I design, automate, and operate cloud infrastructure that stays boring in production — in the best way.',

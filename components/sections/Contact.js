@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import profile from '../../content/profile';
 import { copyEmail, mailtoPresets, toast } from '../../lib/actions';
 import Section from '../ui/Section';
-import Button from '../ui/Button';
 import SocialLinks from '../SocialLinks';
+import Icon from '../shell/Icon';
 import styles from './Contact.module.css';
+
+const ICONS = { hiring: 'badge', collab: 'layers', hello: 'mail' };
+const first = profile.name.split(' ')[0];
+const MAX = 2000;
 
 // With a Formspree ID the form posts directly; without one it opens the visitor's mail app, pre-filled.
 function composeMailto({ reason, name, email, message }) {
@@ -13,9 +17,29 @@ function composeMailto({ reason, name, email, message }) {
   return `mailto:${profile.email}?subject=${encodeURIComponent(preset.subject)}&body=${encodeURIComponent(body)}`;
 }
 
+// Real local time where I am, so visitors know when to expect a reply. Rendered client-side only.
+function useLocalTime(tz) {
+  const [now, setNow] = useState(null);
+  useEffect(() => {
+    const tick = () => setNow(new Date());
+    tick();
+    const id = setInterval(tick, 30_000);
+    return () => clearInterval(id);
+  }, []);
+  if (!now || !tz) return null;
+  const time = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: tz });
+  const hour = Number(now.toLocaleString('en-GB', { hour: '2-digit', hour12: false, timeZone: tz }));
+  return { time, awake: hour >= 8 && hour < 22 };
+}
+
 export default function Contact() {
   const [reason, setReason] = useState('hiring');
   const [state, setState] = useState('idle');
+  const [draft, setDraft] = useState({ name: '', email: '', message: '' });
+  const local = useLocalTime(profile.timezone);
+  const preset = mailtoPresets[reason];
+
+  const onChange = (e) => setDraft((d) => ({ ...d, [e.target.name]: e.target.value }));
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -23,19 +47,23 @@ export default function Contact() {
     const data = Object.fromEntries(new FormData(form));
 
     if (!profile.formspreeId) {
-      window.location.href = composeMailto({ ...data, reason });
-      setState('drafted');
+      setState('flying');
+      setTimeout(() => {
+        window.location.href = composeMailto({ ...data, reason });
+        setState('drafted');
+      }, 700);
       return;
     }
-    setState('sending');
+    setState('flying');
     try {
       const res = await fetch(`https://formspree.io/f/${profile.formspreeId}`, {
         method: 'POST',
         headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, reason: mailtoPresets[reason].label }),
+        body: JSON.stringify({ ...data, reason: preset.label }),
       });
       if (!res.ok) throw new Error();
       form.reset();
+      setDraft({ name: '', email: '', message: '' });
       setState('sent');
       toast('Message delivered. I’ll get back to you soon.');
     } catch {
@@ -43,13 +71,15 @@ export default function Contact() {
     }
   }
 
-  const label = { sending: 'Sending…', sent: 'Sent ✓', drafted: 'Opened in your mail app' }[state] || 'Send message';
+  const label = { flying: 'Sending…', sent: 'Delivered', drafted: 'Opened in your mail app' }[state] || 'Send message';
 
   return (
-    <Section id="contact" title="Let's talk" intro="Hiring, a project, or just comparing notes on infrastructure. I reply within a day or two.">
-      <div className={styles.grid}>
-        <div className={styles.side}>
-          <p className={styles.lead}>What brings you here?</p>
+    <Section stage="none" id="contact" title="Let's talk" intro={`Hiring, a project, or just comparing notes on infrastructure. I reply ${profile.replyTime}.`}>
+      <div className={styles.card}>
+        <aside className={styles.panel}>
+          <p className={styles.kicker}>Say hello</p>
+          <p className={styles.big}>What brings you here?</p>
+
           <div className={styles.reasons} role="radiogroup" aria-label="Reason for contact">
             {Object.entries(mailtoPresets).map(([key, p]) => (
               <button
@@ -57,44 +87,70 @@ export default function Contact() {
                 type="button"
                 role="radio"
                 aria-checked={reason === key}
-                className={reason === key ? styles.reasonOn : styles.reason}
+                className={`${styles.reason} ${reason === key ? styles.on : ''}`}
                 onClick={() => setReason(key)}
               >
-                {p.label}
+                <Icon name={ICONS[key] || 'mail'} size={18} />
+                <span>{p.label}</span>
               </button>
             ))}
           </div>
-          <div className={styles.direct}>
-            <Button variant="ghost" onClick={copyEmail}>
-              Copy email
-            </Button>
-            {profile.bookingUrl && (
-              <Button href={profile.bookingUrl} variant="ghost">
-                Book a call ↗
-              </Button>
-            )}
-          </div>
-          <SocialLinks labels />
-        </div>
 
-        <form className={styles.form} onSubmit={onSubmit}>
+          <ul className={styles.facts}>
+            {local && (
+              <li suppressHydrationWarning>
+                <span className={`${styles.pulse} ${local.awake ? styles.awake : ''}`} aria-hidden="true" />
+                {local.time} in {profile.location.split(',')[0]} · {local.awake ? 'likely online' : 'probably asleep'}
+              </li>
+            )}
+            <li>Replies {profile.replyTime}</li>
+          </ul>
+
+          <div className={styles.panelFoot}>
+            <button type="button" className={styles.copy} onClick={copyEmail}>
+              <Icon name="mail" size={16} />
+              {profile.email}
+            </button>
+            <SocialLinks />
+          </div>
+        </aside>
+
+        <form className={`${styles.form} ${state === 'flying' ? styles.flying : ''}`} onSubmit={onSubmit}>
+          {/* Live preview of the message as a letter: the form reads as writing to a person, not filling a ticket. */}
+          <div className={styles.letter} aria-hidden="true">
+            <span>
+              To <strong>{first}</strong>
+            </span>
+            <span>
+              From <strong>{draft.name || 'you'}</strong>
+            </span>
+            <span className={styles.subject}>{preset.subject}</span>
+          </div>
+
+          <div className={styles.row}>
+            <label className={styles.field}>
+              <input name="name" required autoComplete="name" placeholder=" " value={draft.name} onChange={onChange} />
+              <span>Your name</span>
+            </label>
+            <label className={styles.field}>
+              <input name="email" type="email" required autoComplete="email" placeholder=" " value={draft.email} onChange={onChange} />
+              <span>Email</span>
+            </label>
+          </div>
           <label className={styles.field}>
-            <span>Name</span>
-            <input name="name" required autoComplete="name" />
-          </label>
-          <label className={styles.field}>
-            <span>Email</span>
-            <input name="email" type="email" required autoComplete="email" />
-          </label>
-          <label className={styles.field}>
+            <textarea name="message" rows={5} required maxLength={MAX} placeholder=" " value={draft.message} onChange={onChange} />
             <span>Message</span>
-            <textarea name="message" rows={5} required placeholder={mailtoPresets[reason].placeholder} />
+            <small className={styles.hint}>{draft.message ? `${draft.message.length} / ${MAX}` : preset.placeholder}</small>
           </label>
-          <Button type="submit" disabled={state === 'sending'} magnetic={false}>
-            {label}
-          </Button>
-          {state === 'error' && <p className={styles.error}>Couldn&apos;t send. Please use Copy email instead.</p>}
-          {!profile.formspreeId && <p className={styles.hint}>This opens your email app with the message ready to send.</p>}
+
+          <button type="submit" className={styles.send} disabled={state === 'flying'}>
+            <span>{label}</span>
+            <svg className={styles.plane} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" aria-hidden="true">
+              <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z" />
+            </svg>
+          </button>
+          {state === 'error' && <p className={styles.error}>Couldn&apos;t send. Please use the email address instead.</p>}
+          {!profile.formspreeId && <p className={styles.note}>This opens your email app with the message ready to send.</p>}
         </form>
       </div>
     </Section>

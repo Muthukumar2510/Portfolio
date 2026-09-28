@@ -91,6 +91,36 @@
   }
 }
 
+.console {
+  display: block;
+  margin-top: var(--space-5);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.console:hover {
+  color: var(--text);
+}
+
+.console kbd {
+  margin-left: var(--space-1);
+  padding: 0 var(--space-2);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+}
+
+/* The shortcut needs a keyboard, so the hint is hidden on touch screens (the tab bar's More sheet has it). */
+@media (pointer: coarse) {
+  .console {
+    display: none;
+  }
+}
+
 /* Entrance: supporting lines rise in one after another. The h1 and the intro paragraph stay static: they are
    the largest text on first paint, and animating them would delay LCP. */
 .enter {

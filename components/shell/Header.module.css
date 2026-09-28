@@ -122,6 +122,7 @@
 
 @media (max-width: 767px) {
   .links,
+  .terminal,
   .cta {
     display: none;
   }

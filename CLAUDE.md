@@ -34,10 +34,18 @@ Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (to
 - Personal first: the hero introduces the person (photo, one-liner, call to action). Infra and live metrics live in "How this site runs", not above the fold.
 - Rounded everywhere: controls use `var(--radius-pill)`, cards `var(--radius)`/`var(--radius-lg)`. Only the header and phone tab bar float.
 - Respect `prefers-reduced-motion` for every animation; pause canvases when off-screen.
-- Home-page motion is one system: `StoryField` (particles that form a shape per section; shapes live in `lib/storyShapes.js`, keyed by section id) plus `ScrollPacket` (the left rail). A new section gets a shape there, not its own animation.
+- Home-page motion is one system: `StoryField` (particles that form a shape per section; shapes live in `lib/storyShapes.js`, keyed by section id) plus `ScrollPacket` (the left rail) and `Backdrop` (drifting glows tinted per section via `html[data-scene]`). A new section gets a shape there, not its own animation; shapes that grow must use `ghost`/`reveal` so particles never reshuffle.
 - Pointer effects (`data-spotlight`, `data-tilt`, `data-magnetic`) are opt-in attributes handled by `lib/useInteractions.js`.
 - Keyboard: everything clickable is focusable; dialogs close on Escape.
 - API routes fail soft: return `null`s instead of 500s so the UI can hide the feature.
+
+### New visual effect checklist
+- Works on desktop and phone: phones get the light tier (fewer particles, 30 fps, no glow); touch has no hover-only features.
+- Respects `prefers-reduced-motion` (static result, no loop) and pauses when the tab is hidden.
+- Never draws over content: illustrations live in a `<Section stage=…>` slot/band/side column.
+- No `filter: blur()` or `backdrop-filter` on large or animated elements (use gradients); animate only transform/opacity.
+- Nothing animated may be the LCP element; start heavy work on `requestIdleCallback`.
+- Verify: `npm run check`, `scripts/quality.mjs` (Lighthouse ≥ 85) and `scripts/smoothness.mjs` (avg frame ≤ 20 ms on a 4× throttled phone, no long frames, CLS 0).
 
 ## 5. Honesty and safety
 - Never show a status, metric or claim the site can't back with data. Live values come from `/api/trace`, `/api/status`, `/api/visits` or build-time GitHub data; when unavailable, say so instead of faking it.

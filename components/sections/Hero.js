@@ -3,6 +3,7 @@ import profile from '../../content/profile';
 import { findMedia } from '../../lib/media';
 import SocialLinks from '../SocialLinks';
 import Button from '../ui/Button';
+import { openConsole } from '../../lib/actions';
 import styles from './Hero.module.css';
 
 const first = profile.name.split(' ')[0];
@@ -35,8 +36,11 @@ export default function Hero() {
           <div className={styles.enter} style={{ '--i': 3 }}>
             <SocialLinks withEmail labels className={styles.socials} />
           </div>
+          <button type="button" className={`${styles.console} ${styles.enter}`} style={{ '--i': 4 }} onClick={openConsole}>
+            or explore from the terminal <kbd>`</kbd>
+          </button>
           {profile.status && (
-            <p className={`${styles.status} ${styles.enter}`} style={{ '--i': 4 }}>
+            <p className={`${styles.status} ${styles.enter}`} style={{ '--i': 5 }}>
               {profile.status}
             </p>
           )}
