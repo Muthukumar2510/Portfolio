@@ -1,30 +1,21 @@
 import Image from 'next/image';
 import profile from '../../content/profile';
+import { findMedia } from '../../lib/media';
 import DotField from '../DotField';
 import SocialLinks from '../SocialLinks';
 import Button from '../ui/Button';
 import styles from './Hero.module.css';
 
 const first = profile.name.split(' ')[0];
-const initials = profile.name
-  .split(' ')
-  .map((w) => w[0])
-  .slice(0, 2)
-  .join('');
+const portrait = findMedia('profile/');
 
-// Personal first: who I am, what I do, and one clear way to reach me. The live infra story lives further down.
+// Personal first: who I am, what I do, one clear way to reach me. The particle field reacts to the cursor.
 export default function Hero() {
   return (
-    <section id="top" className={styles.hero}>
-      <DotField className={styles.dotField} />
+    <section id="top" className={`${styles.hero} ${portrait ? styles.withPhoto : ''}`}>
+      <DotField className={styles.field} />
       <div className={`container ${styles.grid}`}>
         <div className={styles.text}>
-          {profile.status && (
-            <p className={styles.status}>
-              <span className={styles.dot} aria-hidden="true" />
-              {profile.status}
-            </p>
-          )}
           <p className={styles.hello}>
             Hi, I&apos;m {first}. {profile.title} in {profile.location}.
           </p>
@@ -44,17 +35,22 @@ export default function Hero() {
             )}
           </div>
           <SocialLinks withEmail labels className={styles.socials} />
+          {profile.status && <p className={styles.status}>{profile.status}</p>}
         </div>
 
-        <div className={styles.portrait}>
-          {profile.avatar ? (
-            <Image src={profile.avatar} alt={profile.name} fill priority sizes="(max-width: 767px) 60vw, 320px" className={styles.photo} />
-          ) : (
-            <span className={styles.mono} role="img" aria-label={profile.name}>
-              {initials}
-            </span>
-          )}
-        </div>
+        {portrait && (
+          <div className={styles.portrait}>
+            <Image
+              src={portrait.src}
+              alt={profile.name}
+              fill
+              priority
+              sizes="(max-width: 767px) 40vw, 360px"
+              placeholder="blur"
+              blurDataURL={portrait.blur}
+            />
+          </div>
+        )}
       </div>
     </section>
   );

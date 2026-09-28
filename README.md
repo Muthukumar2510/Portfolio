@@ -48,7 +48,12 @@ Logos for socials and the tech stack live in `public/brands/` and are listed in 
 
 - **Add one:** add its [simple-icons](https://simpleicons.org) slug to `content/brands.js`, then run `npm run brands`. The SVG file and `public/brands/manifest.json` are generated for you.
 - **Use your own SVG:** set `source: 'local'` and drop `<slug>.svg` into `public/brands/`. This is how LinkedIn works.
-- **Logos simple-icons doesn't carry:** AWS, Azure and OPA use `source: 'text'` and show as a clean text badge until you add an official SVG.
+- **Logos simple-icons doesn't carry** (AWS, Azure, OPA) show no logo, just their name, until you drop the official SVG into `public/brands/` and set `source: 'local'`. We never draw our own.
+
+## Your photo and certification badges
+
+- **Portrait:** put one photo in `public/media/profile/`, run `npm run media`. It appears in the hero. No photo = no portrait.
+- **Badges:** on Credly open each badge → Share → Download image, save as `public/media/certs/<id>.png` (the `id` in `content/certifications.js`), run `npm run media`.
 
 Logos are drawn with a CSS mask, so they follow the text colour and switch to the brand colour on hover. `npm run check` fails if the folder drifts from the list.
 

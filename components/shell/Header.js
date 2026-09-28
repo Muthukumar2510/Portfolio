@@ -4,12 +4,13 @@ import { HEADER_IDS, itemsFor, hrefFor } from '../../lib/nav';
 import useIsActive from '../../lib/useIsActive';
 import useScrollHide from '../../lib/useScrollHide';
 import { openPalette } from '../../lib/actions';
-import Avatar from '../Avatar';
 import ThemeToggle from '../ThemeToggle';
 import Icon from './Icon';
 import styles from './Header.module.css';
 
 const LINKS = itemsFor(HEADER_IDS);
+const [first, ...others] = profile.name.split(' ');
+const rest = others.join(' ');
 
 // Slim rounded header: transparent over the hero, solid once the page scrolls. The only floating element.
 export default function Header() {
@@ -19,9 +20,9 @@ export default function Header() {
   return (
     <header className={`${styles.wrap} ${hidden ? styles.hidden : ''} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.bar}>
-        <Link href="/" className={styles.brand}>
-          <Avatar size={30} />
-          <span className={styles.name}>{profile.name}</span>
+        <Link href="/" className={styles.brand} aria-label={`${profile.name}, home`}>
+          <span className={styles.first}>{first}</span>
+          <span className={styles.last}>{rest}</span>
         </Link>
 
         <nav className={styles.links} aria-label="Primary">

@@ -14,28 +14,9 @@
   mask: var(--logo) center / contain no-repeat;
 }
 
-/* Brands without a licensed icon get a compact wordmark badge. */
-.text {
-  width: auto;
-  min-width: var(--size-brand);
-  padding: 0 var(--space-1);
-  border-radius: var(--space-1);
-  border: 1px solid currentColor;
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0.02em;
-}
-
 .color.mask,
 .tint.mask,
 :global(*:hover) > .mask {
   background-color: var(--brand);
 }
 
-.color.text,
-.tint.text,
-:global(*:hover) > .text {
-  color: var(--brand);
-}

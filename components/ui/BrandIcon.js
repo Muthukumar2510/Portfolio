@@ -13,26 +13,27 @@ export function brandFor(label) {
   return slug && manifest[slug] ? { slug, ...manifest[slug] } : null;
 }
 
-export const hasBrand = (slug) => Boolean(manifest[slug]);
+export const hasBrand = (slug) => Boolean(manifest[slug]?.file);
 
 // Monochrome logo rendered with CSS mask so it follows the text colour; `brand` tints it with the brand colour.
 // `size` is a token name (e.g. '--size-brand'), so sizes stay in tokens.css.
 // `color` shows the full brand colour at all times (used for social links, where the logo *is* the label).
 export default function BrandIcon({ name, slug, label, tint = false, color = false, title }) {
   const b = slug && manifest[slug] ? { slug, ...manifest[slug] } : brandFor(name || label);
-  if (!b) return null;
+  // Brands without an official logo file render nothing: we don't invent logos.
+  if (!b || !b.file) return null;
   const vars = { '--brand': b.color || 'currentColor' };
-  if (b.file) vars['--logo'] = `url(${b.file})`;
+  vars['--logo'] = `url(${b.file})`;
   return (
     <span
-      className={`${styles.icon} ${b.file ? styles.mask : styles.text} ${tint ? styles.tint : ''} ${color ? styles.color : ''}`}
+      className={`${styles.icon} ${styles.mask} ${tint ? styles.tint : ''} ${color ? styles.color : ''}`}
       style={vars}
       role={title ? 'img' : undefined}
       aria-label={title ? b.name : undefined}
       aria-hidden={title ? undefined : 'true'}
       title={title ? b.name : undefined}
     >
-      {!b.file && b.text}
+      
     </span>
   );
 }

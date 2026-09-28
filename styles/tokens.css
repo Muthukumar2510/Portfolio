@@ -98,7 +98,7 @@
   --size-brand: 1.125rem;
   --tabbar-h: 3.75rem;
   --size-portrait: clamp(12rem, 24vw, 19rem);
-  --size-portrait-sm: 7.5rem;
+  --size-portrait-sm: 8rem;
 
   /* Motion. */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);

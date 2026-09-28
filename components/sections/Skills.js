@@ -2,7 +2,7 @@ import skills from '../../content/skills';
 import Section from '../ui/Section';
 import BrandIcon, { brandFor } from '../ui/BrandIcon';
 
-const hasLogo = (name) => Boolean(brandFor(name));
+const hasLogo = (name) => Boolean(brandFor(name)?.file);
 import styles from './Skills.module.css';
 
 const BARS = 10;
