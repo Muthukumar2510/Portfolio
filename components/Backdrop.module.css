@@ -48,13 +48,12 @@
 
 .glow {
   position: absolute;
-  width: 55vmax;
+  width: 45vmax;
   aspect-ratio: 1;
   /* A radial gradient instead of filter: blur() — same soft glow, a fraction of the paint cost. */
   background: radial-gradient(circle closest-side, var(--glow-color), transparent);
   opacity: var(--glow-opacity);
   transition: --glow-color 1.2s var(--ease);
-  will-change: transform;
 }
 
 .a {

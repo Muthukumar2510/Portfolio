@@ -3,11 +3,6 @@
   top: var(--space-3);
   z-index: var(--z-nav);
   padding: 0 var(--gutter);
-  transition: transform var(--dur-slow) var(--ease);
-}
-
-.hidden {
-  transform: translateY(calc(-100% - var(--space-4)));
 }
 
 .bar {

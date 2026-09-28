@@ -12,13 +12,13 @@ const LINKS = itemsFor(HEADER_IDS);
 const [first, ...others] = profile.name.split(' ');
 const rest = others.join(' ');
 
-// Slim rounded header: transparent over the hero, solid once the page scrolls. The only floating element.
+// Slim rounded header, pinned to the top: transparent over the hero, solid once the page scrolls.
 export default function Header() {
-  const { hidden, scrolled } = useScrollHide();
+  const { scrolled } = useScrollHide();
   const isActive = useIsActive();
 
   return (
-    <header className={`${styles.wrap} ${hidden ? styles.hidden : ''} ${scrolled ? styles.scrolled : ''}`}>
+    <header className={`${styles.wrap} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.bar}>
         <Link href="/" className={styles.brand} aria-label={`${profile.name}, home`}>
           <span className={styles.first}>{first}</span>
