@@ -152,8 +152,14 @@ export default function StoryField() {
       return pts;
     };
 
+    let lastScene = '';
     const draw = (dt) => {
       const sc = scene();
+      const sceneId = sc.hero ? 'top' : sc.id;
+      if (sceneId !== lastScene) {
+        lastScene = sceneId;
+        document.documentElement.dataset.scene = sceneId;
+      }
       const tg = targets(sc);
       const quiet = sc.hero ? quietRect() : null;
       // Same feel at 30, 60 or 120 fps; particles later in the path settle a touch later, so shapes "draw" in.
@@ -315,6 +321,7 @@ export default function StoryField() {
     document.addEventListener('visibilitychange', start);
     return () => {
       (window.cancelIdleCallback || clearTimeout)(idleId);
+      delete document.documentElement.dataset.scene;
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', onResize);
       window.removeEventListener('scroll', onScroll);

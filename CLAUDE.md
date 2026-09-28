@@ -35,7 +35,7 @@ Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (to
 - Look like a drawing, not a template: ink (`--ink`) for structure, one `--signal` colour for highlights, grid paper, mono labels. The StoryField illustrations and the outlined section numbers keep their `--story-*` gradient; don't spread gradients or glows to buttons, panels or text.
 - Rounded everywhere: controls use `var(--radius-pill)`, cards `var(--radius)`/`var(--radius-lg)`. Only the header and phone tab bar float.
 - Respect `prefers-reduced-motion` for every animation; pause canvases when off-screen.
-- Home-page motion is one system: `StoryField` (particles that form a shape per section; shapes live in `lib/storyShapes.js`, keyed by section id) plus `ScrollPacket` (the left rail) and `Backdrop` (static grid paper + grain). A new section gets a shape there, not its own animation; shapes that grow must use `ghost`/`reveal` so particles never reshuffle.
+- Home-page motion is one system: `StoryField` (particles that form a shape per section; shapes live in `lib/storyShapes.js`, keyed by section id) plus `ScrollPacket` (the left rail) and `Backdrop` (drifting glows tinted per section via `html[data-scene]`, plus grain). A new section gets a shape there, not its own animation; shapes that grow must use `ghost`/`reveal` so particles never reshuffle.
 - Pointer effects (`data-spotlight`, `data-tilt`, `data-magnetic`) are opt-in attributes handled by `lib/useInteractions.js`.
 - Keyboard: everything clickable is focusable; dialogs close on Escape.
 - API routes fail soft: return `null`s instead of 500s so the UI can hide the feature.
