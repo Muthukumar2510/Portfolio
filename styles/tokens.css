@@ -13,6 +13,10 @@
   --border: #e6e5df;
   /* #1967d2 keeps small text ≥ 4.5:1 on --bg and on --accent-soft (WCAG AA). */
   --accent: #1967d2;
+  /* StoryField gradient (blue → violet → teal). */
+  --story-1: #1a73e8;
+  --story-2: #9334e6;
+  --story-3: #12a4af;
   --accent-soft: rgba(25, 103, 210, 0.08);
   --on-accent: #ffffff;
   --warn: #9a6212;
@@ -46,6 +50,9 @@
   --muted: #8b929c;
   --border: #242830;
   --accent: #8ab4f8;
+  --story-1: #8ab4f8;
+  --story-2: #d7aefb;
+  --story-3: #5ee2d6;
   --accent-soft: rgba(138, 180, 248, 0.12);
   --on-accent: #0d0f12;
   --warn: #fbbf24;
@@ -98,6 +105,9 @@
   --size-brand: 1.125rem;
   --tabbar-h: 3.75rem;
   --size-portrait: clamp(12rem, 24vw, 19rem);
+  --size-story-w: clamp(11rem, 24vw, 19rem);
+  --size-story-h: 10rem;
+  --size-story-h-sm: 6.5rem;
   --size-portrait-sm: 8rem;
 
   /* Motion. */

@@ -8,11 +8,17 @@
 }
 
 .head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-6);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-8);
   margin-bottom: var(--space-10);
+}
+
+.slot {
+  display: block;
+  width: var(--size-story-w);
+  height: var(--size-story-h);
 }
 
 .title {
@@ -28,7 +34,8 @@
 }
 
 .action {
-  flex-shrink: 0;
+  display: inline-block;
+  margin-top: var(--space-4);
   font-weight: 500;
   font-size: var(--text-sm);
 }
@@ -38,6 +45,13 @@
     padding: var(--space-16) 0 var(--space-4);
   }
   .head {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
     margin-bottom: var(--space-6);
+  }
+  .slot {
+    order: -1;
+    width: 100%;
+    height: var(--size-story-h-sm);
   }
 }

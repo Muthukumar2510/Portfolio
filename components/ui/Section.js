@@ -11,12 +11,14 @@ export default function Section({ id, title, intro, action, wide = false, childr
             <div>
               {title && <h2 className={styles.title}>{title}</h2>}
               {intro && <p className={styles.intro}>{intro}</p>}
+              {action && (
+                <Link href={action.href} className={styles.action}>
+                  {action.label} →
+                </Link>
+              )}
             </div>
-            {action && (
-              <Link href={action.href} className={styles.action}>
-                {action.label} →
-              </Link>
-            )}
+            {/* Reserved space for this section's StoryField illustration, so it never overlaps content. */}
+            {id && <span className={styles.slot} data-story-slot={id} aria-hidden="true" />}
           </div>
         )}
         {children}

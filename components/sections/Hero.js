@@ -13,7 +13,7 @@ export default function Hero() {
   return (
     <section id="top" className={`${styles.hero} ${portrait ? styles.withPhoto : ''}`}>
       <div className={`container ${styles.grid}`}>
-        <div className={styles.text}>
+        <div className={styles.text} data-story-quiet>
           <p className={styles.hello}>
             Hi, I&apos;m {first}. {profile.title} in {profile.location}.
           </p>
