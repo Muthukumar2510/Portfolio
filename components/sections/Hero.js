@@ -19,7 +19,7 @@ export default function Hero() {
           </p>
           {/* Static headline (it's the LCP element). */}
           <h1 className={styles.title}>{profile.headline}</h1>
-          <p className={`${styles.sub} ${styles.enter}`} style={{ '--i': 1 }}>{profile.bio[0]}</p>
+          <p className={styles.sub}>{profile.bio[0]}</p>
 
           <div className={`${styles.ctas} ${styles.enter}`} style={{ '--i': 2 }}>
             <Button href="#contact">Let&apos;s talk</Button>

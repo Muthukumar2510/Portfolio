@@ -91,7 +91,8 @@
   }
 }
 
-/* Entrance: supporting lines rise in one after another. The h1 is left static (it's the LCP element). */
+/* Entrance: supporting lines rise in one after another. The h1 and the intro paragraph stay static: they are
+   the largest text on first paint, and animating them would delay LCP. */
 .enter {
   animation: rise var(--dur-slow) var(--ease) both;
   animation-delay: calc(var(--i) * 90ms + 120ms);

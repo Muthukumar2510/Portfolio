@@ -36,6 +36,9 @@ export default function StoryField() {
     let last = 0;
     let t = 0;
     let lastSlot = null;
+    let slots = [];
+    let hero = null;
+    let quiet = null;
     const mouse = { x: -9999, y: -9999, active: 0 };
 
     const rand = (i) => {
@@ -85,11 +88,10 @@ export default function StoryField() {
 
     // The illustration slot nearest the middle of the screen; the hero field while the hero is in view.
     const scene = () => {
-      const hero = document.getElementById('top');
       if (hero && hero.getBoundingClientRect().bottom > h * 0.35) return { hero: true };
       let best = null;
       let bestD = Infinity;
-      for (const el of document.querySelectorAll('[data-story-slot]')) {
+      for (const el of slots) {
         const id = el.dataset.storySlot;
         if (!SHAPES[id]) continue;
         const r = el.getBoundingClientRect();
@@ -105,7 +107,7 @@ export default function StoryField() {
       return lastSlot || { hero: true };
     };
 
-    const quietRect = () => document.querySelector('[data-story-quiet]')?.getBoundingClientRect();
+    const quietRect = () => quiet?.getBoundingClientRect();
 
     const targets = (sc) => {
       if (sc.hero) {
@@ -257,9 +259,17 @@ export default function StoryField() {
       if (reduced) draw(0);
     };
 
-    layout();
-    draw(0);
-    start();
+    const init = () => {
+      slots = [...document.querySelectorAll('[data-story-slot]')];
+      hero = document.getElementById('top');
+      quiet = document.querySelector('[data-story-quiet]');
+      layout();
+      draw(0);
+      start();
+    };
+    // Start after the page is idle, so the particle system never competes with first paint or hydration.
+    const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 1200));
+    const idleId = ric(init, { timeout: 2500 });
     window.addEventListener('resize', onResize);
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('pointermove', onMove, { passive: true });
@@ -267,6 +277,7 @@ export default function StoryField() {
     window.addEventListener('app:theme', onTheme);
     document.addEventListener('visibilitychange', start);
     return () => {
+      (window.cancelIdleCallback || clearTimeout)(idleId);
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', onResize);
       window.removeEventListener('scroll', onScroll);
