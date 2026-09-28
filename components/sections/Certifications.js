@@ -50,6 +50,11 @@ export default function Certifications() {
                   </span>
                 </span>
                 {c.url && <span className={styles.verify}>Verify ↗</span>}
+                {c.expires && (
+                  <span className={`${styles.seal} ${expired ? styles.sealOff : ''}`} aria-hidden="true">
+                    {expired ? 'Expired' : 'Valid'}
+                  </span>
+                )}
               </Tag>
             </li>
           );

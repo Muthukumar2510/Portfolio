@@ -13,12 +13,17 @@
   --border: #e6e5df;
   /* #1967d2 keeps small text ≥ 4.5:1 on --bg and on --accent-soft (WCAG AA). */
   --accent: #1967d2;
-  /* StoryField gradient (blue → violet → teal). */
-  --story-1: #1a73e8;
-  --story-2: #9334e6;
-  --story-3: #12a4af;
-  --glow-opacity: 0.22;
-  --grain-opacity: 0.05;
+  /* Drawing palette: ink for structure, one signal colour for what matters (like a highlighted line on a blueprint). */
+  --ink: #1f4fbf;
+  --signal: #c2410c;
+  --grid-line: rgba(31, 79, 191, 0.035);
+  --grid-major: rgba(31, 79, 191, 0.06);
+  --grain-opacity: 0.04;
+  --panel-bg: #14295c;
+  --panel-text: #f3f5fb;
+  --panel-muted: rgba(243, 245, 251, 0.66);
+  --panel-line: rgba(243, 245, 251, 0.08);
+  --panel-edge: rgba(243, 245, 251, 0.22);
   --accent-soft: rgba(25, 103, 210, 0.08);
   --on-accent: #ffffff;
   --warn: #9a6212;
@@ -52,11 +57,16 @@
   --muted: #8b929c;
   --border: #242830;
   --accent: #8ab4f8;
-  --story-1: #8ab4f8;
-  --story-2: #d7aefb;
-  --story-3: #5ee2d6;
-  --glow-opacity: 0.2;
-  --grain-opacity: 0.06;
+  --ink: #8ab4f8;
+  --signal: #ff9f5a;
+  --grid-line: rgba(138, 180, 248, 0.03);
+  --grid-major: rgba(138, 180, 248, 0.055);
+  --grain-opacity: 0.05;
+  --panel-bg: #111c38;
+  --panel-text: #eef2fb;
+  --panel-muted: rgba(238, 242, 251, 0.62);
+  --panel-line: rgba(238, 242, 251, 0.06);
+  --panel-edge: rgba(238, 242, 251, 0.18);
   --accent-soft: rgba(138, 180, 248, 0.12);
   --on-accent: #0d0f12;
   --warn: #fbbf24;
@@ -92,7 +102,6 @@
   --text-display: clamp(2.1rem, 4.6vw, 3.6rem);
   --text-title: clamp(1.75rem, 3.2vw, 2.4rem);
   --text-watermark: clamp(4rem, 14.5vw, 16rem);
-  --text-watermark-sm: clamp(4rem, 9vw, 7.5rem);
 
   /* Shape. */
   --radius-xs: 6px;

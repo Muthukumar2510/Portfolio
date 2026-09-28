@@ -21,9 +21,11 @@
   display: grid;
   place-items: center;
   aspect-ratio: 16 / 9;
-  background:
-    radial-gradient(120% 90% at 0% 0%, var(--accent-soft), transparent 60%),
-    var(--term-bg);
+  background-color: var(--panel-bg);
+  background-image:
+    linear-gradient(var(--panel-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--panel-line) 1px, transparent 1px);
+  background-size: 24px 24px;
   overflow: hidden;
 }
 
@@ -37,7 +39,7 @@
 }
 
 .glyph {
-  color: var(--term-accent);
+  color: var(--signal);
   font-size: var(--text-2xl);
 }
 

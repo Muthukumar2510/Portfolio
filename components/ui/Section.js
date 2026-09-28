@@ -6,14 +6,26 @@ import styles from './Section.module.css';
 //   'slot' (default) beside the heading · 'band' a wide strip under the heading ·
 //   'side' a tall sticky column beside the content (desktop), collapsing to a band on smaller screens ·
 //   'none' no illustration (the section carries its own visual).
-export default function Section({ id, title, intro, action, wide = false, stage = 'slot', children }) {
+// typed: the title types itself out (with a caret) when the section scrolls in.
+export default function Section({ id, title, intro, action, wide = false, stage = 'slot', typed = false, children }) {
   return (
     <section id={id} className={styles.section}>
       <div className={`container reveal ${wide ? styles.wide : ''}`}>
         {(title || action) && (
           <div className={styles.head}>
             <div>
-              {title && <h2 className={styles.title}>{title}</h2>}
+              {title && (
+                <h2 className={`${styles.title} ${typed ? styles.typed : ''}`} style={typed ? { '--chars': title.length } : undefined}>
+                  {typed ? (
+                    <>
+                      <span className={styles.typedText}>{title}</span>
+                      <span className={styles.caret} aria-hidden="true" />
+                    </>
+                  ) : (
+                    title
+                  )}
+                </h2>
+              )}
               {intro && <p className={styles.intro}>{intro}</p>}
               {action && (
                 <Link href={action.href} className={styles.action}>

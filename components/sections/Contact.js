@@ -39,6 +39,13 @@ export default function Contact() {
   const local = useLocalTime(profile.timezone);
   const preset = mailtoPresets[reason];
 
+  const keys = Object.keys(mailtoPresets);
+  // Number keys pick a reason while focus is on the reason list (1, 2, 3…).
+  const onReasonKey = (e) => {
+    const k = keys[Number(e.key) - 1];
+    if (k) setReason(k);
+  };
+
   const onChange = (e) => setDraft((d) => ({ ...d, [e.target.name]: e.target.value }));
 
   async function onSubmit(e) {
@@ -77,11 +84,14 @@ export default function Contact() {
     <Section stage="none" id="contact" title="Let's talk" intro={`Hiring, a project, or just comparing notes on infrastructure. I reply ${profile.replyTime}.`}>
       <div className={styles.card}>
         <aside className={styles.panel}>
-          <p className={styles.kicker}>Say hello</p>
+          <p className={styles.spec} suppressHydrationWarning>
+            {profile.location}
+            {local && ` · ${local.time} local`}
+          </p>
           <p className={styles.big}>What brings you here?</p>
 
-          <div className={styles.reasons} role="radiogroup" aria-label="Reason for contact">
-            {Object.entries(mailtoPresets).map(([key, p]) => (
+          <div className={styles.reasons} role="radiogroup" aria-label="Reason for contact" onKeyDown={onReasonKey}>
+            {Object.entries(mailtoPresets).map(([key, p], i) => (
               <button
                 key={key}
                 type="button"
@@ -90,8 +100,9 @@ export default function Contact() {
                 className={`${styles.reason} ${reason === key ? styles.on : ''}`}
                 onClick={() => setReason(key)}
               >
-                <Icon name={ICONS[key] || 'mail'} size={18} />
+                <kbd className={styles.key}>{i + 1}</kbd>
                 <span>{p.label}</span>
+                <Icon name={ICONS[key] || 'mail'} size={16} />
               </button>
             ))}
           </div>
@@ -100,7 +111,7 @@ export default function Contact() {
             {local && (
               <li suppressHydrationWarning>
                 <span className={`${styles.pulse} ${local.awake ? styles.awake : ''}`} aria-hidden="true" />
-                {local.time} in {profile.location.split(',')[0]} · {local.awake ? 'likely online' : 'probably asleep'}
+                {local.awake ? 'Probably online now' : 'Probably asleep, I’ll reply in the morning'}
               </li>
             )}
             <li>Replies {profile.replyTime}</li>
@@ -118,13 +129,24 @@ export default function Contact() {
         <form className={`${styles.form} ${state === 'flying' ? styles.flying : ''}`} onSubmit={onSubmit}>
           {/* Live preview of the message as a letter: the form reads as writing to a person, not filling a ticket. */}
           <div className={styles.letter} aria-hidden="true">
-            <span>
-              To <strong>{first}</strong>
+            <dl>
+              <div>
+                <dt>To</dt>
+                <dd>{first}</dd>
+              </div>
+              <div>
+                <dt>From</dt>
+                <dd>{draft.name || 'you'}</dd>
+              </div>
+              <div>
+                <dt>Re</dt>
+                <dd>{preset.subject}</dd>
+              </div>
+            </dl>
+            <span className={styles.stamp}>
+              <span>{profile.location.split(',').pop().trim().slice(0, 2).toUpperCase()}</span>
             </span>
-            <span>
-              From <strong>{draft.name || 'you'}</strong>
-            </span>
-            <span className={styles.subject}>{preset.subject}</span>
+            <span className={styles.postmark}>{profile.location.split(',')[0].toUpperCase()}</span>
           </div>
 
           <div className={styles.row}>

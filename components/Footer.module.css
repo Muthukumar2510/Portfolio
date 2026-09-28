@@ -123,7 +123,7 @@
   text-decoration: none;
 }
 
-/* Watermark: the first name, huge, gradient-filled and faint, sitting under the card like a signature. */
+/* Watermark: the first name, huge, drawn as a thin ink outline under the card like a signature on a drawing. */
 .watermark {
   margin: calc(-1 * var(--space-16)) 0 0;
   text-align: center;
@@ -132,11 +132,9 @@
   line-height: 0.8;
   letter-spacing: -0.06em;
   white-space: nowrap;
-  background: linear-gradient(90deg, var(--story-1), var(--story-2), var(--story-3));
-  -webkit-background-clip: text;
-  background-clip: text;
   color: transparent;
-  opacity: 0.14;
+  -webkit-text-stroke: 1px var(--ink);
+  opacity: 0.22;
   user-select: none;
   pointer-events: none;
   transform: translateY(18%);

@@ -1,121 +1,29 @@
-/* Registered so the glow colour can cross-fade between sections. */
-@property --glow-color {
-  syntax: '<color>';
-  inherits: false;
-  initial-value: transparent;
-}
-
 .backdrop {
-  --glow-a: var(--story-1);
-  --glow-b: var(--story-2);
-  --glow-c: var(--story-3);
   position: fixed;
   inset: 0;
   z-index: var(--z-backdrop);
-  overflow: hidden;
   pointer-events: none;
 }
 
-/* Section tints: the glows cross-fade as you scroll between parts of the story. */
-:global(html[data-scene='projects']) .backdrop,
-:global(html[data-scene='certifications']) .backdrop {
-  --glow-a: var(--story-1);
-  --glow-b: var(--story-1);
-  --glow-c: var(--story-3);
-}
-
-:global(html[data-scene='about']) .backdrop,
-:global(html[data-scene='experience']) .backdrop,
-:global(html[data-scene='moments']) .backdrop {
-  --glow-a: var(--story-2);
-  --glow-b: var(--story-1);
-  --glow-c: var(--story-2);
-}
-
-:global(html[data-scene='skills']) .backdrop,
-:global(html[data-scene='operations']) .backdrop {
-  --glow-a: var(--story-3);
-  --glow-b: var(--story-1);
-  --glow-c: var(--story-3);
-}
-
-:global(html[data-scene='writing']) .backdrop,
-:global(html[data-scene='contact']) .backdrop {
-  --glow-a: var(--story-2);
-  --glow-b: var(--story-3);
-  --glow-c: var(--story-1);
-}
-
-.glow {
+/* Grid paper: 24px minor lines, 120px major lines, fading out toward the edges. */
+.grid {
   position: absolute;
-  width: 55vmax;
-  aspect-ratio: 1;
-  /* A radial gradient instead of filter: blur() — same soft glow, a fraction of the paint cost. */
-  background: radial-gradient(circle closest-side, var(--glow-color), transparent);
-  opacity: var(--glow-opacity);
-  transition: --glow-color 1.2s var(--ease);
-  will-change: transform;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  background-position: center top;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 40%, transparent 100%);
 }
 
-.a {
-  top: -20vmax;
-  left: -15vmax;
-  --glow-color: var(--glow-a);
-  animation: float-a 26s ease-in-out infinite alternate;
-}
-
-.b {
-  top: 30vh;
-  right: -25vmax;
-  --glow-color: var(--glow-b);
-  animation: float-b 32s ease-in-out infinite alternate;
-}
-
-.c {
-  bottom: -30vmax;
-  left: 20vw;
-  --glow-color: var(--glow-c);
-  animation: float-c 38s ease-in-out infinite alternate;
-}
-
-@keyframes float-a {
-  to {
-    transform: translate(18vw, 12vh) scale(1.1);
-  }
-}
-
-@keyframes float-b {
-  to {
-    transform: translate(-14vw, -10vh) scale(0.9);
-  }
-}
-
-@keyframes float-c {
-  to {
-    transform: translate(-10vw, -16vh) scale(1.15);
-  }
-}
-
-/* Fine film grain so flat colour reads as texture. Inline SVG noise (allowed by the CSP's img-src data:). */
+/* Fine paper grain. Inline SVG noise (allowed by the CSP's img-src data:). */
 .grain {
   position: absolute;
   inset: 0;
   opacity: var(--grain-opacity);
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-}
-
-/* Phones: two glows, smaller blur, no drift — cheaper to composite. */
-@media (max-width: 767px) {
-  .c {
-    display: none;
-  }
-  .glow {
-    animation: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .glow {
-    animation: none;
-  }
 }
