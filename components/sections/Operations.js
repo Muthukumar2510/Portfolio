@@ -114,7 +114,6 @@ export default function Operations({ commits }) {
   const edge = trace?.edge?.name && trace.edge.name !== 'local' ? trace.edge.name : null;
   return (
     <Section
-      stage="none"
       id="operations"
       title="How this site runs"
       intro="The same practices I use at work, applied to this site: gated CI, measured quality, known costs, and small, reviewed changes."

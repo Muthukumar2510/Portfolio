@@ -6,7 +6,7 @@ import styles from './StoryField.module.css';
 // from the cursor; further down, the same particles fly into the reserved slot beside each section heading
 // (<Section> renders [data-story-slot]) and form a picture of it, so illustrations never sit on content.
 // Motion is frame-rate independent (exponential easing on real elapsed time), colours come from the
-// --ink / --signal tokens, and reduced-motion users get the shapes without any animation loop.
+// --story-* tokens, and reduced-motion users get the shapes without any animation loop.
 const clamp = (v) => Math.max(0, Math.min(1, v));
 const hexToRgb = (hex) => {
   const h = hex.replace('#', '');
@@ -27,6 +27,8 @@ export default function StoryField() {
     let n = 0;
     let parts = [];
     let grid = [];
+    let colors = [];
+    let stopStr = [];
     let meta = null;
     let muted = 'rgb(128,128,128)';
     let dark = false;
@@ -44,18 +46,22 @@ export default function StoryField() {
       return x - Math.floor(x);
     };
 
-    // Drawing palette: ink for structure, signal for highlights (the newest server, HEAD, the typing caret…).
-    let ink = 'rgb(31,79,191)';
-    let signal = 'rgb(194,65,12)';
+    // Per-particle colour along a blue → violet → teal gradient, so every shape reads as one continuous stroke.
     const readColors = () => {
       const css = getComputedStyle(document.documentElement);
-      const rgb = (v, fb) => `rgb(${hexToRgb(css.getPropertyValue(v).trim() || fb).join(',')})`;
-      ink = rgb('--ink', '#1f4fbf');
-      signal = rgb('--signal', '#c2410c');
-      muted = rgb('--muted', '#888888');
+      const stops = ['--story-1', '--story-2', '--story-3'].map((v) => hexToRgb(css.getPropertyValue(v).trim() || '#1a73e8'));
+      stopStr = stops.map((c) => `rgb(${c.join(',')})`);
+      const m = hexToRgb(css.getPropertyValue('--muted').trim() || '#888888');
+      muted = `rgb(${m.join(',')})`;
       dark = document.documentElement.dataset.theme === 'dark';
+      colors = Array.from({ length: n }, (_, i) => {
+        const f = (i / Math.max(1, n - 1)) * 2;
+        const a = stops[Math.min(1, Math.floor(f))];
+        const b = stops[Math.min(2, Math.floor(f) + 1)];
+        const k = f - Math.floor(f);
+        return `rgb(${a.map((c, j) => Math.round(c + (b[j] - c) * k)).join(',')})`;
+      });
     };
-
 
     const layout = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -153,6 +159,17 @@ export default function StoryField() {
       // Same feel at 30, 60 or 120 fps; particles later in the path settle a touch later, so shapes "draw" in.
       const base = dt ? 1 - Math.exp(-dt * 4.2) : 1;
       ctx.clearRect(0, 0, w, h);
+      // A soft halo behind the picture gives it depth without competing with the text.
+      if (meta) {
+        const halo = ctx.createRadialGradient(meta.cx, meta.cy, 0, meta.cx, meta.cy, meta.s * 0.75);
+        halo.addColorStop(0, stopStr[1] || '#888');
+        halo.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.globalAlpha = dark ? 0.16 : 0.1;
+        ctx.fillStyle = halo;
+        ctx.fillRect(meta.cx - meta.s, meta.cy - meta.s, meta.s * 2, meta.s * 2);
+        ctx.globalAlpha = 1;
+      }
+      ctx.globalCompositeOperation = dark && sc.hero ? 'lighter' : 'source-over';
       let settledSum = 0;
       let visible = 0;
       for (let i = 0; i < n; i++) {
@@ -201,41 +218,45 @@ export default function StoryField() {
           if (quiet && p.x > quiet.left - 16 && p.x < quiet.right + 16 && p.y > quiet.top - 16 && p.y < quiet.bottom + 16) alpha *= 0.3;
         }
         ctx.globalAlpha = Math.min(1, alpha);
-        ctx.fillStyle = p.lit > 0.5 || near > 0.25 ? signal : g.shape || near > 0.1 ? ink : muted;
+        ctx.fillStyle = g.shape || near > 0.1 ? colors[i] : muted;
         ctx.beginPath();
         ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.globalAlpha = 1;
+      ctx.globalCompositeOperation = 'source-over';
 
       // Join neighbouring particles (they're ordered along the path) into smooth gradient strokes.
       const settledRatio = settledSum / Math.max(1, visible);
       if (meta && settledRatio > 0.35) {
+        const grad = ctx.createLinearGradient(meta.cx - meta.s / 2, meta.cy - meta.s / 2, meta.cx + meta.s / 2, meta.cy + meta.s / 2);
+        stopStr.forEach((c, j) => grad.addColorStop(j / Math.max(1, stopStr.length - 1), c));
         const gap = meta.gap;
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.8;
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
         ctx.globalAlpha = clamp((settledRatio - 0.35) / 0.4) * (dark ? 0.95 : 0.85);
-        // Two passes: ink for structure, signal for the highlighted parts.
-        for (const litPass of [false, true]) {
-          ctx.strokeStyle = litPass ? signal : ink;
-          ctx.beginPath();
-          for (let i = 1; i < n; i++) {
-            const a = parts[i - 1];
-            const b = parts[i];
-            if ((a.lit > 0.5 && b.lit > 0.5) !== litPass) continue;
-            if (!a.ghost && !b.ghost && a.settle > 0.8 && b.settle > 0.8 && Math.hypot(b.x - a.x, b.y - a.y) < gap) {
-              ctx.moveTo(a.x, a.y);
-              ctx.lineTo(b.x, b.y);
-            }
-          }
-          ctx.stroke();
+        if (dark && fine) {
+          ctx.shadowColor = stopStr[1];
+          ctx.shadowBlur = 8;
         }
+        ctx.beginPath();
+        for (let i = 1; i < n; i++) {
+          const a = parts[i - 1];
+          const b = parts[i];
+          if (!a.ghost && !b.ghost && a.settle > 0.8 && b.settle > 0.8 && Math.hypot(b.x - a.x, b.y - a.y) < gap) {
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+          }
+        }
+        ctx.stroke();
+        ctx.shadowBlur = 0;
         ctx.globalAlpha = 1;
       }
     };
 
-    // Phones and tablets run the "light" tier: 30 fps, to save battery and keep scrolling smooth.
+    // Phones and tablets run the "light" tier: 30 fps and no glow, to save battery and keep scrolling smooth.
     const minFrame = fine ? 0 : 1 / 30;
     const frame = (now) => {
       if (!last) last = now - 1000 / 60;

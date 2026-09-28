@@ -143,10 +143,10 @@ export default function Contact() {
                 <dd>{preset.subject}</dd>
               </div>
             </dl>
-            <span className={styles.stamp}>
-              <span>{profile.location.split(',').pop().trim().slice(0, 2).toUpperCase()}</span>
+            <span className={styles.franking}>
+              <span className={styles.stamp}>{profile.location.split(',').pop().trim().slice(0, 2).toUpperCase()}</span>
+              <span className={styles.postmark}>{profile.location.split(',')[0].toUpperCase()}</span>
             </span>
-            <span className={styles.postmark}>{profile.location.split(',')[0].toUpperCase()}</span>
           </div>
 
           <div className={styles.row}>
