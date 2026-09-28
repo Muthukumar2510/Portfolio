@@ -8,7 +8,7 @@
   gap: 7px;
   height: 34px;
   padding: 0 12px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border);
   background: var(--surface);
   font-size: var(--text-xs);
@@ -48,7 +48,7 @@
   top: calc(100% + 10px);
   width: 240px;
   padding: 16px;
-  border-radius: 14px;
+  border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--surface);
   box-shadow: var(--shadow-lg);

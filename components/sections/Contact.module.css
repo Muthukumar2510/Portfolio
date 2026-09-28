@@ -1,91 +1,326 @@
-.grid {
+/* One rounded card: a blueprint panel beside the form. Stacks on small screens. */
+.card {
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: var(--space-12);
-  align-items: start;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
 }
 
-.side {
+.panel {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-5);
+  padding: var(--space-10);
+  color: var(--panel-text);
+  background-color: var(--panel-bg);
+  /* Blueprint sheet: fine grid on deep navy. */
+  background-image:
+    linear-gradient(var(--panel-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--panel-line) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-.lead {
+.spec {
   margin: 0;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--panel-muted);
+}
+
+.big {
+  margin: 0;
+  font-size: var(--text-title);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
 }
 
 .reasons {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: var(--space-2);
 }
 
-.reason,
-.reasonOn {
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  font-size: var(--text-sm);
-  transition: border-color var(--dur-fast), background var(--dur-fast), color var(--dur-fast);
+.reason {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--panel-edge);
+  border-radius: var(--radius);
+  background: transparent;
+  color: inherit;
+  font-weight: 500;
+  text-align: left;
+  transition: background-color var(--dur) var(--ease), border-color var(--dur), color var(--dur);
 }
 
 .reason:hover {
-  border-color: var(--accent);
+  border-color: var(--panel-text);
 }
 
-.reasonOn {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-  color: var(--accent);
+.key {
+  display: inline-grid;
+  place-items: center;
+  width: var(--space-6);
+  height: var(--space-6);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  opacity: 0.7;
 }
 
-.direct {
+.on {
+  background: var(--panel-text);
+  border-color: var(--panel-text);
+  color: var(--panel-bg);
+}
+
+.on .key {
+  opacity: 1;
+}
+
+.facts {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+  color: var(--panel-muted);
+}
+
+.facts li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.pulse {
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: 50%;
+  background: var(--panel-muted);
+}
+
+.awake {
+  background: var(--signal);
+}
+
+.panelFoot {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--space-3);
+  margin-top: auto;
 }
 
+.copy {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--panel-edge);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: inherit;
+  font-size: var(--text-sm);
+  word-break: break-all;
+}
+
+.copy:hover {
+  border-color: var(--panel-text);
+}
+
+/* Form side */
 .form {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  padding: var(--space-6);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
+  padding: var(--space-10);
 }
 
-.field {
-  display: flex;
-  flex-direction: column;
+/* The preview reads like an envelope: address block on the left, stamp and postmark in their own column. */
+.letter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+
+.letter dl {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  min-width: 0;
+}
+
+.letter dl div {
+  display: grid;
+  grid-template-columns: var(--space-12) minmax(0, 1fr);
   gap: var(--space-2);
 }
 
-.field span {
-  font-size: var(--text-sm);
+.letter dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-top: 2px;
+}
+
+.letter dd {
+  margin: 0;
   font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.franking {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+}
+
+.stamp {
+  display: grid;
+  place-items: center;
+  width: var(--space-10);
+  height: var(--space-12);
+  border: 1px dashed var(--muted);
+  border-radius: var(--radius-xs);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.postmark {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+/* Floating label: sits inside the field, lifts when focused or filled. */
+.field {
+  position: relative;
+  display: block;
 }
 
 .field input,
 .field textarea {
+  width: 100%;
   font: inherit;
   color: var(--text);
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: var(--space-3);
+  padding: var(--space-6) var(--space-4) var(--space-2);
   resize: vertical;
-  transition: border-color var(--dur-fast);
+  transition: border-color var(--dur-fast), box-shadow var(--dur) var(--ease);
+}
+
+.field textarea {
+  min-height: calc(var(--space-24) * 1.5);
+}
+
+.field > span {
+  position: absolute;
+  left: var(--space-4);
+  top: var(--space-4);
+  color: var(--muted);
+  pointer-events: none;
+  transform-origin: left top;
+  transition: transform var(--dur) var(--ease), color var(--dur-fast);
 }
 
 .field input:focus,
 .field textarea:focus {
   outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
+  border-color: var(--ink);
+  box-shadow: 0 0 0 var(--space-1) var(--accent-soft);
+}
+
+.field input:focus + span,
+.field input:not(:placeholder-shown) + span,
+.field textarea:focus + span,
+.field textarea:not(:placeholder-shown) + span {
+  transform: translateY(calc(-1 * var(--space-3))) scale(0.78);
+  color: var(--accent);
+}
+
+.hint {
+  display: block;
+  margin-top: var(--space-2);
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+.send {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  height: calc(var(--size-control) + var(--space-2));
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--text);
+  color: var(--bg);
+  font-weight: 600;
+  overflow: hidden;
+  transition: background-color var(--dur) var(--ease), transform var(--dur-fast);
+}
+
+.send:hover {
+  background: var(--ink);
+}
+
+.send:active {
+  transform: scale(0.98);
+}
+
+.plane {
+  transition: transform var(--dur) var(--ease);
+}
+
+.send:hover .plane {
+  transform: translate(2px, -2px) rotate(-8deg);
+}
+
+/* On send, the paper plane takes off. */
+.flying .plane {
+  animation: takeoff 0.9s var(--ease) forwards;
+}
+
+@keyframes takeoff {
+  30% {
+    transform: translate(-4px, 4px);
+  }
+  to {
+    transform: translate(260px, -140px) rotate(-20deg);
+    opacity: 0;
+  }
 }
 
 .error {
@@ -94,15 +329,33 @@
   font-size: var(--text-sm);
 }
 
-.hint {
+.note {
   margin: 0;
   color: var(--muted);
   font-size: var(--text-xs);
 }
 
 @media (max-width: 860px) {
-  .grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-8);
+  .card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .panel,
+  .form {
+    padding: var(--space-6);
+  }
+}
+
+@media (max-width: 520px) {
+  .postmark {
+    display: none;
+  }
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flying .plane {
+    animation: none;
   }
 }

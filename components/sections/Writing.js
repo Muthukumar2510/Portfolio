@@ -11,6 +11,7 @@ export default function Writing() {
   const latest = [...posts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, HOME_LIMIT);
   return (
     <Section
+      typed
       id="writing"
       title="Writing & events"
       intro="Notes from production, and the conferences and meetups where I learn out loud."

@@ -3,7 +3,7 @@
   place-items: center;
   width: var(--size-control-sm);
   height: var(--size-control-sm);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text);

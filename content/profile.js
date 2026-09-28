@@ -11,13 +11,16 @@ const profile = {
   headline: 'I build and run cloud platforms.',
   tagline: 'Cloud Engineer · DevOps · AWS, Kubernetes, Terraform',
   location: 'Chennai, India',
+  // IANA time zone, used to show your local time next to the contact form.
+  timezone: 'Asia/Kolkata',
+  // Typical reply time, shown on the contact form.
+  replyTime: 'within a day or two',
   status: 'Open to new opportunities',
   bio: [
     'I design, automate, and operate cloud infrastructure that stays boring in production — in the best way.',
     'I care about reliable pipelines, infrastructure as code, and systems that heal themselves before anyone gets paged.',
   ],
-  // Drop a square photo in public/media/ and set e.g. '/media/profile.jpg'. Empty = hidden.
-  avatar: '',
+  // Portrait: drop one photo into public/media/profile/ and run `npm run media`. No photo = no portrait.
   email: 'muthukumar@example.com',
   resumeUrl: '/resume.pdf',
   bookingUrl: '',

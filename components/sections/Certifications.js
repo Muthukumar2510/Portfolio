@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import certifications from '../../content/certifications';
 import Section from '../ui/Section';
-import BrandIcon, { brandFor } from '../ui/BrandIcon';
+import { findMedia } from '../../lib/media';
 import styles from './Certifications.module.css';
 
 function monthLabel(ym) {
@@ -16,15 +16,6 @@ function isExpired(ym) {
   return Date.UTC(y, m, 1) < Date.now();
 }
 
-function initials(issuer) {
-  return issuer
-    .split(/\s+/)
-    .filter((w) => /^[A-Z]/.test(w))
-    .map((w) => w[0])
-    .slice(0, 3)
-    .join('');
-}
-
 export default function Certifications() {
   if (!certifications.length) return null;
   return (
@@ -32,6 +23,7 @@ export default function Certifications() {
       <ul className={styles.grid}>
         {certifications.map((c) => {
           const expired = isExpired(c.expires);
+          const badge = findMedia(`certs/${c.id}`);
           const Tag = c.url ? 'a' : 'div';
           return (
             <li key={c.name}>
@@ -40,15 +32,11 @@ export default function Certifications() {
                 data-spotlight
                 {...(c.url ? { href: c.url, target: '_blank', rel: 'noopener noreferrer' } : {})}
               >
-                <span className={styles.badge}>
-                  {c.badge ? (
-                    <Image src={c.badge} alt="" width={64} height={64} />
-                  ) : brandFor(c.name) || brandFor(c.issuer) ? (
-                    <BrandIcon name={brandFor(c.name) ? c.name : c.issuer} />
-                  ) : (
-                    <span>{initials(c.issuer)}</span>
-                  )}
-                </span>
+                {badge && (
+                  <span className={styles.badge}>
+                    <Image src={badge.src} alt={`${c.name} badge`} width={badge.width} height={badge.height} placeholder="blur" blurDataURL={badge.blur} />
+                  </span>
+                )}
                 <span className={styles.body}>
                   <span className={styles.name}>{c.name}</span>
                   <span className={styles.issuer}>{c.issuer}</span>
@@ -62,6 +50,11 @@ export default function Certifications() {
                   </span>
                 </span>
                 {c.url && <span className={styles.verify}>Verify ↗</span>}
+                {c.expires && (
+                  <span className={`${styles.seal} ${expired ? styles.sealOff : ''}`} aria-hidden="true">
+                    {expired ? 'Expired' : 'Valid'}
+                  </span>
+                )}
               </Tag>
             </li>
           );

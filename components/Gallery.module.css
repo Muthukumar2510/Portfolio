@@ -24,6 +24,7 @@
   display: block;
   padding: 0;
   border: 0;
+  border-radius: var(--radius);
   background: var(--border);
   overflow: hidden;
   cursor: zoom-in;
@@ -32,7 +33,30 @@
 
 .tile img {
   object-fit: cover;
-  transition: transform var(--dur-slow) var(--ease);
+  transition: transform var(--dur-slow) var(--ease), filter 1.2s var(--ease), opacity 1.2s var(--ease);
+}
+
+/* Photos "develop" like Polaroids as the section scrolls in: soft and pale, then sharp. */
+:global(.js .reveal) .tile img {
+  filter: blur(6px) saturate(0.3);
+  opacity: 0.6;
+}
+
+:global(.js .reveal.in) .tile img {
+  filter: none;
+  opacity: 1;
+}
+
+:global(.js .reveal.in) .tile:nth-child(2) img {
+  transition-delay: 0s, 150ms, 150ms;
+}
+
+:global(.js .reveal.in) .tile:nth-child(3) img {
+  transition-delay: 0s, 300ms, 300ms;
+}
+
+:global(.js .reveal.in) .tile:nth-child(n + 4) img {
+  transition-delay: 0s, 450ms, 450ms;
 }
 
 .tile:hover img {

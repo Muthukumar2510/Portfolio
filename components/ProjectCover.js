@@ -1,13 +1,6 @@
 import Image from 'next/image';
 import styles from './ProjectCover.module.css';
 
-// Stable hue per project so the generated covers differ but never change between builds.
-function hueFor(slug) {
-  let h = 0;
-  for (const ch of slug) h = (h * 31 + ch.charCodeAt(0)) % 360;
-  return h;
-}
-
 export default function ProjectCover({ project, sizes }) {
   if (project.cover) {
     return (
@@ -24,18 +17,26 @@ export default function ProjectCover({ project, sizes }) {
     );
   }
 
-  const hue = hueFor(project.slug);
+  // No screenshot yet: a blueprint sheet with a title block, built from the project's own front matter.
   return (
-    <div
-      className={`${styles.frame} ${styles.generated}`}
-      style={{ '--h1': hue, '--h2': (hue + 60) % 360 }}
-      aria-hidden="true"
-    >
+    <div className={`${styles.frame} ${styles.generated}`} aria-hidden="true">
       <div className={styles.grid} />
       <div className={styles.glyph}>
         <span className={styles.prompt}>$</span> deploy {project.slug}
         <span className={styles.caret} />
       </div>
+      <dl className={styles.titleBlock}>
+        <div>
+          <dt>Project</dt>
+          <dd>{project.title}</dd>
+        </div>
+        {project.stack?.length > 0 && (
+          <div>
+            <dt>Stack</dt>
+            <dd>{project.stack.slice(0, 2).join(' · ')}</dd>
+          </div>
+        )}
+      </dl>
     </div>
   );
 }

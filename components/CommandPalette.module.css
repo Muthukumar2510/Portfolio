@@ -20,7 +20,7 @@
   max-width: 580px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
   animation: pop 0.14s ease;
@@ -61,7 +61,7 @@
   font-size: var(--text-xs);
   color: var(--muted);
   border: 1px solid var(--border);
-  border-radius: 5px;
+  border-radius: var(--radius-xs);
   padding: 1px 6px;
 }
 

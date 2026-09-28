@@ -32,7 +32,7 @@
   width: fit-content;
   margin: 10px auto 0;
   padding: 3px 12px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: var(--term-bg);
   font-size: var(--text-xs);
   color: var(--term-text);

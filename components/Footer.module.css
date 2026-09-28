@@ -1,37 +1,87 @@
 .footer {
+  position: relative;
   margin-top: var(--space-24);
-  padding: var(--space-8) 0;
-  border-top: 1px solid var(--border);
+  overflow: hidden;
   color: var(--muted);
   font-size: var(--text-sm);
 }
 
-.inner {
+.card {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 2fr);
+  gap: var(--space-12);
+  padding: var(--space-10);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: var(--shadow);
+}
+
+.name {
+  margin: 0;
+  color: var(--text);
+  font-size: var(--text-xl);
+  letter-spacing: -0.02em;
+}
+
+.name strong {
+  font-weight: 700;
+}
+
+.tagline {
+  margin: var(--space-2) 0 var(--space-6);
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+
+.colTitle {
+  margin: 0 0 var(--space-3);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.columns ul {
+  display: grid;
+  gap: var(--space-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.columns a {
+  color: var(--muted);
+  transition: color var(--dur-fast);
+}
+
+.columns a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.bottom {
+  grid-column: 1 / -1;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-5);
-}
-
-.left {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2) var(--space-6);
-}
-
-.links {
-  display: flex;
-  gap: var(--space-4);
-}
-
-.links a {
-  color: var(--muted);
-}
-
-.links a:hover {
-  color: var(--text);
+  gap: var(--space-3) var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px dashed var(--border);
 }
 
 .build {
@@ -47,4 +97,59 @@
   height: var(--space-2);
   border-radius: 50%;
   background: var(--accent);
+}
+
+.bottomLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.top kbd {
+  font-family: var(--font-mono);
+}
+
+.top {
+  background: none;
+  font: inherit;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  color: var(--text);
+}
+
+.top:hover {
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+/* Watermark: the first name, huge, drawn as a thin ink outline under the card like a signature on a drawing. */
+.watermark {
+  margin: calc(-1 * var(--space-16)) 0 0;
+  text-align: center;
+  font-size: var(--text-watermark);
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--ink);
+  opacity: 0.22;
+  user-select: none;
+  pointer-events: none;
+  transform: translateY(18%);
+}
+
+@media (max-width: 860px) {
+  .card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-8);
+    padding: var(--space-6);
+  }
+}
+
+@media (max-width: 520px) {
+  .columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ALL_ITEMS, TAB_IDS, hrefFor } from '../../lib/nav';
+import { ALL_ITEMS, TAB_IDS, itemsFor, hrefFor } from '../../lib/nav';
 import { toggleConsole, openPalette } from '../../lib/actions';
 import VisitorChip from '../VisitorChip';
 import SocialLinks from '../SocialLinks';
+import useIsActive from '../../lib/useIsActive';
 import Icon from './Icon';
-import { useIsActive } from './Sidebar';
 import styles from './MobileTabBar.module.css';
 
-const TABS = TAB_IDS.map((id) => ALL_ITEMS.find((i) => i.id === id));
+const TABS = itemsFor(TAB_IDS);
 const MORE = ALL_ITEMS.filter((i) => !TAB_IDS.includes(i.id));
 
-// App-style bottom navigation below 1024px; "More" opens a sheet with everything else.
+// App-style bottom navigation below 768px; "More" opens a sheet with everything else.
 export default function MobileTabBar() {
   const [open, setOpen] = useState(false);
   const isActive = useIsActive();
@@ -32,7 +32,7 @@ export default function MobileTabBar() {
         {TABS.map((item) => {
           const on = isActive(item);
           return (
-            <Link key={item.id} href={item.page || hrefFor(item)} className={`${styles.tab} ${on ? styles.on : ''}`} aria-current={on ? 'page' : undefined}>
+            <Link key={item.id} href={hrefFor(item)} className={`${styles.tab} ${on ? styles.on : ''}`} aria-current={on ? 'page' : undefined}>
               <Icon name={item.icon} size={20} />
               <span>{item.label}</span>
             </Link>

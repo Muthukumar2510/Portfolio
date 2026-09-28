@@ -1,8 +1,8 @@
 .bar {
   position: relative;
-  margin-top: 56px;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  margin-top: var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
   background: color-mix(in srgb, var(--surface) 70%, transparent);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
@@ -16,9 +16,8 @@
 
 .inner {
   display: flex;
-  gap: 28px;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  gap: var(--space-6);
+  padding: var(--space-3) var(--space-5);
   white-space: nowrap;
 }
 

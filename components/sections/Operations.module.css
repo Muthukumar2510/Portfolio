@@ -197,3 +197,11 @@
     white-space: normal;
   }
 }
+
+.trace {
+  margin-bottom: var(--space-12);
+}
+
+.trace > .note {
+  margin-bottom: var(--space-6);
+}

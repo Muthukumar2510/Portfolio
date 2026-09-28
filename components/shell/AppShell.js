@@ -1,26 +1,22 @@
-import Sidebar from './Sidebar';
-import CommandBar from './CommandBar';
+import Header from './Header';
 import MobileTabBar from './MobileTabBar';
 import Footer from '../Footer';
+import Backdrop from '../Backdrop';
 import styles from './AppShell.module.css';
 
-// Console layout: sidebar (≥1024px) | main pane with floating command bar. Phones get a bottom tab bar.
-export default function AppShell({ title, children }) {
+// One flowing page: slim header pill on top, bottom tab bar on phones.
+export default function AppShell({ children }) {
   return (
     <div className={styles.shell}>
+      <Backdrop />
       <a href="#main" className="sr-only">
         Skip to content
       </a>
-      <div className={styles.side}>
-        <Sidebar />
-      </div>
-      <div className={styles.pane}>
-        <CommandBar title={title} />
-        <main id="main" className={styles.main}>
-          {children}
-        </main>
-        <Footer />
-      </div>
+      <Header />
+      <main id="main" className={styles.main}>
+        {children}
+      </main>
+      <Footer />
       <div className={styles.tabs}>
         <MobileTabBar />
       </div>

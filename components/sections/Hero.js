@@ -1,65 +1,65 @@
-import { useState } from 'react';
+import Image from 'next/image';
 import profile from '../../content/profile';
-import InfraMap from '../InfraMap';
-import DotField from '../DotField';
-import Avatar from '../Avatar';
+import { findMedia } from '../../lib/media';
 import SocialLinks from '../SocialLinks';
-import StatusBar from '../StatusBar';
 import Button from '../ui/Button';
 import { openConsole } from '../../lib/actions';
 import styles from './Hero.module.css';
 
-// Shows instead of tells: the hero is a live trace of how this very page reached the visitor.
+const first = profile.name.split(' ')[0];
+const portrait = findMedia('profile/');
+
+// Personal first: who I am, what I do, one clear way to reach me. The page-wide StoryField starts here as a free particle field.
 export default function Hero() {
-  const [trace, setTrace] = useState(null);
-  const edge = trace?.edge?.name && trace.edge.name !== 'local' ? trace.edge.name : null;
-
   return (
-    <section id="top" className={styles.hero}>
-      <DotField className={styles.dotField} />
-      <div className="container">
-        <div className={styles.top}>
-          <p className={styles.byline}>
-            {profile.avatar && <Avatar size={28} />}
-            <span className={styles.name}>{profile.name}</span>
-            <span className={styles.sep} aria-hidden="true">/</span>
-            <span>{profile.title}</span>
-            <span className={styles.sep} aria-hidden="true">/</span>
-            <span>{profile.location}</span>
+    <section id="top" className={`${styles.hero} ${portrait ? styles.withPhoto : ''}`}>
+      <div className={`container ${styles.grid}`}>
+        <div className={styles.text} data-story-quiet>
+          <p className={`${styles.hello} ${styles.enter}`} style={{ '--i': 0 }}>
+            Hi, I&apos;m {first}. {profile.title} in {profile.location}.
           </p>
-          {/* Static headline (it's the LCP element); live values go in the line below. */}
-          <h1 className={styles.title}>Your request just crossed four systems to reach this page.</h1>
-          <p className={styles.sub}>
-            {edge ? (
-              <>
-                It entered through <span className={styles.accent}>{edge}</span>
-                {trace?.rtt != null && <> in {trace.rtt} ms</>}.{' '}
-              </>
-            ) : (
-              'Here\u2019s the path it took, measured live. '
-            )}
-            Hover over any part to see what it does and why it&apos;s built that way.
-          </p>
-        </div>
+          {/* Static headline (it's the LCP element). */}
+          <h1 className={styles.title}>{profile.headline}</h1>
+          <p className={styles.sub}>{profile.bio[0]}</p>
 
-        <InfraMap onTrace={setTrace} />
-
-        <div className={styles.bottom}>
-          <div className={styles.ctas}>
-            <Button href="#projects">See what else I&apos;ve built</Button>
-            <Button href="#contact" variant="ghost">
-              Get in touch
+          <div className={`${styles.ctas} ${styles.enter}`} style={{ '--i': 2 }}>
+            <Button href="#contact">Let&apos;s talk</Button>
+            <Button href="#projects" variant="ghost">
+              See my work
             </Button>
+            {profile.resumeUrl && (
+              <Button href={profile.resumeUrl} variant="ghost">
+                Résumé
+              </Button>
+            )}
           </div>
-          <div className={styles.meta}>
-            <SocialLinks withEmail />
-            <button type="button" className={styles.consoleHint} onClick={openConsole}>
-              Open the terminal <kbd>`</kbd>
-            </button>
+          <div className={styles.enter} style={{ '--i': 3 }}>
+            <SocialLinks withEmail labels className={styles.socials} />
           </div>
+          <button type="button" className={`${styles.console} ${styles.enter}`} style={{ '--i': 4 }} onClick={openConsole}>
+            or explore from the terminal <kbd>`</kbd>
+          </button>
+          {profile.status && (
+            <p className={`${styles.status} ${styles.enter}`} style={{ '--i': 5 }}>
+              {profile.status}
+            </p>
+          )}
         </div>
+
+        {portrait && (
+          <div className={styles.portrait}>
+            <Image
+              src={portrait.src}
+              alt={profile.name}
+              fill
+              priority
+              sizes="(max-width: 767px) 40vw, 360px"
+              placeholder="blur"
+              blurDataURL={portrait.blur}
+            />
+          </div>
+        )}
       </div>
-      <StatusBar trace={trace} />
     </section>
   );
 }

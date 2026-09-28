@@ -2,7 +2,7 @@ import skills from '../../content/skills';
 import Section from '../ui/Section';
 import BrandIcon, { brandFor } from '../ui/BrandIcon';
 
-const hasLogo = (name) => Boolean(brandFor(name));
+const hasLogo = (name) => Boolean(brandFor(name)?.file);
 import styles from './Skills.module.css';
 
 const BARS = 10;
@@ -11,7 +11,7 @@ export default function Skills() {
   if (!skills.length) return null;
   const total = skills.reduce((n, g) => n + g.items.length, 0);
   return (
-    <Section id="skills" title="Tools I work with">
+    <Section stage="band" id="skills" title="Tools I work with">
       <div className={styles.board}>
         <div className={styles.head}>
           <span className={styles.ok}>
