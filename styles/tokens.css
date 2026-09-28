@@ -126,13 +126,13 @@
   --size-badge: 3.5rem;
   --size-brand: 1.125rem;
   --tabbar-h: 3.75rem;
-  --size-portrait: clamp(12rem, 24vw, 19rem);
+  --size-portrait: clamp(13rem, 22vw, 20rem);
   --size-story-w: clamp(9rem, 17vw, 14rem);
   --size-story-h: 8.5rem;
   --size-story-h-sm: 5.5rem;
   --size-story-band: 7.5rem;
   --size-story-side: clamp(14rem, 24vw, 20rem);
-  --size-portrait-sm: 8rem;
+  --size-portrait-sm: 10rem;
 
   /* Motion. */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);

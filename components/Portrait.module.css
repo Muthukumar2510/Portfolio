@@ -1,0 +1,75 @@
+.frame {
+  position: relative;
+  margin: 0;
+  width: var(--size-portrait);
+}
+
+/* Offset outline behind the print, like a mount board slightly out of register. */
+.frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  bottom: var(--space-8);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: var(--radius-lg);
+  transform: translate(var(--space-3), var(--space-3));
+  pointer-events: none;
+}
+
+.print {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-lg);
+  border: var(--space-2) solid var(--surface);
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.img {
+  object-fit: cover;
+  border-radius: calc(var(--radius-lg) - var(--space-2));
+}
+
+.caption {
+  margin-top: var(--space-5);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Development-only placeholder. */
+.empty {
+  display: grid;
+  place-content: center;
+  gap: var(--space-2);
+  height: 100%;
+  padding: var(--space-4);
+  border: 2px dashed var(--border);
+  border-radius: calc(var(--radius-lg) - var(--space-2));
+  color: var(--muted);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.empty code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text);
+}
+
+.empty small {
+  font-size: var(--text-xs);
+}
+
+@media (max-width: 767px) {
+  .frame {
+    width: var(--size-portrait-sm);
+  }
+  .caption {
+    display: none;
+  }
+}

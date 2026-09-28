@@ -2,6 +2,8 @@
 
 A personal site for a cloud engineer that shows instead of tells. The home page opens with a live map of the visitor's own request travelling through this site's infrastructure (edge, function, Redis, deploy pipeline), measured in real time. Below it: projects with architecture diagrams, experience, certifications, a big-photo Moments section for events, writing, and the site's own commit history. A hidden terminal drops down when you press the backtick key (`).
 
+**Adding your own words and photos? Start with [CONTENT.md](CONTENT.md).**
+
 ## Where everything lives
 
 All text is in `content/`, and all photos are in `public/media/`. You never need to edit layout code to change what the site says.
