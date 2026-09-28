@@ -28,11 +28,13 @@
   letter-spacing: 0.02em;
 }
 
+.color.mask,
 .tint.mask,
 :global(*:hover) > .mask {
   background-color: var(--brand);
 }
 
+.color.text,
 .tint.text,
 :global(*:hover) > .text {
   color: var(--brand);

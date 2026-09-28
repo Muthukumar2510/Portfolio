@@ -21,7 +21,7 @@ export function SocialIcon({ icon }) {
     );
   }
   const slug = SLUG[icon] || icon;
-  return hasBrand(slug) ? <BrandIcon slug={slug} /> : <SocialIcon icon="link" />;
+  return hasBrand(slug) ? <BrandIcon slug={slug} color /> : <SocialIcon icon="link" />;
 }
 
 export default function SocialLinks({ withEmail = false, labels = false, className = '' }) {

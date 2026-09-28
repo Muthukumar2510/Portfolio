@@ -50,7 +50,7 @@ export default function App({ Component, pageProps }) {
           --font-mono: ${mono.style.fontFamily};
         }
       `}</style>
-      <AppShell title={pageProps.entry?.title}>
+      <AppShell>
         <Component {...pageProps} />
       </AppShell>
       {idle && (

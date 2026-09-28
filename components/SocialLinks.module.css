@@ -1,36 +1,33 @@
 .list {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--space-2);
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
+/* Logos keep their official colours; brands without a usable colour (GitHub, X) follow the text colour. */
 .link {
+  --size-brand: var(--space-5);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-width: 40px;
-  height: 40px;
-  padding: 0 11px;
-  border-radius: 12px;
+  gap: var(--space-2);
+  min-width: var(--size-control);
+  height: var(--size-control);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-pill);
   border: 1px solid var(--border);
   background: var(--surface);
-  color: var(--muted);
+  color: var(--text);
   font-size: var(--text-sm);
   font-weight: 500;
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  transition: border-color var(--dur-fast), transform var(--dur-fast) var(--ease);
 }
 
 .link:hover {
   text-decoration: none;
-  color: var(--accent);
-  border-color: var(--accent);
-  background: var(--accent-soft);
-}
-
-.withLabels .link {
-  color: var(--text);
+  border-color: var(--text);
+  transform: translateY(-1px);
 }

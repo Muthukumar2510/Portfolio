@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import profile from '../../content/profile';
 import costs from '../../content/costs';
 import useVisitors from '../../lib/useVisitors';
 import useQuality from '../../lib/useQuality';
 import Section from '../ui/Section';
+import InfraMap from '../InfraMap';
+import StatusBar from '../StatusBar';
 import ScoreRing from '../ui/ScoreRing';
 import BrandIcon from '../ui/BrandIcon';
 import styles from './Operations.module.css';
@@ -107,12 +110,30 @@ function Costs() {
 
 // "How this site runs": quality gates, running costs and real commits, i.e. the site's own ops dashboard.
 export default function Operations({ commits }) {
+  const [trace, setTrace] = useState(null);
+  const edge = trace?.edge?.name && trace.edge.name !== 'local' ? trace.edge.name : null;
   return (
     <Section
       id="operations"
       title="How this site runs"
       intro="The same practices I use at work, applied to this site: gated CI, measured quality, known costs, and small, reviewed changes."
     >
+      <div className={styles.trace}>
+        <h3 className={styles.h3}>Your request, traced live</h3>
+        <p className={styles.note}>
+          {edge ? (
+            <>
+              It entered through <strong>{edge}</strong>
+              {trace?.rtt != null && <> in {trace.rtt} ms</>}.{' '}
+            </>
+          ) : (
+            'The path this page took to reach you, measured live. '
+          )}
+          Hover over any part to see what it does and why it&apos;s built that way.
+        </p>
+        <InfraMap onTrace={setTrace} />
+        <StatusBar trace={trace} />
+      </div>
       <div className={styles.grid}>
         <Quality />
         <Costs />

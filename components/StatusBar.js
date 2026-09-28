@@ -35,7 +35,7 @@ export default function StatusBar({ trace }) {
 
   return (
     <div className={styles.bar} role="status" aria-label="Live site status">
-      <div className={`container ${styles.inner}`}>
+      <div className={styles.inner}>
         {items.map((i) => (
           <span key={i.k} className={styles.item}>
             <span className={styles.key}>{i.k}</span>

@@ -96,10 +96,9 @@
   --size-control-sm: 2.125rem;
   --size-badge: 3.5rem;
   --size-brand: 1.125rem;
-  --sidebar-w: 15.5rem;
-  --sidebar-w-rail: 4.25rem;
   --tabbar-h: 3.75rem;
-  --bento-row: 9.5rem;
+  --size-portrait: clamp(12rem, 24vw, 19rem);
+  --size-portrait-sm: 7.5rem;
 
   /* Motion. */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -108,7 +107,6 @@
   --dur-slow: 0.6s;
 
   /* Layers. */
-  --z-sidebar: 40;
   --z-nav: 50;
   --z-panel: 60;
   --z-tabbar: 80;
