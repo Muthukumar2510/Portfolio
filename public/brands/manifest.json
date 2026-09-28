@@ -1,0 +1,172 @@
+{
+  "github": {
+    "name": "GitHub",
+    "color": null,
+    "file": "/brands/github.svg"
+  },
+  "linkedin": {
+    "name": "LinkedIn",
+    "color": "#0A66C2",
+    "file": "/brands/linkedin.svg"
+  },
+  "x": {
+    "name": "X",
+    "color": null,
+    "file": "/brands/x.svg"
+  },
+  "medium": {
+    "name": "Medium",
+    "color": null,
+    "file": "/brands/medium.svg"
+  },
+  "devdotto": {
+    "name": "dev.to",
+    "color": null,
+    "file": "/brands/devdotto.svg"
+  },
+  "youtube": {
+    "name": "YouTube",
+    "color": "#FF0000",
+    "file": "/brands/youtube.svg"
+  },
+  "instagram": {
+    "name": "Instagram",
+    "color": "#FF0069",
+    "file": "/brands/instagram.svg"
+  },
+  "stackoverflow": {
+    "name": "Stack Overflow",
+    "color": "#F58025",
+    "file": "/brands/stackoverflow.svg"
+  },
+  "credly": {
+    "name": "Credly",
+    "color": "#FF6B00",
+    "file": "/brands/credly.svg"
+  },
+  "aws": {
+    "name": "Amazon Web Services",
+    "color": "#FF9900",
+    "text": "AWS"
+  },
+  "azure": {
+    "name": "Microsoft Azure",
+    "color": "#0078D4",
+    "text": "Az"
+  },
+  "googlecloud": {
+    "name": "Google Cloud",
+    "color": "#4285F4",
+    "file": "/brands/googlecloud.svg"
+  },
+  "kubernetes": {
+    "name": "Kubernetes",
+    "color": "#326CE5",
+    "file": "/brands/kubernetes.svg"
+  },
+  "docker": {
+    "name": "Docker",
+    "color": "#2496ED",
+    "file": "/brands/docker.svg"
+  },
+  "helm": {
+    "name": "Helm",
+    "color": null,
+    "file": "/brands/helm.svg"
+  },
+  "argo": {
+    "name": "Argo",
+    "color": "#EF7B4D",
+    "file": "/brands/argo.svg"
+  },
+  "terraform": {
+    "name": "Terraform",
+    "color": "#844FBA",
+    "file": "/brands/terraform.svg"
+  },
+  "opentofu": {
+    "name": "OpenTofu",
+    "color": "#FFDA18",
+    "file": "/brands/opentofu.svg"
+  },
+  "ansible": {
+    "name": "Ansible",
+    "color": "#EE0000",
+    "file": "/brands/ansible.svg"
+  },
+  "githubactions": {
+    "name": "GitHub Actions",
+    "color": "#2088FF",
+    "file": "/brands/githubactions.svg"
+  },
+  "git": {
+    "name": "Git",
+    "color": "#F03C2E",
+    "file": "/brands/git.svg"
+  },
+  "prometheus": {
+    "name": "Prometheus",
+    "color": "#E6522C",
+    "file": "/brands/prometheus.svg"
+  },
+  "grafana": {
+    "name": "Grafana",
+    "color": "#F46800",
+    "file": "/brands/grafana.svg"
+  },
+  "openpolicyagent": {
+    "name": "Open Policy Agent",
+    "color": "#7D9199",
+    "text": "OPA"
+  },
+  "linux": {
+    "name": "Linux",
+    "color": "#FCC624",
+    "file": "/brands/linux.svg"
+  },
+  "linuxfoundation": {
+    "name": "Linux Foundation",
+    "color": "#003778",
+    "file": "/brands/linuxfoundation.svg"
+  },
+  "cncf": {
+    "name": "CNCF",
+    "color": "#231F20",
+    "file": "/brands/cncf.svg"
+  },
+  "redis": {
+    "name": "Redis",
+    "color": "#FF4438",
+    "file": "/brands/redis.svg"
+  },
+  "upstash": {
+    "name": "Upstash",
+    "color": "#00E9A3",
+    "file": "/brands/upstash.svg"
+  },
+  "vercel": {
+    "name": "Vercel",
+    "color": null,
+    "file": "/brands/vercel.svg"
+  },
+  "nextdotjs": {
+    "name": "Next.js",
+    "color": null,
+    "file": "/brands/nextdotjs.svg"
+  },
+  "lighthouse": {
+    "name": "Lighthouse",
+    "color": "#F44B21",
+    "file": "/brands/lighthouse.svg"
+  },
+  "python": {
+    "name": "Python",
+    "color": "#3776AB",
+    "file": "/brands/python.svg"
+  },
+  "gnubash": {
+    "name": "GNU Bash",
+    "color": "#4EAA25",
+    "file": "/brands/gnubash.svg"
+  }
+}

@@ -27,6 +27,7 @@ a.card:hover {
 }
 
 .badge {
+  --size-brand: var(--space-8);
   flex-shrink: 0;
   display: grid;
   place-items: center;

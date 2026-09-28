@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Google_Sans, Google_Sans_Code } from 'next/font/google';
 import { SiteProvider } from '../lib/SiteContext';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import AppShell from '../components/shell/AppShell';
 import Toast from '../components/Toast';
 import useInteractions from '../lib/useInteractions';
 import '../styles/tokens.css';
@@ -23,7 +22,6 @@ function useIdle() {
   }, []);
   return idle;
 }
-
 
 // Next has no fallback metrics for these families, so fallbacks are declared explicitly.
 const sans = Google_Sans({
@@ -52,12 +50,9 @@ export default function App({ Component, pageProps }) {
           --font-mono: ${mono.style.fontFamily};
         }
       `}</style>
-      <a href="#main" className="sr-only">Skip to content</a>
-      <Navbar />
-      <main id="main">
+      <AppShell title={pageProps.entry?.title}>
         <Component {...pageProps} />
-      </main>
-      <Footer />
+      </AppShell>
       {idle && (
         <>
           <Console />

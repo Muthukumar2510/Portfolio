@@ -42,6 +42,16 @@ Add an `architecture:` block to a project's front matter (see `content/projects/
 
 Photos are resized, compressed and lazy-loaded automatically. Any size or orientation works, and they're shown in order of filename (`01.jpg`, `02.jpg`, …).
 
+## Brand logos
+
+Logos for socials and the tech stack live in `public/brands/` and are listed in `content/brands.js`.
+
+- **Add one:** add its [simple-icons](https://simpleicons.org) slug to `content/brands.js`, then run `npm run brands`. The SVG file and `public/brands/manifest.json` are generated for you.
+- **Use your own SVG:** set `source: 'local'` and drop `<slug>.svg` into `public/brands/`. This is how LinkedIn works.
+- **Logos simple-icons doesn't carry:** AWS, Azure and OPA use `source: 'text'` and show as a clean text badge until you add an official SVG.
+
+Logos are drawn with a CSS mask, so they follow the text colour and switch to the brand colour on hover. `npm run check` fails if the folder drifts from the list.
+
 ## Photos: automatic privacy and optimisation
 Phone photos contain GPS location data. Every photo is cleaned automatically:
 - Push photos to `public/media/…` and the **Media** GitHub workflow strips all metadata (GPS, camera, timestamps), fixes rotation, caps the size at 2400px, generates blurred loading previews, and commits the result.

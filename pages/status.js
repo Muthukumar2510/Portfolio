@@ -2,25 +2,8 @@ import ListPage from '../components/ListPage';
 import useStatus, { fmtPct } from '../lib/useStatus';
 import { getSiteData } from '../lib/content';
 import profile from '../content/profile';
+import Sparkline from '../components/ui/Sparkline';
 import styles from '../components/StatusPage.module.css';
-
-const SPARK_W = 600;
-const SPARK_H = 80;
-
-function Sparkline({ values }) {
-  const pts = values.map((v, i) => [i, v]).filter(([, v]) => v != null);
-  if (pts.length < 2) return <p className={styles.muted}>Not enough data yet.</p>;
-  const max = Math.max(...pts.map(([, v]) => v));
-  const x = (i) => (i / (values.length - 1)) * SPARK_W;
-  const y = (v) => SPARK_H - (v / max) * (SPARK_H - 8) - 4;
-  const d = pts.map(([i, v], k) => `${k ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
-  return (
-    <svg viewBox={`0 0 ${SPARK_W} ${SPARK_H}`} className={styles.spark} preserveAspectRatio="none" role="img" aria-label={`Response time over the last 24 hours, peak ${max} ms`}>
-      <path d={`${d} L${SPARK_W},${SPARK_H} L0,${SPARK_H} Z`} className={styles.sparkFill} />
-      <path d={d} className={styles.sparkLine} />
-    </svg>
-  );
-}
 
 function dayTone(u) {
   if (u == null) return styles.none;

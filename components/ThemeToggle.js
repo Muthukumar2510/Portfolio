@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getTheme, toggleTheme } from '../lib/actions';
-import styles from './Navbar.module.css';
+import styles from './ThemeToggle.module.css';
 
 export default function ThemeToggle() {
   const [theme, setThemeState] = useState(null);

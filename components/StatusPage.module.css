@@ -125,22 +125,8 @@
   color: var(--muted);
 }
 
-.spark {
-  display: block;
-  width: 100%;
-  height: var(--space-24);
-}
 
-.sparkLine {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 2;
-  vector-effect: non-scaling-stroke;
-}
 
-.sparkFill {
-  fill: var(--accent-soft);
-}
 
 .incidents {
   list-style: none;

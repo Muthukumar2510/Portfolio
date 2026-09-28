@@ -1,0 +1,16 @@
+.iconBtn {
+  display: grid;
+  place-items: center;
+  width: var(--size-control-sm);
+  height: var(--size-control-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color var(--dur-fast), color var(--dur-fast);
+}
+
+.iconBtn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
