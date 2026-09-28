@@ -1,5 +1,7 @@
 import Seo from '../components/Seo';
 import Hero from '../components/sections/Hero';
+import StoryField from '../components/StoryField';
+import ScrollPacket from '../components/ScrollPacket';
 import Projects from '../components/sections/Projects';
 import About from '../components/sections/About';
 import Experience from '../components/sections/Experience';
@@ -19,6 +21,8 @@ export default function Home({ moments, commits }) {
   return (
     <>
       <Seo jsonLd={personJsonLd()} />
+      <StoryField />
+      <ScrollPacket />
       <Hero />
       <Projects />
       <About />

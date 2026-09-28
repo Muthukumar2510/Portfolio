@@ -107,6 +107,8 @@
   --dur-slow: 0.6s;
 
   /* Layers. */
+  --z-backdrop: -1;
+  --z-rail: 30;
   --z-nav: 50;
   --z-panel: 60;
   --z-tabbar: 80;

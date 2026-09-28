@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import profile from '../../content/profile';
 import { findMedia } from '../../lib/media';
-import DotField from '../DotField';
 import SocialLinks from '../SocialLinks';
 import Button from '../ui/Button';
 import styles from './Hero.module.css';
@@ -9,11 +8,10 @@ import styles from './Hero.module.css';
 const first = profile.name.split(' ')[0];
 const portrait = findMedia('profile/');
 
-// Personal first: who I am, what I do, one clear way to reach me. The particle field reacts to the cursor.
+// Personal first: who I am, what I do, one clear way to reach me. The page-wide StoryField starts here as a free particle field.
 export default function Hero() {
   return (
     <section id="top" className={`${styles.hero} ${portrait ? styles.withPhoto : ''}`}>
-      <DotField className={styles.field} />
       <div className={`container ${styles.grid}`}>
         <div className={styles.text}>
           <p className={styles.hello}>
