@@ -64,16 +64,7 @@
 }
 
 .portrait {
-  position: relative;
-  width: var(--size-portrait);
-  aspect-ratio: 4 / 5;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-lg);
-}
-
-.portrait img {
-  object-fit: cover;
+  justify-self: end;
 }
 
 @media (max-width: 767px) {
@@ -87,7 +78,7 @@
   }
   .portrait {
     order: -1;
-    width: var(--size-portrait-sm);
+    justify-self: start;
   }
 }
 

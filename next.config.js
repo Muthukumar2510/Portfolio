@@ -33,6 +33,8 @@ const securityHeaders = [
 module.exports = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // 90 is used for the portrait so faces stay crisp; everything else uses the default 75.
+  images: { qualities: [75, 90] },
   env: {
     NEXT_PUBLIC_COMMIT: (process.env.VERCEL_GIT_COMMIT_SHA || 'local').slice(0, 7),
     NEXT_PUBLIC_BUILD_TIME: new Date().toISOString(),

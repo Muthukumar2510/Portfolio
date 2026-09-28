@@ -23,10 +23,12 @@ function walk(dir, out = []) {
   return out.sort();
 }
 
-function encoder(img, ext) {
+// The portrait is the one image people look at closely, so it keeps more detail.
+function encoder(img, ext, file) {
+  const quality = file.includes(`${path.sep}profile${path.sep}`) ? 92 : 82;
   if (ext === '.png') return img.png({ compressionLevel: 9, palette: false });
-  if (ext === '.webp') return img.webp({ quality: 82 });
-  return img.jpeg({ quality: 82, mozjpeg: true });
+  if (ext === '.webp') return img.webp({ quality });
+  return img.jpeg({ quality, mozjpeg: true });
 }
 
 const needsWork = (meta) => Boolean(meta.exif || meta.xmp || meta.iptc || (meta.orientation && meta.orientation !== 1) || Math.max(meta.width, meta.height) > MAX_EDGE);
@@ -44,7 +46,7 @@ for (const file of walk(ROOT)) {
     if (check) {
       problems.push(`${rel}: ${meta.exif ? 'has EXIF metadata (may include GPS location)' : 'not optimised'}`);
     } else {
-      const buf = await encoder(sharp(file).rotate().resize({ width: MAX_EDGE, height: MAX_EDGE, fit: 'inside', withoutEnlargement: true }), ext).toBuffer();
+      const buf = await encoder(sharp(file).rotate().resize({ width: MAX_EDGE, height: MAX_EDGE, fit: 'inside', withoutEnlargement: true }), ext, file).toBuffer();
       fs.writeFileSync(file, buf);
       meta = await sharp(buf).metadata();
       changed++;

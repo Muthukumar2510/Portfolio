@@ -46,6 +46,16 @@ export default function Contact() {
     if (k) setReason(k);
   };
 
+  const [isMac, setIsMac] = useState(false);
+  useEffect(() => setIsMac(/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)), []);
+  // Ctrl/⌘ + Enter sends from anywhere in the form.
+  const onFormKey = (e) => {
+    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      e.currentTarget.requestSubmit();
+    }
+  };
+
   const onChange = (e) => setDraft((d) => ({ ...d, [e.target.name]: e.target.value }));
 
   async function onSubmit(e) {
@@ -54,14 +64,11 @@ export default function Contact() {
     const data = Object.fromEntries(new FormData(form));
 
     if (!profile.formspreeId) {
-      setState('flying');
-      setTimeout(() => {
-        window.location.href = composeMailto({ ...data, reason });
-        setState('drafted');
-      }, 700);
+      window.location.href = composeMailto({ ...data, reason });
+      setState('drafted');
       return;
     }
-    setState('flying');
+    setState('sending');
     try {
       const res = await fetch(`https://formspree.io/f/${profile.formspreeId}`, {
         method: 'POST',
@@ -78,7 +85,7 @@ export default function Contact() {
     }
   }
 
-  const label = { flying: 'Sending…', sent: 'Delivered', drafted: 'Opened in your mail app' }[state] || 'Send message';
+  const label = { sending: 'Sending…', sent: 'Delivered', drafted: 'Opened in your mail app' }[state] || 'Send message';
 
   return (
     <Section stage="none" id="contact" title="Let's talk" intro={`Hiring, a project, or just comparing notes on infrastructure. I reply ${profile.replyTime}.`}>
@@ -126,7 +133,7 @@ export default function Contact() {
           </div>
         </aside>
 
-        <form className={`${styles.form} ${state === 'flying' ? styles.flying : ''}`} onSubmit={onSubmit}>
+        <form className={styles.form} onSubmit={onSubmit} onKeyDown={onFormKey}>
           {/* Live preview of the message as a letter: the form reads as writing to a person, not filling a ticket. */}
           <div className={styles.letter} aria-hidden="true">
             <dl>
@@ -165,12 +172,14 @@ export default function Contact() {
             <small className={styles.hint}>{draft.message ? `${draft.message.length} / ${MAX}` : preset.placeholder}</small>
           </label>
 
-          <button type="submit" className={styles.send} disabled={state === 'flying'}>
-            <span>{label}</span>
-            <svg className={styles.plane} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" aria-hidden="true">
-              <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z" />
-            </svg>
-          </button>
+          <div className={styles.actions}>
+            <button type="submit" className={styles.send} disabled={state === 'sending'}>
+              {label}
+            </button>
+            <span className={styles.shortcut} aria-hidden="true">
+              or <kbd>{isMac ? '⌘' : 'Ctrl'}</kbd> <kbd>Enter</kbd>
+            </span>
+          </div>
           {state === 'error' && <p className={styles.error}>Couldn&apos;t send. Please use the email address instead.</p>}
           {!profile.formspreeId && <p className={styles.note}>This opens your email app with the message ready to send.</p>}
         </form>
