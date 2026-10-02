@@ -10,6 +10,7 @@ const PATHS = {
   image: 'M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M15 9h.01',
   pulse: 'M3 12h4l2-6 4 12 2-6h6',
   layers: 'M12 3l9 5-9 5-9-5zM3 13l9 5 9-5',
+  ruler: 'M3 17L17 3l4 4L7 21zM7 13l2 2M10 10l2 2M13 7l2 2',
   gauge: 'M12 14l4-4M4 18a8 8 0 1 1 16 0',
   mail: 'M3 6h18v12H3zM3 7l9 6 9-6',
   terminal: 'M4 17l6-5-6-5M12 19h8',

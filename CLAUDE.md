@@ -13,6 +13,8 @@ Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (to
 - **Navigation lives only in `lib/nav.js`**: header, mobile tab bar and command palette all read it.
 - **Design values live only in `styles/tokens.css`.** Colours, type sizes, spacing, radii, shadows, timings, z-indexes.
 - Derived data (reading time, photo counts, previews, prev/next) is computed in `lib/content.js`, not in components.
+- **Diagrams are data.** Every system drawing lives in `content/diagrams.js` (nodes, links, notes, dims; `…Tall` keys for the phone layout) and is drawn by `lib/diagram.js`, as `<Blueprint>` on pages or `toSvgString()` for watermarks and images. Never hand-draw an SVG for a system diagram. Diagrams must describe how things really work.
+- **The design system documents itself.** `/design` reads `styles/tokens.css` at build time; every design decision gets a dated entry in `content/design-log.md` (what changed, why, what I learned).
 
 ## 2. Styling
 - One `*.module.css` next to each component. No inline `style={{}}` except runtime values (e.g. a computed CSS variable).
@@ -30,6 +32,7 @@ Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (to
   - `components/media/`: `Gallery` (all photo collages + lightbox), `Portrait`, `ProjectCover`, `ArchitectureDiagram`, `InfraMap`
   - `components/motion/`: `StoryArt` (section illustrations), `Watermark` (faint section drawings)
   - `ui/Note`: handwritten margin note with an arrow; text lives in `content/notes.js`
+  - `ui/Blueprint`: draws a diagram from `content/diagrams.js` (wide + tall layouts, draw-in once)
   - `components/console/`: `CommandPalette`, `Terminal/`, `Console`, `StatusBar`, `VisitorChip`, `Toast`, `EasterEggs`
   - Page-only styles live in `styles/pages/`. A new component goes in the folder for its role; nothing loose in `components/`.
 - Home sections live in `components/sections/`, are composed in `pages/index.js`, and render nothing when their content is empty.
