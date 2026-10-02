@@ -4,6 +4,12 @@ title: Design decisions
 
 One entry per design decision: what changed, why, and what I learned. Newest first.
 
+## 2026-10-02 · Write the diagram, the site draws it
+
+Diagrams can now be plain text (`You (user) -> DNS : lookup`) and the layout is automatic, so a new teardown can start
+from a GitHub issue on my phone. The same text becomes the entry's figure and its share image.
+**Learned:** automatic layout only has to be good at chains: most systems I care about are a request moving through hops.
+
 ## 2026-10-02 · Diagrams as code
 
 Every drawing now starts as data in `content/diagrams.js` and is drawn by one engine (`lib/diagram.js`).

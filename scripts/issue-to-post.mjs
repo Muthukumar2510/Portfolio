@@ -31,8 +31,15 @@ if (!title) {
   console.error('Title is required.');
   process.exit(1);
 }
-// Blog posts and events become notebook notes; events keep `event: true` (photo collage, Moments).
-const isEvent = f['Type'] !== 'blog';
+// Entry type from the form. "event" is a note with `event: true` (photo collage, Talks & moments);
+// the old "blog" option maps to a plain note.
+const TYPES = ['build', 'teardown', 'sketch', 'note'];
+const picked = (f['Type'] || '').trim().toLowerCase();
+const isEvent = picked === 'event';
+const type = TYPES.includes(picked) ? picked : 'note';
+// Optional diagram written as text (lib/diagramText.js); kept only if it has at least one link.
+const diagram = (f['Diagram'] || '').replace(/\r/g, '').replace(/^```\w*\n?|```$/gm, '').trim();
+const diagramLines = /->/.test(diagram) ? diagram.split('\n').map((l) => l.slice(0, 160)).slice(0, 40) : [];
 const date = /^\d{4}-\d{2}-\d{2}$/.test(f['Date'] || '') ? f['Date'] : new Date().toISOString().slice(0, 10);
 const album = /^https:\/\/(photos\.app\.goo\.gl|photos\.google\.com)\//.test(f['Google Photos album link'] || '') ? f['Google Photos album link'] : '';
 const draft = /\[x\]\s*Save as draft/i.test(f['Options'] || '');
@@ -83,8 +90,9 @@ const q = (s) => JSON.stringify(s);
 const front = [
   '---',
   `title: ${q(title)}`,
-  'type: note',
+  `type: ${type}`,
   isEvent ? 'event: true' : null,
+  diagramLines.length ? ['diagram: |', ...diagramLines.map((l) => `  ${l}`)].join('\n') : null,
   `summary: ${q((f['One-line summary'] || '').slice(0, 200))}`,
   `date: ${date}`,
   f['Location'] ? `location: ${q(f['Location'].slice(0, 80))}` : null,

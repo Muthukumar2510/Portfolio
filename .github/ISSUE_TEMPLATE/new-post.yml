@@ -1,6 +1,6 @@
-name: New post or event
-description: Publish a blog post or event from anywhere (works in the GitHub mobile app). A pull request is opened automatically.
-title: 'Post: '
+name: New notebook entry
+description: Add a build, teardown, sketch, note or event from anywhere (works in the GitHub mobile app). A pull request is opened automatically.
+title: 'Entry: '
 labels: [new-post]
 body:
   - type: dropdown
@@ -8,8 +8,11 @@ body:
     attributes:
       label: Type
       options:
+        - note
+        - teardown
+        - build
+        - sketch
         - event
-        - blog
     validations:
       required: true
   - type: input
@@ -45,6 +48,17 @@ body:
       description: Markdown. Drag photos in here; they become the collage (GPS and camera data are stripped automatically).
     validations:
       required: true
+  - type: textarea
+    id: diagram
+    attributes:
+      label: Diagram
+      description: "Optional. One link per line and the site draws it: `You (user) -> DNS : lookup`. Kinds: (user) (store) (cloud). End a line with ! for the important path, ~ for dashed. Notes: `note: cache hit @ DNS`."
+      render: text
+      placeholder: |
+        You (user) -> Edge (cloud) : HTTPS
+        Edge -> API : request !
+        API -> Database (store) : query ~
+        note: cached here @ Edge
   - type: input
     id: album
     attributes:

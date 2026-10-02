@@ -3,11 +3,12 @@ import { useRouter } from 'next/router';
 import profile from '../../content/profile';
 import { absolute, ogImage } from '../../lib/seo';
 
-export default function Seo({ title, description, image, jsonLd, type = 'website' }) {
+// ogEntry: an entry slug; its share image draws that entry's diagram (pages/api/og.js).
+export default function Seo({ title, description, image, ogEntry, jsonLd, type = 'website' }) {
   const { asPath } = useRouter();
   const fullTitle = title ? `${title} · ${profile.name}` : `${profile.name} · ${profile.title}`;
   const desc = description || `${profile.tagline}. ${profile.bio[0]}`;
-  const img = image ? absolute(image) : ogImage({ title: title || profile.name, subtitle: title ? profile.name : profile.title });
+  const img = image ? absolute(image) : ogImage({ title: title || profile.name, subtitle: title ? profile.name : profile.title, entry: ogEntry });
   const url = absolute(asPath.split(/[?#]/)[0]);
 
   return (

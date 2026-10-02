@@ -6,6 +6,7 @@ export async function getServerSideProps({ res }) {
     { loc: '/', priority: '1.0' },
     { loc: '/lab', priority: '0.9' },
     { loc: '/colophon', priority: '0.7' },
+    { loc: '/log', priority: '0.6' },
     { loc: '/status', priority: '0.5' },
     { loc: '/infra', priority: '0.5' },
     { loc: '/design', priority: '0.5' },

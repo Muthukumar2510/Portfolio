@@ -44,7 +44,27 @@ Entries live at `/lab/<file-name>`; old `/projects/…` and `/writing/…` links
 Describe a system as data (nodes, links, handwritten notes) and the site draws it. See `/design` for the vocabulary.
 Name a diagram in an entry's `diagram:` field to put it at the top of that entry.
 
-## 5. Photos — `public/media/`
+**Or just write it as text** in the entry's front matter. The layout is automatic:
+
+```yaml
+diagram: |
+  You (user) -> DNS : lookup
+  DNS -> Vercel edge (cloud) : PoP
+  Vercel edge -> /api/trace : HTTPS !
+  /api/trace -> Redis (store) : ping ~
+  note: static pages stop here @ Vercel edge
+```
+
+`(user)`, `(store)`, `(cloud)`, `(circle)` set the shape; `: label` names a link; `!` marks the important path,
+`~` a dashed one; `note: text @ Node` adds a handwritten note. The entry's share image draws the same diagram.
+
+## 5. From your phone — GitHub issue → entry
+
+Open a new issue with the **New notebook entry** template (works in the GitHub mobile app): pick a type, write the
+story, drag in photos, and optionally write a diagram as above. A workflow turns it into a pull request with the entry,
+the photos (location data stripped) and the diagram; merge it to publish.
+
+## 6. Photos — `public/media/`
 
 | Put the file here | It appears |
 |---|---|
@@ -65,6 +85,6 @@ records the images. CI refuses unprocessed photos, and a GitHub workflow also pr
   at quality 90 at 2× the displayed size, so it stays crisp on retina screens.
 - Until you add one, a dashed "Your photo goes here" box shows on your machine only — visitors never see it.
 
-## 6. Logos — `content/brands.js`
+## 7. Logos — `content/brands.js`
 Add a tool's simple-icons slug and run `npm run brands`. For logos simple-icons doesn't have, drop the official
 SVG into `public/brands/` and set `source: 'local'`.
