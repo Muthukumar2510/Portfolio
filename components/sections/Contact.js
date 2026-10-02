@@ -46,8 +46,6 @@ export default function Contact() {
     if (k) setReason(k);
   };
 
-  const [isMac, setIsMac] = useState(false);
-  useEffect(() => setIsMac(/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)), []);
   // Ctrl/⌘ + Enter sends from anywhere in the form.
   const onFormKey = (e) => {
     if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
@@ -176,9 +174,6 @@ export default function Contact() {
             <button type="submit" className={styles.send} disabled={state === 'sending'}>
               {label}
             </button>
-            <span className={styles.shortcut} aria-hidden="true">
-              or <kbd>{isMac ? '⌘' : 'Ctrl'}</kbd> <kbd>Enter</kbd>
-            </span>
           </div>
           {state === 'error' && <p className={styles.error}>Couldn&apos;t send. Please use the email address instead.</p>}
           {!profile.formspreeId && <p className={styles.note}>This opens your email app with the message ready to send.</p>}
