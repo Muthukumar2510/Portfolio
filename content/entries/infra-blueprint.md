@@ -31,6 +31,7 @@ metrics:
     value: "6"
   - label: Policy violations in prod
     value: "0"
+draft: true # placeholder until the real story is written
 ---
 
 ## The problem

@@ -6,6 +6,7 @@ summary: Two days of platform engineering talks, hallway conversations, and one 
 date: 2025-12-11
 location: Hyderabad, India
 album: ""
+draft: true # placeholder until the real story is written
 ---
 
 Placeholder. Write what you went for, the two or three talks that changed how you think, and who you met.

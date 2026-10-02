@@ -13,6 +13,7 @@ album: ""
 metrics:
   - label: Pages per week
     value: 31 → 9
+draft: true # placeholder until the real story is written
 ---
 
 ## The problem
