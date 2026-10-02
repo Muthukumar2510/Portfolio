@@ -27,14 +27,14 @@ function useIdle() {
 const sans = Google_Sans({
   subsets: ['latin'],
   weight: 'variable',
-  display: 'swap',
+  display: 'optional',
   adjustFontFallback: false,
   fallback: ['system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
 });
 const mono = Google_Sans_Code({
   subsets: ['latin'],
   weight: 'variable',
-  display: 'swap',
+  display: 'optional',
   adjustFontFallback: false,
   fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
 });
