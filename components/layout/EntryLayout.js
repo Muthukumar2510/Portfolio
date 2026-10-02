@@ -6,7 +6,6 @@ import ProjectCover from '../media/ProjectCover';
 import ArchitectureDiagram from '../media/ArchitectureDiagram';
 import InfraMap from '../media/InfraMap';
 import Blueprint from '../ui/Blueprint';
-import { DIAGRAMS } from '../../content/diagrams';
 import Button from '../ui/Button';
 import { TagList } from '../ui/Tag';
 import RepoStats from '../ui/RepoStats';
@@ -24,7 +23,7 @@ const TYPE_LABEL = { build: 'build', teardown: 'teardown', sketch: 'sketch', not
 export default function EntryLayout({ entry }) {
   const isProject = entry.type === 'build';
   const isEvent = Boolean(entry.event);
-  const diagram = DIAGRAMS[entry.diagram];
+  const diagram = entry.diagram; // resolved at build time by lib/content.js
   const facts = isProject
     ? [
         ['role', entry.role],
@@ -45,6 +44,7 @@ export default function EntryLayout({ entry }) {
         title={entry.title}
         description={entry.summary}
         image={entry.cover?.src}
+        ogEntry={entry.diagram ? entry.slug : undefined}
         type="article"
         jsonLd={articleJsonLd(entry, `${basePath}/${entry.slug}`)}
       />
