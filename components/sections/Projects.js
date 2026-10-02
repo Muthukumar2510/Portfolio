@@ -12,7 +12,6 @@ export default function Projects() {
   const shown = projects.slice(0, HOME_LIMIT);
   return (
     <Section
-      notebook
       note={notes.projects}
       stage="band"
       id="projects"

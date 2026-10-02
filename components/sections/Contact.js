@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import profile from '../../content/profile';
 import { copyEmail, mailtoPresets, toast } from '../../lib/actions';
+import notes from '../../content/notes';
 import Section from '../ui/Section';
 import SocialLinks from '../layout/SocialLinks';
 import Icon from '../shell/Icon';
@@ -85,7 +86,7 @@ export default function Contact() {
   const label = { sending: 'Sending…', sent: 'Delivered', drafted: 'Opened in your mail app' }[state] || 'Send message';
 
   return (
-    <Section stage="none" id="contact" title="Let's talk" intro={`Hiring, a project, or just comparing notes on infrastructure. I reply ${profile.replyTime}.`}>
+    <Section stage="none" note={notes.contact} id="contact" title="Let's talk" intro={`Hiring, a project, or just comparing notes on infrastructure. I reply ${profile.replyTime}.`}>
       <div className={styles.card}>
         <aside className={styles.panel}>
           <p className={styles.spec} suppressHydrationWarning>

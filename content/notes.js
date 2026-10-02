@@ -4,6 +4,8 @@
 const notes = {
   portrait: 'me, probably debugging DNS',
   projects: 'the first one saved my weekends',
+  operations: 'yes, it really costs $0',
+  contact: 'I read every one of these',
 };
 
 export default notes;
