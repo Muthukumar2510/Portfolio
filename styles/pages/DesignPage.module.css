@@ -1,0 +1,156 @@
+.block {
+  margin-top: var(--space-16);
+}
+
+.h2 {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-2xl);
+}
+
+.lead {
+  margin: 0 0 var(--space-6);
+  max-width: 60ch;
+  color: var(--muted);
+}
+
+.values {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  overflow-wrap: anywhere;
+}
+
+.block code {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+/* Colours */
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.swatch {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.chip {
+  grid-row: span 2;
+  width: var(--space-10);
+  height: var(--space-10);
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border);
+  background: var(--c);
+}
+
+/* Type */
+.fonts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-8);
+  margin-bottom: var(--space-6);
+}
+
+.fonts p {
+  margin: 0;
+}
+
+.sans {
+  font-size: var(--text-lg);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.scale,
+.list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scale li,
+.list li {
+  display: grid;
+  grid-template-columns: minmax(4rem, auto) minmax(0, 14rem) minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--space-4);
+  padding: var(--space-2) 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.list li {
+  grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+  align-items: center;
+}
+
+.list li:has(.bar),
+.list li:has(.corner) {
+  grid-template-columns: var(--space-24) minmax(0, 14rem) minmax(0, 1fr);
+}
+
+.specimen {
+  font-size: var(--size);
+  line-height: 1;
+}
+
+/* Space and radius */
+.bar {
+  display: block;
+  width: var(--w);
+  max-width: 100%;
+  height: var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+}
+
+.corner {
+  display: block;
+  width: var(--space-10);
+  height: var(--space-10);
+  border: 2px solid var(--ink);
+  border-radius: var(--r);
+}
+
+/* Diagrams */
+.diagram {
+  margin-top: var(--space-12);
+}
+
+.log {
+  max-width: 68ch;
+}
+
+@media (max-width: 600px) {
+  .scale li {
+    grid-template-columns: minmax(3rem, auto) minmax(0, 1fr);
+  }
+  .scale .values {
+    grid-column: 2;
+  }
+  .list li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-1);
+  }
+  .list li:has(.bar),
+  .list li:has(.corner) {
+    grid-template-columns: var(--space-16) minmax(0, 1fr);
+  }
+}

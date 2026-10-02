@@ -1,0 +1,152 @@
+.figure {
+  margin: 0;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Line work: one ink, the lit path in signal colour ---------- */
+.node,
+.nodeLit,
+.line,
+.lit,
+.dash,
+.dim,
+.noteArrow {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.node,
+.line {
+  stroke: var(--ink);
+  stroke-width: 1.4;
+}
+
+.nodeLit {
+  stroke: var(--ink);
+  stroke-width: 2.2;
+  fill: var(--accent-soft);
+}
+
+.lit {
+  stroke: var(--signal);
+  stroke-width: 2;
+}
+
+.dash {
+  stroke: var(--ink);
+  stroke-width: 1.2;
+}
+
+.dim {
+  stroke: var(--muted);
+  stroke-width: 1;
+}
+
+.noteArrow {
+  stroke: var(--ink);
+  stroke-width: 1.4;
+}
+
+/* ---------- Text: mono labels, handwritten notes ---------- */
+.label,
+.sub,
+.note {
+  stroke: none;
+}
+
+.label,
+.sub,
+.linkLabel,
+.dimLabel,
+.note {
+  transition: opacity var(--dur-slow) var(--ease) calc(var(--dur-draw) * 0.6);
+}
+
+.label {
+  fill: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--text-diagram);
+  font-weight: 500;
+}
+
+.linkLabel,
+.dimLabel {
+  /* A halo in the paper colour keeps labels readable where they cross a line. */
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 4px;
+}
+
+.sub,
+.linkLabel,
+.dimLabel {
+  fill: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-diagram-sm);
+}
+
+.note {
+  fill: var(--ink);
+  font-family: var(--font-hand);
+  font-size: var(--text-diagram-note);
+}
+
+/* ---------- Draw-in once, when first seen ---------- */
+:global(.js) .figure:not(.drawn) path {
+  stroke-dashoffset: 1;
+}
+
+:global(.js) .figure:not(.drawn) text {
+  opacity: 0;
+}
+
+:global(.js) .figure path {
+  transition: stroke-dashoffset var(--dur-draw) var(--ease) calc(var(--i) * var(--stagger-draw));
+}
+
+/* Dashed lines show their dash pattern once drawn. */
+.drawn .dash,
+.drawn .dim {
+  stroke-dasharray: 0.07 0.05;
+}
+
+.caption {
+  margin-top: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.tallOnly {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .wideOnly {
+    display: none;
+  }
+  .tallOnly {
+    display: block;
+    max-width: 22rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(.js) .figure:not(.drawn) path {
+    stroke-dashoffset: 0;
+  }
+  :global(.js) .figure:not(.drawn) text {
+    opacity: 1;
+  }
+}

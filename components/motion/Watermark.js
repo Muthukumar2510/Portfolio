@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { WATERMARKS } from '../../lib/storyShapes';
+import { DIAGRAMS, WATERMARK_DIAGRAMS } from '../../content/diagrams';
+import { toSvgString } from '../../lib/diagram';
 import styles from './Watermark.module.css';
 
 // A large, faint technical drawing behind a section (shapes in lib/storyShapes.js → WATERMARKS).
@@ -15,15 +17,25 @@ function toDataUri(lines, ink) {
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
+// Sections with a diagram in content/diagrams.js get that diagram's line work; the rest keep their drawing.
+const diagramUri = (diagram, ink) =>
+  `data:image/svg+xml,${encodeURIComponent(toSvgString(diagram, { ink, lines: true, strokeWidth: 1.4 }))}`;
+
 export default function Watermark({ id }) {
-  const mark = WATERMARKS[id];
+  const mark = useMemo(() => {
+    const diagram = DIAGRAMS[WATERMARK_DIAGRAMS[id]];
+    return diagram ? { side: WATERMARKS[id]?.side || 'right', diagram } : WATERMARKS[id];
+  }, [id]);
   const [src, setSrc] = useState(null);
   const anchor = useRef(null);
 
   useEffect(() => {
     if (!mark || !anchor.current) return;
     const root = document.documentElement;
-    const draw = () => setSrc(toDataUri(mark.draw(), getComputedStyle(root).getPropertyValue('--watermark-ink').trim()));
+    const draw = () => {
+      const ink = getComputedStyle(root).getPropertyValue('--watermark-ink').trim();
+      setSrc(mark.diagram ? diagramUri(mark.diagram, ink) : toDataUri(mark.draw(), ink));
+    };
     const near = new IntersectionObserver(
       ([e]) => {
         if (!e.isIntersecting) return;

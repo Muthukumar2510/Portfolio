@@ -108,6 +108,10 @@
   --text-2xl: 1.5rem;
   /* Every subheading inside a section (card, role, group titles): one size site-wide. */
   --text-h3: clamp(1.125rem, 1.4vw, 1.3rem);
+  /* Diagram text, in viewBox units (scales with the drawing). */
+  --text-diagram: 13px;
+  --text-diagram-sm: 10.5px;
+  --text-diagram-note: 19px;
   /* Handwritten margin notes. */
   --text-note: clamp(1.15rem, 1.5vw, 1.4rem);
   --text-display: clamp(2.1rem, 4.6vw, 3.6rem);
