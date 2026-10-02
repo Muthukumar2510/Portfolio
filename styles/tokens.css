@@ -20,7 +20,10 @@
   --story-3: #12a4af;
   --ink: #1f4fbf;
   --signal: #c2410c;
-  --glow-opacity: 0.22;
+  /* Notebook paper: a fine grid with a heavier line every fifth square. */
+  --paper-line: rgba(31, 79, 191, 0.055);
+  --paper-line-major: rgba(31, 79, 191, 0.1);
+  --watermark-ink: rgba(31, 79, 191, 0.09);
   --panel-bg: #14295c;
   --panel-text: #f3f5fb;
   --panel-muted: rgba(243, 245, 251, 0.66);
@@ -53,25 +56,28 @@
 
 /* ---------- Colour (dark) ---------- */
 :root[data-theme='dark'] {
-  --bg: #0d0f12;
-  --surface: #14171c;
-  --text: #e6e8eb;
-  --muted: #8b929c;
-  --border: #242830;
+  /* Dark theme is a blueprint: deep navy paper, pale ink. */
+  --bg: #0b1424;
+  --surface: #101c30;
+  --text: #e6ebf3;
+  --muted: #8d9bb1;
+  --border: #1f2e48;
   --accent: #8ab4f8;
   --story-1: #8ab4f8;
   --story-2: #d7aefb;
   --story-3: #5ee2d6;
   --ink: #8ab4f8;
   --signal: #ff9f5a;
-  --glow-opacity: 0.2;
+  --paper-line: rgba(138, 180, 248, 0.06);
+  --paper-line-major: rgba(138, 180, 248, 0.11);
+  --watermark-ink: rgba(138, 180, 248, 0.1);
   --panel-bg: #111c38;
   --panel-text: #eef2fb;
   --panel-muted: rgba(238, 242, 251, 0.62);
   --panel-line: rgba(238, 242, 251, 0.06);
   --panel-edge: rgba(238, 242, 251, 0.18);
   --accent-soft: rgba(138, 180, 248, 0.12);
-  --on-accent: #0d0f12;
+  --on-accent: #0b1424;
   --warn: #fbbf24;
   --off: #5c636e;
   --shadow: 0 0 0 1px var(--border);
@@ -104,6 +110,8 @@
   --text-2xl: 1.5rem;
   /* Every subheading inside a section (card, role, group titles): one size site-wide. */
   --text-h3: clamp(1.125rem, 1.4vw, 1.3rem);
+  /* Handwritten margin notes. */
+  --text-note: clamp(1.15rem, 1.5vw, 1.4rem);
   --text-display: clamp(2.1rem, 4.6vw, 3.6rem);
   --text-title: clamp(1.75rem, 3.2vw, 2.4rem);
   --text-watermark: clamp(4rem, 14.5vw, 16rem);
@@ -133,6 +141,9 @@
   --size-story-band: 7.5rem;
   --size-story-side: clamp(14rem, 24vw, 20rem);
   --size-portrait-sm: 10rem;
+  --size-paper: 24px;
+  --size-watermark: clamp(22rem, 46vw, 44rem);
+  --size-margin: clamp(11rem, 18vw, 15rem);
 
   /* Motion. */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);

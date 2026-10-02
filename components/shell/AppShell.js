@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import Header from './Header';
 import MobileTabBar from './MobileTabBar';
 import Footer from '../layout/Footer';
-import Backdrop from '../motion/Backdrop';
 import styles from './AppShell.module.css';
 
 // One flowing page: slim header pill on top, bottom tab bar on phones.
@@ -18,7 +17,6 @@ export default function AppShell({ children }) {
   }, [router.events]);
   return (
     <div className={styles.shell}>
-      <Backdrop />
       <a href="#main" className="sr-only">
         Skip to content
       </a>

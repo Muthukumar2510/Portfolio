@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import StoryArt from '../motion/StoryArt';
+import Watermark from '../motion/Watermark';
+import Note from './Note';
 import styles from './Section.module.css';
 
 // Standard page section: anchor id, container, reveal animation, title row with optional "see all" link.
@@ -8,9 +10,44 @@ import styles from './Section.module.css';
 //   'side' a tall sticky column beside the content (desktop), collapsing to a band on smaller screens ·
 //   'none' no illustration (the section carries its own visual).
 // typed: the title types itself out (with a caret) when the section scrolls in.
-export default function Section({ id, title, intro, action, wide = false, stage = 'slot', typed = false, children }) {
+// notebook: notebook layout. Number, title, intro and an optional handwritten `note` sit in a left margin column;
+//   the illustration band and content fill the page to the right. Stacks on phones.
+// Every section also gets its faint drawing watermark if lib/storyShapes.js defines one (WATERMARKS).
+export default function Section({ id, title, intro, action, wide = false, stage = 'slot', typed = false, notebook = false, note, children }) {
+  if (notebook) {
+    return (
+      <section id={id} className={`${styles.section} ${styles.notebook}`}>
+        <Watermark id={id} />
+        <div className={`container reveal ${styles.notebookGrid}`}>
+          <div className={styles.marginCol}>
+            <div className={styles.marginHead}>
+              <h2 className={styles.title}>{title}</h2>
+              {intro && <p className={styles.marginIntro}>{intro}</p>}
+              {action && (
+                <Link href={action.href} className={styles.action}>
+                  {action.label} →
+                </Link>
+              )}
+            </div>
+            <Note point="right" className={styles.marginNote}>
+              {note}
+            </Note>
+          </div>
+          <div className={styles.notebookBody}>
+            {id && stage !== 'none' && (
+              <span className={styles.band} aria-hidden="true">
+                <StoryArt id={id} stage="band" />
+              </span>
+            )}
+            {children}
+          </div>
+        </div>
+      </section>
+    );
+  }
   return (
     <section id={id} className={styles.section}>
+      <Watermark id={id} />
       <div className={`container reveal ${wide ? styles.wide : ''}`}>
         {(title || action) && (
           <div className={styles.head}>

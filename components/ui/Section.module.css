@@ -1,4 +1,7 @@
 .section {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
   counter-increment: story;
   padding: var(--space-24) 0 var(--space-8);
 }
@@ -126,4 +129,79 @@
   opacity: 0.45;
   pointer-events: none;
   user-select: none;
+}
+
+/* ---------- Notebook layout: a margin column (number, title, note) beside the page body. ---------- */
+.notebookGrid {
+  display: grid;
+  grid-template-columns: var(--size-margin) minmax(0, 1fr);
+  gap: var(--space-10);
+}
+
+.marginCol {
+  position: relative;
+  padding-right: var(--space-6);
+  border-right: 1px solid color-mix(in srgb, var(--signal) 45%, transparent);
+}
+
+.marginHead {
+  position: sticky;
+  top: calc(var(--nav-h) + var(--space-10));
+}
+
+/* The section number, outlined, above the title in the margin. */
+.marginHead::before {
+  content: counter(story, decimal-leading-zero);
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: var(--text-watermark-sm);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--story-2) 45%, transparent);
+}
+
+.marginIntro {
+  margin: var(--space-3) 0 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.marginNote {
+  margin-top: var(--space-10);
+}
+
+.notebookBody {
+  min-width: 0;
+}
+
+.notebookBody > .band {
+  margin-top: 0;
+}
+
+@media (max-width: 899px) {
+  .notebookGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+  }
+  .marginCol {
+    padding-right: 0;
+    padding-bottom: var(--space-5);
+    border-right: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--signal) 45%, transparent);
+  }
+  .marginHead {
+    position: static;
+  }
+  .marginHead::before {
+    font-size: var(--text-title);
+  }
+  .marginNote {
+    margin-top: var(--space-4);
+  }
+  /* Stacked: the note sits above the content, so its arrow points down into it. */
+  .marginNote svg {
+    transform: rotate(60deg);
+  }
 }

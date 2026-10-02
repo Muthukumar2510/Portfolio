@@ -28,7 +28,8 @@ Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (to
   - `ui/BrandIcon`, `ui/ScoreRing`, `ui/Sparkline`
   - `components/layout/`: `EntryLayout`, `ListPage`, `Footer`, `Seo`, `SocialLinks`, `ThemeToggle`
   - `components/media/`: `Gallery` (all photo collages + lightbox), `Portrait`, `ProjectCover`, `ArchitectureDiagram`, `InfraMap`
-  - `components/motion/`: `StoryArt` (section illustrations), `Backdrop`
+  - `components/motion/`: `StoryArt` (section illustrations), `Watermark` (faint section drawings)
+  - `ui/Note`: handwritten margin note with an arrow; text lives in `content/notes.js`
   - `components/console/`: `CommandPalette`, `Terminal/`, `Console`, `StatusBar`, `VisitorChip`, `Toast`, `EasterEggs`
   - Page-only styles live in `styles/pages/`. A new component goes in the folder for its role; nothing loose in `components/`.
 - Home sections live in `components/sections/`, are composed in `pages/index.js`, and render nothing when their content is empty.
@@ -39,7 +40,8 @@ Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (to
 - Look like a drawing, not a template: ink (`--ink`) for structure, one `--signal` colour for highlights, grid paper, mono labels. The StoryArt illustrations and the outlined section numbers keep their `--story-*` gradient; don't spread gradients or glows to buttons, panels or text.
 - Rounded everywhere: controls use `var(--radius-pill)`, cards `var(--radius)`/`var(--radius-lg)`. Only the header and phone tab bar float.
 - Respect `prefers-reduced-motion` for every animation; pause canvases when off-screen.
-- Calm, not busy: motion is one system. `StoryArt` renders each section's shape from `lib/storyShapes.js` (keyed by section id) as inline SVG that draws itself once when the section reveals; `Backdrop` is two static glows tinted per section via `html[data-scene]` (`lib/useScene.js`). No canvas, no animation loops, no scroll listeners. A new section gets a shape there, not its own animation.
+- Calm, not busy: motion is one system. `StoryArt` renders each section's shape from `lib/storyShapes.js` (keyed by section id) as inline SVG that draws itself once when the section reveals; the page background is notebook grid paper (blueprint in dark). No canvas, no animation loops, no scroll listeners. A new section gets a shape there, not its own animation.
+- Notebook style: sections can use `<Section notebook note=…>` (number, title and a handwritten note in a left margin column). Large faint drawings come from `WATERMARKS` in `lib/storyShapes.js` (static, never animated). Handwritten notes are few (3–5 on the home page), short, true and written by the owner; the handwriting font is for notes only.
 - The only pointer effect is `data-spotlight` on cards (desktop), handled by `lib/useInteractions.js`. Don't add tilt/magnetic/parallax effects.
 - Keyboard: everything clickable is focusable; dialogs close on Escape.
 - API routes fail soft: return `null`s instead of 500s so the UI can hide the feature.

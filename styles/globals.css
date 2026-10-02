@@ -15,7 +15,18 @@ html {
 body {
   counter-reset: story;
   margin: 0;
-  background: var(--bg);
+  /* Notebook grid paper (blueprint grid in the dark theme). Plain gradients: painted once, scroll with the page. */
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--paper-line-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-line-major) 1px, transparent 1px),
+    linear-gradient(var(--paper-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+  background-size:
+    calc(var(--size-paper) * 5) calc(var(--size-paper) * 5),
+    calc(var(--size-paper) * 5) calc(var(--size-paper) * 5),
+    var(--size-paper) var(--size-paper),
+    var(--size-paper) var(--size-paper);
   color: var(--text);
   font-family: var(--font-sans);
   font-size: var(--text-base);

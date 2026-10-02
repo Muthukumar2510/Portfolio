@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { Google_Sans, Google_Sans_Code } from 'next/font/google';
+import { Google_Sans, Google_Sans_Code, Caveat } from 'next/font/google';
 import { SiteProvider } from '../lib/SiteContext';
 import AppShell from '../components/shell/AppShell';
 import Toast from '../components/console/Toast';
@@ -39,6 +39,15 @@ const mono = Google_Sans_Code({
   fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
 });
 
+// Handwriting for margin notes only. Never the LCP element, so it swaps in when loaded and isn't preloaded.
+const hand = Caveat({
+  subsets: ['latin'],
+  weight: ['500'],
+  display: 'swap',
+  preload: false,
+  fallback: ['Segoe Print', 'Bradley Hand', 'cursive'],
+});
+
 export default function App({ Component, pageProps }) {
   useInteractions();
   const idle = useIdle();
@@ -48,6 +57,7 @@ export default function App({ Component, pageProps }) {
         :root {
           --font-sans: ${sans.style.fontFamily};
           --font-mono: ${mono.style.fontFamily};
+          --font-hand: ${hand.style.fontFamily};
         }
       `}</style>
       <AppShell>

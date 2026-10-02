@@ -1,4 +1,5 @@
 import { useSite } from '../../lib/SiteContext';
+import notes from '../../content/notes';
 import Section from '../ui/Section';
 import ProjectCard from '../cards/ProjectCard';
 import grid from '../ui/Grid.module.css';
@@ -10,7 +11,10 @@ export default function Projects() {
   if (!projects.length) return null;
   const shown = projects.slice(0, HOME_LIMIT);
   return (
-    <Section stage="band"
+    <Section
+      notebook
+      note={notes.projects}
+      stage="band"
       id="projects"
       title="Projects"
       intro="Systems I've designed and run: the problem, the decisions, and what changed."
