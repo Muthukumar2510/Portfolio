@@ -7,7 +7,6 @@ import Icon from '../shell/Icon';
 import styles from './Contact.module.css';
 
 const ICONS = { hiring: 'badge', collab: 'layers', hello: 'mail' };
-const first = profile.name.split(' ')[0];
 const MAX = 2000;
 
 // With a Formspree ID the form posts directly; without one it opens the visitor's mail app, pre-filled.
@@ -137,7 +136,7 @@ export default function Contact() {
             <dl>
               <div>
                 <dt>To</dt>
-                <dd>{first}</dd>
+                <dd>{profile.email}</dd>
               </div>
               <div>
                 <dt>From</dt>

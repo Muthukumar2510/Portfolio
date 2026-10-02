@@ -4,22 +4,20 @@
   width: var(--size-portrait);
 }
 
-/* Offset outline behind the print, like a mount board slightly out of register. */
+/* A thin accent ring floating just outside the mount. */
 .frame::before {
   content: '';
   position: absolute;
-  inset: 0;
-  bottom: var(--space-8);
-  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
-  border-radius: var(--radius-lg);
-  transform: translate(var(--space-3), var(--space-3));
+  inset: calc(-1 * var(--space-3));
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  border-radius: 50%;
   pointer-events: none;
 }
 
 .print {
   position: relative;
-  aspect-ratio: 4 / 5;
-  border-radius: var(--radius-lg);
+  aspect-ratio: 1;
+  border-radius: 50%;
   border: var(--space-2) solid var(--surface);
   background: var(--surface);
   box-shadow: var(--shadow-lg);
@@ -28,17 +26,7 @@
 
 .img {
   object-fit: cover;
-  border-radius: calc(var(--radius-lg) - var(--space-2));
-}
-
-.caption {
-  margin-top: var(--space-5);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-  text-align: center;
+  object-position: center 25%;
 }
 
 /* Development-only placeholder. */
@@ -50,7 +38,7 @@
   height: 100%;
   padding: var(--space-4);
   border: 2px dashed var(--border);
-  border-radius: calc(var(--radius-lg) - var(--space-2));
+  border-radius: 50%;
   color: var(--muted);
   font-size: var(--text-sm);
   text-align: center;
@@ -70,8 +58,10 @@
 @media (max-width: 767px) {
   .frame {
     width: var(--size-portrait-sm);
+    margin-left: var(--space-3);
   }
-  .caption {
+  .empty code,
+  .empty small {
     display: none;
   }
 }

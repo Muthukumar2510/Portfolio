@@ -51,7 +51,7 @@ The folder name must match the Markdown file name without `.md`
 records the images. CI refuses unprocessed photos, and a GitHub workflow also processes them for you on push.
 
 ### Getting a sharp portrait
-- Use the original file from your camera or phone, at least **1200 × 1500 px**, roughly **4:5 portrait**.
+- Use the original file from your camera or phone, at least **1200 × 1200 px**. It is shown as a circle, so keep your face centred with some space around it.
 - Face in the upper third, plain background, soft daylight.
 - JPEG or WebP. The pipeline keeps the portrait at higher quality (92) than other photos, and the page serves it
   at quality 90 at 2× the displayed size, so it stays crisp on retina screens.

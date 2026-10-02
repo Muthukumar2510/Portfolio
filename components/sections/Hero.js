@@ -5,7 +5,6 @@ import Button from '../ui/Button';
 import { openConsole } from '../../lib/actions';
 import styles from './Hero.module.css';
 
-const first = profile.name.split(' ')[0];
 
 // Personal first: who I am, what I do, one clear way to reach me.
 export default function Hero() {
@@ -14,7 +13,7 @@ export default function Hero() {
       <div className={`container ${styles.grid}`}>
         <div className={styles.text} data-story-quiet>
           <p className={`${styles.hello} ${styles.enter}`} style={{ '--i': 0 }}>
-            Hi, I&apos;m {first}. {profile.title} in {profile.location}.
+            {profile.title} in {profile.location}.
           </p>
           {/* Static headline (it's the LCP element). */}
           <h1 className={styles.title}>{profile.headline}</h1>

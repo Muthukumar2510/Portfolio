@@ -6,7 +6,7 @@ import styles from './Portrait.module.css';
 const photo = findMedia('profile/');
 const isDev = process.env.NODE_ENV === 'development';
 
-// Your photo, framed: a rounded print with an offset outline behind it and a small caption plate.
+// Your photo, framed: a circle with a white mount and a thin accent ring around it.
 // Drop one image into public/media/profile/ and run `npm run media`. With no photo, nothing renders in production;
 // in development a dashed placeholder shows exactly where it will go.
 export default function Portrait({ className = '' }) {
@@ -21,7 +21,7 @@ export default function Portrait({ className = '' }) {
             fill
             priority
             quality={90}
-            sizes="(max-width: 767px) 12rem, 20rem"
+            sizes="(max-width: 767px) 10rem, 20rem"
             placeholder="blur"
             blurDataURL={photo.blur}
             className={styles.img}
@@ -34,9 +34,6 @@ export default function Portrait({ className = '' }) {
           </span>
         )}
       </div>
-      <figcaption className={styles.caption}>
-        {profile.name.split(' ')[0]} · {profile.location.split(',')[0]}
-      </figcaption>
     </figure>
   );
 }
