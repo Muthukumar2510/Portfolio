@@ -1,4 +1,5 @@
 ---
+type: build
 title: K8s Autopilot
 summary: GitOps setup that deploys, scales, and rolls back services on Kubernetes with Argo CD.
 status: building

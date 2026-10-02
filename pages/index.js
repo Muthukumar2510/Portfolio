@@ -1,46 +1,28 @@
 import Seo from '../components/layout/Seo';
 import Hero from '../components/sections/Hero';
-import Projects from '../components/sections/Projects';
-import About from '../components/sections/About';
-import Experience from '../components/sections/Experience';
-import Skills from '../components/sections/Skills';
-import Certifications from '../components/sections/Certifications';
-import Moments from '../components/sections/Moments';
-import Writing from '../components/sections/Writing';
-import Operations from '../components/sections/Operations';
-import Contact from '../components/sections/Contact';
+import Latest from '../components/sections/Latest';
+import Traced from '../components/sections/Traced';
+import Building from '../components/sections/Building';
 import useReveal from '../lib/useReveal';
-import { getSiteData, getMoments } from '../lib/content';
-import { getChangelog, withRepoStats } from '../lib/github';
+import { getSiteData } from '../lib/content';
+import { getChangelog } from '../lib/github';
 import { personJsonLd } from '../lib/seo';
 
-export default function Home({ moments, commits }) {
+// Today: who I am in one line, the newest notebook entries, this very page traced live, and what's on the bench.
+// The résumé lives on /colophon.
+export default function Today({ commits }) {
   useReveal();
   return (
     <>
       <Seo jsonLd={personJsonLd()} />
       <Hero />
-      <Projects />
-      <About />
-      <Experience />
-      <Skills />
-      <Certifications />
-      <Moments moments={moments} />
-      <Writing />
-      <Operations commits={commits} />
-      <Contact />
+      <Latest />
+      <Traced />
+      <Building commits={commits} />
     </>
   );
 }
 
 export async function getStaticProps() {
-  return {
-    props: { site: await siteWithStats(), moments: getMoments(), commits: await getChangelog() },
-    revalidate: 3600,
-  };
-}
-
-async function siteWithStats() {
-  const site = getSiteData();
-  return { ...site, projects: await withRepoStats(site.projects) };
+  return { props: { site: getSiteData(), commits: await getChangelog() }, revalidate: 3600 };
 }

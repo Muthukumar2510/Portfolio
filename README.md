@@ -14,33 +14,23 @@ All text is in `content/`, and all photos are in `public/media/`. You never need
 | Skills (status board) | `content/skills.js` |
 | Work history | `content/experience.js` |
 | Certifications | `content/certifications.js` (badges in `public/media/certs/`) |
-| A project (one file each) | `content/projects/<name>.md` |
-| A blog post or event (one file each) | `content/posts/<name>.md` |
-| Photos for a project | `public/media/projects/<name>/` |
-| Photos for a post or event | `public/media/posts/<name>/` |
+| A notebook entry: build, teardown, sketch or note (one file each) | `content/entries/<name>.md` |
+| Photos for an entry | `public/media/entries/<name>/` |
+| Diagrams (drawn from data) | `content/diagrams.js` |
+| Handwritten notes | `content/notes.js` |
 | Resume | `public/resume.pdf` |
 | Design tokens (colours, spacing, type) | `styles/tokens.css` |
 
-### Add a project
-1. Copy `content/projects/infra-blueprint.md` to `content/projects/my-project.md` and fill it in. The top section sets title, summary, status, role, stack, links and metrics; the rest is the write-up in Markdown.
-2. Optional: create `public/media/projects/my-project/` and drop in screenshots. A file named `cover.jpg` (or `.png`) becomes the cover image. Every other image goes into the photo collage.
+### Add an entry
+1. Copy a file in `content/entries/` to `content/entries/my-entry.md` and set `type` (`build`, `teardown`, `sketch` or `note`). The top section sets title, summary and the type's fields; the rest is the write-up in Markdown. See `CONTENT.md` for every field.
+2. Optional: create `public/media/entries/my-entry/` and drop in images (`cover.jpg` becomes the cover; events get a photo collage). Run `npm run media`.
 
-The new project appears on the home page, in the terminal (`projects`), and in the Ctrl/⌘+K search automatically.
+The entry appears in the Lab (`/lab`, filterable by type), on the home page if it's among the newest, in the terminal (`lab`), in Ctrl/⌘+K search and in the RSS feed automatically.
 
-### Add a blog post or event
-Same steps, in `content/posts/` and `public/media/posts/<name>/`. Set `type: blog` or `type: event` at the top of the file.
-
-**Event photos:** drop your photos into `public/media/posts/<name>/` (name them `01.jpg`, `02.jpg`… to control order; `cover.jpg` becomes the card image). They're laid out automatically as a collage:
-- 1 photo: full width · 2: 60/40 split · 3: one large + two stacked · 4: one large + three stacked · 5 or more: a large feature tile with a grid around it, and "+N" opens the rest.
-- The newest event shows as a big collage in the home page's **Moments** section. Older events appear as album stacks under it.
-- Clicking any photo opens a full-screen viewer (arrow keys or swipe).
-
-**Google Photos:** paste your share link into `album:` in the file's front matter to add a "View the full album on Google Photos" button. Google Photos links can't be embedded as images reliably, so copy the best 5–10 photos into the folder for the collage.
-
-All blog posts and events are listed at `/writing` (filter by Blog or Events). All projects are at `/projects`.
+**Google Photos:** paste a share link into `album:` to add a "View the full album" button.
 
 ### Architecture diagrams
-Add an `architecture:` block to a project's front matter (see `content/projects/infra-blueprint.md`) to get a clickable diagram on its page.
+Add an `architecture:` block to a build's front matter (see `content/entries/infra-blueprint.md`) to get a clickable diagram on its page.
 
 Photos are resized, compressed and lazy-loaded automatically. Any size or orientation works, and they're shown in order of filename (`01.jpg`, `02.jpg`, …).
 
@@ -76,7 +66,7 @@ If the site goes down, the workflow fails and GitHub emails you. Until monitorin
 
 ## Quality gates
 The **Quality** workflow builds the site in production mode and fails the pull request if any of these fail:
-- Lighthouse budget (median of 3 runs per page; worst of home, a project page and /writing): performance ≥ 85, accessibility ≥ 95, best practices ≥ 95, SEO ≥ 95
+- Lighthouse budget (median of 3 runs per page; worst of home, an entry page and /lab): performance ≥ 85, accessibility ≥ 95, best practices ≥ 95, SEO ≥ 95
 - All six security headers present, and no `'unsafe-inline'` scripts
 - Zero broken internal links (crawled from the sitemap)
 

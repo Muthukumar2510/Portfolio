@@ -5,10 +5,10 @@ import { absolute, siteUrl } from '../lib/seo';
 const esc = (s = '') => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 export async function getServerSideProps({ res }) {
-  const posts = getCollection('posts').sort((a, b) => b.date.localeCompare(a.date));
-  const items = posts
+  const entries = getCollection('entries').sort((a, b) => b.date.localeCompare(a.date));
+  const items = entries
     .map((p) => {
-      const url = absolute(`/writing/${p.slug}`);
+      const url = absolute(`/lab/${p.slug}`);
       return `    <item>
       <title>${esc(p.title)}</title>
       <link>${url}</link>
@@ -23,8 +23,8 @@ export async function getServerSideProps({ res }) {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${esc(profile.name)}: writing &amp; events</title>
-    <link>${siteUrl}/writing</link>
+    <title>${esc(profile.name)}: lab notebook</title>
+    <link>${siteUrl}/lab</link>
     <description>${esc(profile.tagline)}</description>
     <language>en</language>
     <atom:link href="${absolute('/rss.xml')}" rel="self" type="application/rss+xml" />

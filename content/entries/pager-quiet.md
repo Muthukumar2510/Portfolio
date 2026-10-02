@@ -1,4 +1,5 @@
 ---
+type: build
 title: Pager Quiet
 summary: Runbooks that fix common alerts automatically, before anyone gets paged.
 status: archived

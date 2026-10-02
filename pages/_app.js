@@ -31,10 +31,13 @@ const sans = Google_Sans({
   adjustFontFallback: false,
   fallback: ['system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
 });
+// Labels and data only, never the LCP text: not preloaded (keeps the first paint's bandwidth for the sans font),
+// and swapped in when it arrives.
 const mono = Google_Sans_Code({
   subsets: ['latin'],
   weight: 'variable',
-  display: 'optional',
+  display: 'swap',
+  preload: false,
   adjustFontFallback: false,
   fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
 });

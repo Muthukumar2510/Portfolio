@@ -1,4 +1,5 @@
 ---
+type: build
 title: This website
 summary: A portfolio that runs like production. Live request tracing, synthetic monitoring, CI quality gates, and a photo pipeline, on a $0/month serverless stack.
 status: live

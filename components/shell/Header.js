@@ -44,7 +44,7 @@ export default function Header() {
             <Icon name="terminal" size={16} />
           </button>
           <ThemeToggle />
-          <Link href="/#contact" className={styles.cta}>
+          <Link href="/colophon#contact" className={styles.cta}>
             Let&apos;s talk
           </Link>
         </div>

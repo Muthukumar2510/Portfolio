@@ -1,6 +1,6 @@
 ---
 title: Three Terraform state mistakes I made so you don't have to
-type: blog
+type: note
 summary: Locking, drift, and the day a stray terraform destroy almost ruined a Friday.
 date: 2025-10-02
 ---

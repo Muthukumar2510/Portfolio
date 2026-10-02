@@ -3,7 +3,8 @@
 // DRAFTS: rewrite these in your own words.
 const notes = {
   portrait: 'me, probably debugging DNS',
-  projects: 'the first one saved my weekends',
+  now: 'this week: drawing how a request travels',
+  lab: 'the teardowns are my favourite part',
   operations: 'yes, it really costs $0',
   contact: 'I read every one of these',
 };

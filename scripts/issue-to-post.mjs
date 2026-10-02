@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Turns a "New post or event" issue (see .github/ISSUE_TEMPLATE/new-post.yml) into
-// content/posts/<slug>.md plus public/media/posts/<slug>/NN.jpg. Run by .github/workflows/new-post.yml.
+// a notebook note: content/entries/<slug>.md plus public/media/entries/<slug>/NN.jpg. Run by .github/workflows/new-post.yml.
 // Input via env only (never interpolated into a shell): ISSUE_BODY, ISSUE_NUMBER, GITHUB_TOKEN.
 import fs from 'fs';
 import path from 'path';
@@ -31,7 +31,8 @@ if (!title) {
   console.error('Title is required.');
   process.exit(1);
 }
-const type = f['Type'] === 'blog' ? 'blog' : 'event';
+// Blog posts and events become notebook notes; events keep `event: true` (photo collage, Moments).
+const isEvent = f['Type'] !== 'blog';
 const date = /^\d{4}-\d{2}-\d{2}$/.test(f['Date'] || '') ? f['Date'] : new Date().toISOString().slice(0, 10);
 const album = /^https:\/\/(photos\.app\.goo\.gl|photos\.google\.com)\//.test(f['Google Photos album link'] || '') ? f['Google Photos album link'] : '';
 const draft = /\[x\]\s*Save as draft/i.test(f['Options'] || '');
@@ -46,7 +47,7 @@ let slug = title
   .slice(0, 60)
   .replace(/-$/, '');
 if (!slug) slug = `post-${process.env.ISSUE_NUMBER || Date.now()}`;
-for (let i = 2; fs.existsSync(path.join(ROOT, 'content', 'posts', `${slug}.md`)); i++) slug = `${slug.replace(/-\d+$/, '')}-${i}`;
+for (let i = 2; fs.existsSync(path.join(ROOT, 'content', 'entries', `${slug}.md`)); i++) slug = `${slug.replace(/-\d+$/, '')}-${i}`;
 
 // Pull attached images out of the story; they become the collage instead.
 let story = f['Story'] || '';
@@ -63,7 +64,7 @@ story = story.replace(/!\[[^\]]*\]\((https:[^)\s]+)\)|<img[^>]*src="(https:[^"]+
 });
 story = story.replace(/\n{3,}/g, '\n\n').trim();
 
-const mediaDir = path.join(ROOT, 'public', 'media', 'posts', slug);
+const mediaDir = path.join(ROOT, 'public', 'media', 'entries', slug);
 let saved = 0;
 for (const u of urls) {
   const r = await fetch(u, { headers: process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {}, redirect: 'follow' });
@@ -82,7 +83,8 @@ const q = (s) => JSON.stringify(s);
 const front = [
   '---',
   `title: ${q(title)}`,
-  `type: ${type}`,
+  'type: note',
+  isEvent ? 'event: true' : null,
   `summary: ${q((f['One-line summary'] || '').slice(0, 200))}`,
   `date: ${date}`,
   f['Location'] ? `location: ${q(f['Location'].slice(0, 80))}` : null,
@@ -93,6 +95,6 @@ const front = [
   .filter(Boolean)
   .join('\n');
 
-fs.writeFileSync(path.join(ROOT, 'content', 'posts', `${slug}.md`), `${front}\n\n${story}\n`);
-console.log(`Created content/posts/${slug}.md with ${saved} photo(s).`);
+fs.writeFileSync(path.join(ROOT, 'content', 'entries', `${slug}.md`), `${front}\n\n${story}\n`);
+console.log(`Created content/entries/${slug}.md with ${saved} photo(s).`);
 if (process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, `slug=${slug}\ntitle=${title.replace(/[\r\n]/g, ' ')}\nphotos=${saved}\n`);

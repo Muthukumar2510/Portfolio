@@ -92,8 +92,8 @@ export const DIAGRAMS = { request, deploy, content, monitor };
 
 // Which diagram is drawn faintly behind which home section (watermark).
 export const WATERMARK_DIAGRAMS = {
-  projects: 'deploy',
-  writing: 'content',
+  lab: 'content',
+  building: 'deploy',
   operations: 'request',
   contact: 'monitor',
 };

@@ -51,7 +51,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898183+github-actions[bot]@users.noreply.github.com"
           git checkout -b "$branch"
-          git add content/posts public/media
+          git add content/entries public/media
           git commit -m "Add post: ${TITLE}"
           git push -f origin "$branch"
           url=$(gh pr create --head "$branch" --title "Post: ${TITLE}" --body "From #${ISSUE}. ${PHOTOS} photo(s), metadata stripped. Merge to publish.

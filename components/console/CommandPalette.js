@@ -14,25 +14,19 @@ import {
 import { ALL_ITEMS } from '../../lib/nav';
 import styles from './CommandPalette.module.css';
 
-function buildItems({ projects, posts }) {
+function buildItems({ entries = [] }) {
   return [
   ...ALL_ITEMS.filter((n) => n.id !== 'home').map((n) => ({
     group: 'Go to',
     label: n.label,
-    hint: n.section ? `#${n.section}` : n.href,
+    hint: n.section ? `${n.base}#${n.section}` : n.href,
     run: () => (n.section ? scrollToSection(n.section) : openPath(n.href)),
   })),
-  ...projects.map((p) => ({
-    group: 'Projects',
-    label: p.title,
-    hint: (p.stack || []).join(' · '),
-    run: () => openPath(`/projects/${p.slug}`),
-  })),
-  ...posts.map((p) => ({
-    group: 'Writing & events',
-    label: p.title,
-    hint: `${p.type} · ${p.date}`,
-    run: () => openPath(`/writing/${p.slug}`),
+  ...entries.map((e) => ({
+    group: 'Lab',
+    label: e.title,
+    hint: `${e.type} · ${e.date}`,
+    run: () => openPath(`/lab/${e.slug}`),
   })),
   { group: 'Actions', label: 'Copy email address', hint: profile.email, run: copyEmail },
   { group: 'Actions', label: 'Draft a hiring email', hint: 'opens mail client', run: () => (window.location.href = mailtoFor('hiring')) },
@@ -143,7 +137,7 @@ export default function CommandPalette() {
           <input
             ref={inputRef}
             className={styles.search}
-            placeholder="Jump to a section, project, or action…"
+            placeholder="Jump to a page, an entry, or an action…"
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -158,7 +152,7 @@ export default function CommandPalette() {
           <kbd className={styles.esc}>esc</kbd>
         </div>
         <ul id="palette-list" className={styles.list} ref={listRef} role="listbox">
-          {results.length === 0 && <li className={styles.empty}>No matches. Try &quot;projects&quot; or &quot;email&quot;.</li>}
+          {results.length === 0 && <li className={styles.empty}>No matches. Try &quot;lab&quot; or &quot;email&quot;.</li>}
           {results.map((it, i) => {
             const header = !query && it.group !== lastGroup ? it.group : null;
             lastGroup = it.group;

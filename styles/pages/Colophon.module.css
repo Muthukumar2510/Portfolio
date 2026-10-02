@@ -1,0 +1,17 @@
+.head {
+  padding-top: var(--space-16);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-display);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.intro {
+  margin: var(--space-4) 0 0;
+  max-width: 50ch;
+  color: var(--muted);
+  font-size: var(--text-lg);
+}
