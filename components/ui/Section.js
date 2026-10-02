@@ -1,8 +1,9 @@
 import Link from 'next/link';
+import StoryArt from '../motion/StoryArt';
 import styles from './Section.module.css';
 
 // Standard page section: anchor id, container, reveal animation, title row with optional "see all" link.
-// stage: where this section's StoryField illustration lives.
+// stage: where this section's illustration (StoryArt, shapes from lib/storyShapes.js) lives.
 //   'slot' (default) beside the heading · 'band' a wide strip under the heading ·
 //   'side' a tall sticky column beside the content (desktop), collapsing to a band on smaller screens ·
 //   'none' no illustration (the section carries its own visual).
@@ -33,18 +34,25 @@ export default function Section({ id, title, intro, action, wide = false, stage 
                 </Link>
               )}
             </div>
-            {/* Reserved space for this section's StoryField illustration, so it never overlaps content. */}
-            {id && stage === 'slot' && <span className={styles.slot} data-story-slot={id} aria-hidden="true" />}
+            {id && stage === 'slot' && (
+              <span className={styles.slot} aria-hidden="true">
+                <StoryArt id={id} />
+              </span>
+            )}
           </div>
         )}
         {id && (stage === 'band' || stage === 'side') && (
-          <span className={`${styles.band} ${stage === 'side' ? styles.sideFallback : ''}`} data-story-slot={id} aria-hidden="true" />
+          <span className={`${styles.band} ${stage === 'side' ? styles.sideFallback : ''}`} aria-hidden="true">
+            <StoryArt id={id} stage="band" />
+          </span>
         )}
         {id && stage === 'side' ? (
           <div className={styles.sideGrid}>
             <div>{children}</div>
             <div className={styles.sideCol} aria-hidden="true">
-              <span className={styles.sideSlot} data-story-slot={id} />
+              <span className={styles.sideSlot}>
+                <StoryArt id={id} stage="side" />
+              </span>
             </div>
           </div>
         ) : (

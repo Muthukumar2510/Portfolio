@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ListPage from '../../components/ListPage';
+import ListPage from '../../components/layout/ListPage';
 import PostCard from '../../components/cards/PostCard';
 import grid from '../../components/ui/Grid.module.css';
 import { getSiteData } from '../../lib/content';

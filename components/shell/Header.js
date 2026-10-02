@@ -4,7 +4,7 @@ import { HEADER_IDS, itemsFor, hrefFor } from '../../lib/nav';
 import useIsActive from '../../lib/useIsActive';
 import useScrollHide from '../../lib/useScrollHide';
 import { openPalette, toggleConsole } from '../../lib/actions';
-import ThemeToggle from '../ThemeToggle';
+import ThemeToggle from '../layout/ThemeToggle';
 import Icon from './Icon';
 import styles from './Header.module.css';
 

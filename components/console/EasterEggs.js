@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { fireEgg, toast } from '../lib/actions';
+import { fireEgg, toast } from '../../lib/actions';
 
 const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 

@@ -1,0 +1,65 @@
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.s1 {
+  stop-color: var(--story-1);
+}
+.s2 {
+  stop-color: var(--story-2);
+}
+.s3 {
+  stop-color: var(--story-3);
+}
+
+.line,
+.lit {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.line {
+  stroke-width: calc(1.5 * var(--u));
+  opacity: 0.6;
+}
+
+.lit {
+  stroke-width: calc(2.5 * var(--u));
+}
+
+/* Lines draw themselves once, when the section reveals (useReveal adds .in). No loop afterwards. */
+:global(.js .reveal:not(.in)) .line,
+:global(.js .reveal:not(.in)) .lit {
+  stroke-dashoffset: 1;
+}
+
+:global(.js .reveal) .line,
+:global(.js .reveal) .lit {
+  transition: stroke-dashoffset var(--dur-draw) var(--ease) calc(var(--i) * var(--stagger-draw));
+}
+
+.narrowOnly {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .wideOnly {
+    display: none;
+  }
+  .narrowOnly {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(.js .reveal:not(.in)) .line,
+  :global(.js .reveal:not(.in)) .lit {
+    stroke-dashoffset: 0;
+  }
+}

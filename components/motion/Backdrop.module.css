@@ -1,0 +1,64 @@
+/* Registered so the glow colour can cross-fade between sections. */
+@property --glow-color {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: transparent;
+}
+
+.backdrop {
+  --glow-a: var(--story-1);
+  --glow-b: var(--story-2);
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-backdrop);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Section tints: the glows cross-fade as you scroll between parts of the story. */
+:global(html[data-scene='projects']) .backdrop,
+:global(html[data-scene='certifications']) .backdrop {
+  --glow-a: var(--story-1);
+  --glow-b: var(--story-1);
+}
+
+:global(html[data-scene='about']) .backdrop,
+:global(html[data-scene='experience']) .backdrop,
+:global(html[data-scene='moments']) .backdrop {
+  --glow-a: var(--story-2);
+  --glow-b: var(--story-1);
+}
+
+:global(html[data-scene='skills']) .backdrop,
+:global(html[data-scene='operations']) .backdrop {
+  --glow-a: var(--story-3);
+  --glow-b: var(--story-1);
+}
+
+:global(html[data-scene='writing']) .backdrop,
+:global(html[data-scene='contact']) .backdrop {
+  --glow-a: var(--story-2);
+  --glow-b: var(--story-3);
+}
+
+.glow {
+  position: absolute;
+  width: 45vmax;
+  aspect-ratio: 1;
+  /* A radial gradient instead of filter: blur(): same soft glow, a fraction of the paint cost. */
+  background: radial-gradient(circle closest-side, var(--glow-color), transparent);
+  opacity: var(--glow-opacity);
+  transition: --glow-color 1.2s var(--ease);
+}
+
+.a {
+  top: -20vmax;
+  left: -15vmax;
+  --glow-color: var(--glow-a);
+}
+
+.b {
+  top: 35vh;
+  right: -22vmax;
+  --glow-color: var(--glow-b);
+}

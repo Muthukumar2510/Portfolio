@@ -1,13 +1,13 @@
 import profile from '../../content/profile';
-import Portrait, { hasPortrait } from '../Portrait';
-import SocialLinks from '../SocialLinks';
+import Portrait, { hasPortrait } from '../media/Portrait';
+import SocialLinks from '../layout/SocialLinks';
 import Button from '../ui/Button';
 import { openConsole } from '../../lib/actions';
 import styles from './Hero.module.css';
 
 const first = profile.name.split(' ')[0];
 
-// Personal first: who I am, what I do, one clear way to reach me. The page-wide StoryField starts here as a free particle field.
+// Personal first: who I am, what I do, one clear way to reach me.
 export default function Hero() {
   return (
     <section id="top" className={`${styles.hero} ${hasPortrait ? styles.withPhoto : ''}`}>

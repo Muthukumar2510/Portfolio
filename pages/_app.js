@@ -3,15 +3,15 @@ import dynamic from 'next/dynamic';
 import { Google_Sans, Google_Sans_Code } from 'next/font/google';
 import { SiteProvider } from '../lib/SiteContext';
 import AppShell from '../components/shell/AppShell';
-import Toast from '../components/Toast';
+import Toast from '../components/console/Toast';
 import useInteractions from '../lib/useInteractions';
 import '../styles/tokens.css';
 import '../styles/globals.css';
 
 // Interactive extras load after first paint, off the critical path.
-const Console = dynamic(() => import('../components/Console'), { ssr: false });
-const CommandPalette = dynamic(() => import('../components/CommandPalette'), { ssr: false });
-const EasterEggs = dynamic(() => import('../components/EasterEggs'), { ssr: false });
+const Console = dynamic(() => import('../components/console/Console'), { ssr: false });
+const CommandPalette = dynamic(() => import('../components/console/CommandPalette'), { ssr: false });
+const EasterEggs = dynamic(() => import('../components/console/EasterEggs'), { ssr: false });
 
 function useIdle() {
   const [idle, setIdle] = useState(false);

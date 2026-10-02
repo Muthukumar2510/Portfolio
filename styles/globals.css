@@ -137,16 +137,6 @@ img {
   opacity: 1;
 }
 
-[data-tilt] {
-  transition: transform var(--dur-slow) var(--ease);
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-[data-magnetic] {
-  transition: transform var(--dur) var(--ease), background var(--dur-fast), border-color var(--dur-fast) !important;
-}
-
 /* ---------- Long-form content (Markdown) ---------- */
 .prose {
   font-size: var(--text-lg);

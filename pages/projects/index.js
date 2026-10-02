@@ -1,4 +1,4 @@
-import ListPage from '../../components/ListPage';
+import ListPage from '../../components/layout/ListPage';
 import ProjectCard from '../../components/cards/ProjectCard';
 import grid from '../../components/ui/Grid.module.css';
 import { getSiteData } from '../../lib/content';

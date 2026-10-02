@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Section from '../ui/Section';
-import Gallery from '../Gallery';
+import Gallery from '../media/Gallery';
 import { formatDate } from '../../lib/format';
 import styles from './Moments.module.css';
 

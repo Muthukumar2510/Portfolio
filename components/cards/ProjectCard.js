@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import ProjectCover from '../ProjectCover';
+import ProjectCover from '../media/ProjectCover';
 import StatusDot from '../ui/StatusDot';
 import { Tag, TagList } from '../ui/Tag';
 import RepoStats from '../ui/RepoStats';
@@ -8,7 +8,7 @@ import styles from './ProjectCard.module.css';
 export default function ProjectCard({ project: p, large = false }) {
   return (
     <Link href={`/projects/${p.slug}`} id={`project-${p.slug}`} className={`${styles.card} ${large ? styles.large : ''}`} data-spotlight>
-      <div data-tilt className={styles.cover}>
+      <div className={styles.cover}>
         <ProjectCover project={p} sizes={large ? '(max-width: 860px) 100vw, 560px' : '(max-width: 860px) 100vw, 480px'} />
       </div>
       <div className={styles.body}>

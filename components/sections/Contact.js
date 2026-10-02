@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import profile from '../../content/profile';
 import { copyEmail, mailtoPresets, toast } from '../../lib/actions';
 import Section from '../ui/Section';
-import SocialLinks from '../SocialLinks';
+import SocialLinks from '../layout/SocialLinks';
 import Icon from '../shell/Icon';
 import styles from './Contact.module.css';
 

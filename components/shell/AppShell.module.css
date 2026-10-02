@@ -8,6 +8,16 @@
   flex: 1;
 }
 
+.enter {
+  animation: page-in var(--dur) var(--ease);
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+}
+
 .tabs {
   display: none;
 }

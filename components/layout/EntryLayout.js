@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Seo from './Seo';
-import Gallery from './Gallery';
-import ProjectCover from './ProjectCover';
-import ArchitectureDiagram from './ArchitectureDiagram';
-import Button from './ui/Button';
-import { TagList } from './ui/Tag';
-import RepoStats from './ui/RepoStats';
-import { formatDate } from '../lib/format';
-import { articleJsonLd } from '../lib/seo';
+import Gallery from '../media/Gallery';
+import ProjectCover from '../media/ProjectCover';
+import ArchitectureDiagram from '../media/ArchitectureDiagram';
+import Button from '../ui/Button';
+import { TagList } from '../ui/Tag';
+import RepoStats from '../ui/RepoStats';
+import { formatDate } from '../../lib/format';
+import { articleJsonLd } from '../../lib/seo';
 import styles from './EntryLayout.module.css';
 
 const statusTone = { live: 'ok', building: 'warn', archived: 'off' };

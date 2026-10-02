@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import profile from '../content/profile';
-import { useSite } from '../lib/SiteContext';
+import profile from '../../content/profile';
+import { useSite } from '../../lib/SiteContext';
 import {
   scrollToSection,
   toggleTheme,
@@ -10,8 +10,8 @@ import {
   mailtoFor,
   fireEgg,
   openPath,
-} from '../lib/actions';
-import { ALL_ITEMS } from '../lib/nav';
+} from '../../lib/actions';
+import { ALL_ITEMS } from '../../lib/nav';
 import styles from './CommandPalette.module.css';
 
 function buildItems({ projects, posts }) {

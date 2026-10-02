@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import profile from '../content/profile';
-import { findMedia } from '../lib/media';
+import profile from '../../content/profile';
+import { findMedia } from '../../lib/media';
 import styles from './Portrait.module.css';
 
 const photo = findMedia('profile/');

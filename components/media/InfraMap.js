@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import profile from '../content/profile';
-import { failoverFor } from '../lib/regions';
+import profile from '../../content/profile';
+import { failoverFor } from '../../lib/regions';
 import styles from './InfraMap.module.css';
 
 // Coordinates are in viewBox units; "wide" is desktop, "tall" is phones.

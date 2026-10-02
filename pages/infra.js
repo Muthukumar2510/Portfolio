@@ -1,9 +1,9 @@
-import ListPage from '../components/ListPage';
-import ArchitectureDiagram from '../components/ArchitectureDiagram';
+import ListPage from '../components/layout/ListPage';
+import ArchitectureDiagram from '../components/media/ArchitectureDiagram';
 import { getSiteData } from '../lib/content';
 import { getInfra } from '../lib/infra';
 import profile from '../content/profile';
-import styles from '../components/InfraPage.module.css';
+import styles from '../styles/pages/InfraPage.module.css';
 
 export default function InfraPage({ infra }) {
   const repo = `https://github.com/${profile.repo}`;

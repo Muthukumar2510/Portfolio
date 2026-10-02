@@ -1,7 +1,7 @@
-import profile from '../../content/profile';
-import skills from '../../content/skills';
-import experience from '../../content/experience';
-import certifications from '../../content/certifications';
+import profile from '../../../content/profile';
+import skills from '../../../content/skills';
+import experience from '../../../content/experience';
+import certifications from '../../../content/certifications';
 import {
   scrollToSection,
   setTheme,
@@ -11,7 +11,7 @@ import {
   fireEgg,
   mailtoFor,
   openPath,
-} from '../../lib/actions';
+} from '../../../lib/actions';
 
 // Output lines: plain strings, or { text, tone } where tone is 'accent' | 'muted' | 'warn'.
 const commands = [
