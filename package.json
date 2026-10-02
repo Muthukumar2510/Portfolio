@@ -11,7 +11,8 @@
     "media": "node scripts/media.mjs",
     "media:check": "node scripts/media.mjs --check",
     "brands": "node scripts/brands.mjs",
-    "brands:check": "node scripts/brands.mjs --check"
+    "brands:check": "node scripts/brands.mjs --check",
+    "sketch": "node scripts/sketch.mjs"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

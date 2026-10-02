@@ -6,6 +6,7 @@ import ProjectCover from '../media/ProjectCover';
 import ArchitectureDiagram from '../media/ArchitectureDiagram';
 import InfraMap from '../media/InfraMap';
 import Blueprint from '../ui/Blueprint';
+import BeforeAfter from '../media/BeforeAfter';
 import Button from '../ui/Button';
 import { TagList } from '../ui/Tag';
 import RepoStats from '../ui/RepoStats';
@@ -79,7 +80,9 @@ export default function EntryLayout({ entry }) {
       </div>
 
       <div className={`container ${styles.wide}`}>
-        {diagram ? (
+        {entry.before && entry.after ? (
+          <BeforeAfter before={entry.before} after={entry.after} title={entry.title} />
+        ) : diagram ? (
           <Blueprint diagram={diagram} />
         ) : isEvent ? (
           <Gallery images={entry.images} title={entry.title} album={entry.album} size="hero" />

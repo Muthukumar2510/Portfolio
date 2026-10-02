@@ -17,6 +17,7 @@ Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (to
 - **Diagrams are data.** Every system drawing lives in `content/diagrams.js` (nodes, links, notes, dims; `…Tall` keys for the phone layout) and is drawn by `lib/diagram.js`, as `<Blueprint>` on pages or `toSvgString()` for watermarks and images. Never hand-draw an SVG for a system diagram. Diagrams must describe how things really work.
 - **Diagrams can be text.** An entry's `diagram:` is a name in `content/diagrams.js` or the text form parsed by `lib/diagramText.js` (resolved at build time in `lib/content.js`). Share images (`/api/og?entry=`) draw the same diagram.
 - **The Log writes itself.** `/log` is assembled at build time by `lib/logbook.js` from commits, entries and design-log headings; never add hand-written log items.
+- **The learning loop.** Every visible design change gets a dated entry in `content/design-log.md`. Bigger ones also get a Sketch entry (`type: sketch`) with `before.*`/`after.*` images captured by `npm run sketch -- <slug> before|after [path]` (then `npm run media`); entry pages show the pair with a slider.
 - **The design system documents itself.** `/design` reads `styles/tokens.css` at build time; every design decision gets a dated entry in `content/design-log.md` (what changed, why, what I learned).
 
 ## 2. Styling
