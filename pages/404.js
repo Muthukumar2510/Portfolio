@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Seo from '../components/Seo';
+import Seo from '../components/layout/Seo';
 import Button from '../components/ui/Button';
 import { openPalette } from '../lib/actions';
-import styles from '../components/NotFound.module.css';
+import styles from '../styles/pages/NotFound.module.css';
 
 // A 404 styled as a failed request trace, reusing the same language as the home page map.
 export default function NotFound() {

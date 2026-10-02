@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import profile from '../../content/profile';
 import { copyEmail, mailtoPresets, toast } from '../../lib/actions';
+import notes from '../../content/notes';
 import Section from '../ui/Section';
-import SocialLinks from '../SocialLinks';
+import SocialLinks from '../layout/SocialLinks';
 import Icon from '../shell/Icon';
 import styles from './Contact.module.css';
 
 const ICONS = { hiring: 'badge', collab: 'layers', hello: 'mail' };
-const first = profile.name.split(' ')[0];
 const MAX = 2000;
 
 // With a Formspree ID the form posts directly; without one it opens the visitor's mail app, pre-filled.
@@ -46,8 +46,6 @@ export default function Contact() {
     if (k) setReason(k);
   };
 
-  const [isMac, setIsMac] = useState(false);
-  useEffect(() => setIsMac(/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)), []);
   // Ctrl/⌘ + Enter sends from anywhere in the form.
   const onFormKey = (e) => {
     if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
@@ -88,7 +86,7 @@ export default function Contact() {
   const label = { sending: 'Sending…', sent: 'Delivered', drafted: 'Opened in your mail app' }[state] || 'Send message';
 
   return (
-    <Section stage="none" id="contact" title="Let's talk" intro={`Hiring, a project, or just comparing notes on infrastructure. I reply ${profile.replyTime}.`}>
+    <Section stage="none" note={notes.contact} id="contact" title="Let's talk" intro={`Hiring, a project, or just comparing notes on infrastructure. I reply ${profile.replyTime}.`}>
       <div className={styles.card}>
         <aside className={styles.panel}>
           <p className={styles.spec} suppressHydrationWarning>
@@ -139,7 +137,7 @@ export default function Contact() {
             <dl>
               <div>
                 <dt>To</dt>
-                <dd>{first}</dd>
+                <dd>{profile.email}</dd>
               </div>
               <div>
                 <dt>From</dt>
@@ -176,9 +174,6 @@ export default function Contact() {
             <button type="submit" className={styles.send} disabled={state === 'sending'}>
               {label}
             </button>
-            <span className={styles.shortcut} aria-hidden="true">
-              or <kbd>{isMac ? '⌘' : 'Ctrl'}</kbd> <kbd>Enter</kbd>
-            </span>
           </div>
           {state === 'error' && <p className={styles.error}>Couldn&apos;t send. Please use the email address instead.</p>}
           {!profile.formspreeId && <p className={styles.note}>This opens your email app with the message ready to send.</p>}

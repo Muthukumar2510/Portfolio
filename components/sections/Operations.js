@@ -3,9 +3,10 @@ import profile from '../../content/profile';
 import costs from '../../content/costs';
 import useVisitors from '../../lib/useVisitors';
 import useQuality from '../../lib/useQuality';
+import notes from '../../content/notes';
 import Section from '../ui/Section';
-import InfraMap from '../InfraMap';
-import StatusBar from '../StatusBar';
+import InfraMap from '../media/InfraMap';
+import StatusBar from '../console/StatusBar';
 import ScoreRing from '../ui/ScoreRing';
 import BrandIcon from '../ui/BrandIcon';
 import styles from './Operations.module.css';
@@ -114,6 +115,7 @@ export default function Operations({ commits }) {
   const edge = trace?.edge?.name && trace.edge.name !== 'local' ? trace.edge.name : null;
   return (
     <Section
+      note={notes.operations}
       id="operations"
       title="How this site runs"
       intro="The same practices I use at work, applied to this site: gated CI, measured quality, known costs, and small, reviewed changes."

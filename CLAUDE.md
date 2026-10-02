@@ -26,24 +26,30 @@ Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (to
   - `components/cards/`: `ProjectCard`, `PostCard` (used on home and list pages)
   - `components/shell/`: `AppShell` (rounded `Header` pill + `MobileTabBar` on phones), mounted once in `pages/_app.js`
   - `ui/BrandIcon`, `ui/ScoreRing`, `ui/Sparkline`
-  - `Gallery` (all photo collages + lightbox), `SocialLinks`, `Seo`, `EntryLayout`, `ListPage`
+  - `components/layout/`: `EntryLayout`, `ListPage`, `Footer`, `Seo`, `SocialLinks`, `ThemeToggle`
+  - `components/media/`: `Gallery` (all photo collages + lightbox), `Portrait`, `ProjectCover`, `ArchitectureDiagram`, `InfraMap`
+  - `components/motion/`: `StoryArt` (section illustrations), `Watermark` (faint section drawings)
+  - `ui/Note`: handwritten margin note with an arrow; text lives in `content/notes.js`
+  - `components/console/`: `CommandPalette`, `Terminal/`, `Console`, `StatusBar`, `VisitorChip`, `Toast`, `EasterEggs`
+  - Page-only styles live in `styles/pages/`. A new component goes in the folder for its role; nothing loose in `components/`.
 - Home sections live in `components/sections/`, are composed in `pages/index.js`, and render nothing when their content is empty.
 - Site-wide data reaches components through `SiteContext` (`useSite()`), fed by `getSiteData()` in each page's `getStaticProps`.
 
 ## 4. Behaviour
 - Personal first: the hero introduces the person (photo, one-liner, call to action). Infra and live metrics live in "How this site runs", not above the fold.
-- Look like a drawing, not a template: ink (`--ink`) for structure, one `--signal` colour for highlights, grid paper, mono labels. The StoryField illustrations and the outlined section numbers keep their `--story-*` gradient; don't spread gradients or glows to buttons, panels or text.
+- Look like a drawing, not a template: ink (`--ink`) for structure, one `--signal` colour for highlights, grid paper, mono labels. The StoryArt illustrations and the outlined section numbers keep their `--story-*` gradient; don't spread gradients or glows to buttons, panels or text.
 - Rounded everywhere: controls use `var(--radius-pill)`, cards `var(--radius)`/`var(--radius-lg)`. Only the header and phone tab bar float.
 - Respect `prefers-reduced-motion` for every animation; pause canvases when off-screen.
-- Home-page motion is one system: `StoryField` (particles that form a shape per section; shapes live in `lib/storyShapes.js`, keyed by section id) plus `ScrollPacket` (the left rail) and `Backdrop` (drifting glows tinted per section via `html[data-scene]`, plus grain). A new section gets a shape there, not its own animation; shapes that grow must use `ghost`/`reveal` so particles never reshuffle.
-- Pointer effects (`data-spotlight`, `data-tilt`, `data-magnetic`) are opt-in attributes handled by `lib/useInteractions.js`.
+- Calm, not busy: motion is one system. `StoryArt` renders each section's shape from `lib/storyShapes.js` (keyed by section id) as inline SVG that draws itself once when the section reveals; the page background is notebook grid paper (blueprint in dark). No canvas, no animation loops, no scroll listeners. A new section gets a shape there, not its own animation.
+- Notebook style: every `<Section>` is a notebook page (number, title, intro, optional `note=` and a small `stage="slot"` drawing in a left margin column behind a red margin rule; content to the right; stacks on phones). Each section id gets a watermark in `WATERMARKS`. Large faint drawings come from `WATERMARKS` in `lib/storyShapes.js` (static, never animated). Handwritten notes are few (3–5 on the home page), short, true and written by the owner; the handwriting font is for notes only.
+- The only pointer effect is `data-spotlight` on cards (desktop), handled by `lib/useInteractions.js`. Don't add tilt/magnetic/parallax effects.
 - Keyboard: everything clickable is focusable; dialogs close on Escape.
 - API routes fail soft: return `null`s instead of 500s so the UI can hide the feature.
 
 ### New visual effect checklist
-- Works on desktop and phone: phones get the light tier (fewer particles, 30 fps, no glow); touch has no hover-only features.
+- Works on desktop and phone; touch has no hover-only features. Prefer CSS (transform/opacity/stroke-dashoffset) over JS; no `requestAnimationFrame` loops.
 - Respects `prefers-reduced-motion` (static result, no loop) and pauses when the tab is hidden.
-- Never draws over content: illustrations live in a `<Section stage=…>` slot/band/side column.
+- Never draws over content: illustrations live in a `<Section stage=…>` slot/band/side column. Vector (SVG), never canvas bitmaps.
 - No `filter: blur()` or `backdrop-filter` on large or animated elements (use gradients); animate only transform/opacity.
 - Nothing animated may be the LCP element; start heavy work on `requestIdleCallback`.
 - Verify: `npm run check`, `scripts/quality.mjs` (Lighthouse ≥ 85) and `scripts/smoothness.mjs` (avg frame ≤ 20 ms on a 4× throttled phone, no long frames, CLS 0).
@@ -58,7 +64,17 @@ Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (to
 ## 6. Adding things
 - New project/post: add a Markdown file + optional media folder. Nothing else.
 - New home section: create it in `components/sections/` using `<Section>`, add it to `pages/index.js`, add its id to the nav/palette lists if it should be linkable.
-- New terminal command: add it to `components/Terminal/commands.js` (reads content via imports or the `site` argument).
+- New terminal command: add it to `components/console/Terminal/commands.js` (reads content via imports or the `site` argument).
 
 ## 7. Before pushing
 `npm run check`, then open the site at 375px and 1440px in light and dark themes.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

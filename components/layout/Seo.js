@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import profile from '../content/profile';
-import { absolute, ogImage } from '../lib/seo';
+import profile from '../../content/profile';
+import { absolute, ogImage } from '../../lib/seo';
 
 export default function Seo({ title, description, image, jsonLd, type = 'website' }) {
   const { asPath } = useRouter();

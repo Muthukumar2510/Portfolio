@@ -1,9 +1,9 @@
-import ListPage from '../components/ListPage';
+import ListPage from '../components/layout/ListPage';
 import useStatus, { fmtPct } from '../lib/useStatus';
 import { getSiteData } from '../lib/content';
 import profile from '../content/profile';
 import Sparkline from '../components/ui/Sparkline';
-import styles from '../components/StatusPage.module.css';
+import styles from '../styles/pages/StatusPage.module.css';
 
 function dayTone(u) {
   if (u == null) return styles.none;

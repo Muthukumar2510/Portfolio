@@ -1,0 +1,50 @@
+.note {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: var(--text-note);
+  line-height: 1.15;
+  color: var(--ink);
+  transform: rotate(-3deg);
+}
+
+.text {
+  max-width: 14ch;
+}
+
+.arrow {
+  flex: none;
+  width: var(--space-12);
+  height: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The arrow is drawn pointing right; the other directions mirror or turn it. */
+.left {
+  flex-direction: row-reverse;
+}
+.left .arrow {
+  transform: scaleX(-1);
+}
+
+.down {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.down .arrow {
+  transform: rotate(70deg);
+}
+
+.up {
+  flex-direction: column-reverse;
+  align-items: flex-start;
+}
+.up .arrow {
+  transform: rotate(-70deg);
+}

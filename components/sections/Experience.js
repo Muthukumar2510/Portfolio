@@ -6,7 +6,7 @@ import styles from './Experience.module.css';
 export default function Experience() {
   if (!experience.length) return null;
   return (
-    <Section stage="side" id="experience" title="Experience">
+    <Section stage="band" id="experience" title="Experience">
       <ol className={styles.log}>
         {experience.map((e, i) => (
           <li key={e.version} className={styles.item}>

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import useVisitors from '../lib/useVisitors';
+import useVisitors from '../../lib/useVisitors';
 import styles from './VisitorChip.module.css';
 
 export default function VisitorChip() {

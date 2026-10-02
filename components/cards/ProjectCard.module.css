@@ -42,7 +42,7 @@
 
 .title {
   margin: 0 0 var(--space-2);
-  font-size: var(--text-lg);
+  font-size: var(--text-h3);
 }
 
 .summary {
@@ -93,7 +93,7 @@
 }
 
 .large .title {
-  font-size: var(--text-2xl);
+  font-size: var(--text-h3);
 }
 
 @media (max-width: 860px) {

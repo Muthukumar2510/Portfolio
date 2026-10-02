@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import useStatus, { fmtPct } from '../lib/useStatus';
+import useStatus, { fmtPct } from '../../lib/useStatus';
 import styles from './StatusBar.module.css';
 
 const commit = process.env.NEXT_PUBLIC_COMMIT;

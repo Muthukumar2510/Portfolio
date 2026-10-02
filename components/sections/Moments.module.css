@@ -12,7 +12,7 @@
 
 .leadTitle {
   margin: 0;
-  font-size: var(--text-2xl);
+  font-size: var(--text-h3);
 }
 
 .leadTitle a {

@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import profile from '../content/profile';
-import { NAV, hrefFor } from '../lib/nav';
+import profile from '../../content/profile';
+import { NAV, hrefFor } from '../../lib/nav';
 import SocialLinks from './SocialLinks';
-import Button from './ui/Button';
-import { toggleConsole } from '../lib/actions';
+import Button from '../ui/Button';
+import { toggleConsole } from '../../lib/actions';
 import styles from './Footer.module.css';
 
 const commit = process.env.NEXT_PUBLIC_COMMIT;

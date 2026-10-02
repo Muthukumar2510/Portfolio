@@ -1,4 +1,4 @@
-import EntryLayout from '../../components/EntryLayout';
+import EntryLayout from '../../components/layout/EntryLayout';
 import { getCollection, getEntry, getSiteData } from '../../lib/content';
 import { getRepoStats } from '../../lib/github';
 

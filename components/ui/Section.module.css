@@ -1,66 +1,41 @@
 .section {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
   counter-increment: story;
   padding: var(--space-24) 0 var(--space-8);
 }
 
-/* Doubled with the global class so it beats .container's max-width. */
-.wide:global(.container) {
-  max-width: calc(var(--max) + var(--space-24) * 2);
-}
-
-.head {
+/* ---------- Notebook page: a margin column (number, title, note) beside the page body. ---------- */
+.grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  gap: var(--space-8);
-  margin-bottom: var(--space-10);
-}
-
-.slot {
-  display: block;
-  width: var(--size-story-w);
-  height: var(--size-story-h);
-}
-
-/* Wide strip under the heading. */
-.band {
-  display: block;
-  height: var(--size-story-band);
-  margin: calc(-1 * var(--space-4)) 0 var(--space-8);
-}
-
-/* Tall column beside the content; its slot sticks while you read the section. */
-.sideGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--size-story-side);
+  grid-template-columns: var(--size-margin) minmax(0, 1fr);
   gap: var(--space-10);
 }
 
-.sideCol {
+/* The red margin rule of a notebook page. */
+.margin {
   position: relative;
+  padding-right: var(--space-6);
+  border-right: 1px solid color-mix(in srgb, var(--signal) 45%, transparent);
 }
 
-.sideSlot {
+.head {
   position: sticky;
   top: calc(var(--nav-h) + var(--space-10));
+}
+
+/* Big outlined section number ("01", "02"…) from a CSS counter (no data to keep in sync). */
+.head::before {
+  content: counter(story, decimal-leading-zero);
   display: block;
-  height: min(60vh, 32rem);
-}
-
-.sideFallback {
-  display: none;
-}
-
-@media (max-width: 1099px) {
-  .sideGrid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .sideCol {
-    display: none;
-  }
-  .sideFallback {
-    display: block;
-  }
+  margin-bottom: var(--space-2);
+  font-size: var(--text-watermark-sm);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--story-2) 45%, transparent);
 }
 
 .title {
@@ -68,12 +43,10 @@
   margin: 0;
 }
 
-
 .intro {
   margin: var(--space-3) 0 0;
   color: var(--muted);
-  font-size: var(--text-lg);
-  max-width: 60ch;
+  font-size: var(--text-sm);
 }
 
 .action {
@@ -83,47 +56,64 @@
   font-size: var(--text-sm);
 }
 
+/* Small drawing in the margin. */
+.slot {
+  display: block;
+  width: 100%;
+  height: var(--size-story-h);
+  margin-top: var(--space-6);
+}
+
+.note {
+  margin-top: var(--space-10);
+}
+
+.body {
+  min-width: 0;
+}
+
+/* Wide drawing strip above the content. */
+.band {
+  display: block;
+  height: var(--size-story-band);
+  margin-bottom: var(--space-8);
+}
+
+@media (max-width: 899px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+  }
+  .margin {
+    padding-right: 0;
+    padding-bottom: var(--space-5);
+    border-right: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--signal) 45%, transparent);
+  }
+  .head {
+    position: static;
+  }
+  .head::before {
+    font-size: var(--text-title);
+  }
+  .slot {
+    height: var(--size-story-h-sm);
+  }
+  .note {
+    margin-top: var(--space-4);
+  }
+  /* Stacked: the note sits above the content, so its arrow points down into it. */
+  .note svg {
+    transform: rotate(60deg);
+  }
+}
+
 @media (max-width: 600px) {
   .section {
     padding: var(--space-16) 0 var(--space-4);
-  }
-  .head {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-4);
-    margin-bottom: var(--space-6);
-  }
-  .slot {
-    order: -1;
-    width: 100%;
-    height: var(--size-story-h-sm);
-  }
-  .head > div::before {
-    left: calc(-1 * var(--space-2));
   }
   .band {
     height: var(--size-story-h-sm);
     margin-bottom: var(--space-5);
   }
-}
-
-/* Big outlined section number ("01", "02"…) behind each heading, from a CSS counter (no data to keep in sync). */
-.head > div {
-  position: relative;
-}
-
-.head > div::before {
-  content: counter(story, decimal-leading-zero);
-  position: absolute;
-  z-index: -1;
-  top: calc(-1 * var(--space-12));
-  left: calc(-1 * var(--space-6));
-  font-size: var(--text-watermark-sm);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.05em;
-  color: transparent;
-  -webkit-text-stroke: 1px color-mix(in srgb, var(--story-2) 30%, transparent);
-  opacity: 0.45;
-  pointer-events: none;
-  user-select: none;
 }

@@ -1,5 +1,5 @@
-import profile from '../content/profile';
-import BrandIcon, { hasBrand } from './ui/BrandIcon';
+import profile from '../../content/profile';
+import BrandIcon, { hasBrand } from '../ui/BrandIcon';
 import styles from './SocialLinks.module.css';
 
 // Brand logos come from public/brands via <BrandIcon>; only generic glyphs stay inline.
@@ -41,7 +41,6 @@ export default function SocialLinks({ withEmail = false, labels = false, classNa
             rel="noopener noreferrer me"
             aria-label={s.label}
             title={s.label}
-            data-magnetic
           >
             <SocialIcon icon={s.icon} />
             {labels && <span>{s.label}</span>}

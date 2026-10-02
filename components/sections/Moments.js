@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Section from '../ui/Section';
-import Gallery from '../Gallery';
+import Gallery from '../media/Gallery';
 import { formatDate } from '../../lib/format';
 import styles from './Moments.module.css';
 
@@ -10,7 +10,7 @@ export default function Moments({ moments }) {
   const [lead, ...rest] = moments;
 
   return (
-    <Section stage="band" id="moments" title="Moments" intro="Events, talks and people. The part of the work that doesn't fit in a repo." wide>
+    <Section stage="band" id="moments" title="Moments" intro="Events, talks and people. The part of the work that doesn't fit in a repo.">
       <article className={styles.lead}>
         <header className={styles.leadHead}>
           <div>

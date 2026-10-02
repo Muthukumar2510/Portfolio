@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import profile from '../../content/profile';
+import profile from '../../../content/profile';
 import { runCommand, complete } from './commands';
-import { useSite } from '../../lib/SiteContext';
+import { useSite } from '../../../lib/SiteContext';
 import styles from './Terminal.module.css';
 
 const PROMPT = `visitor@${profile.handle}:~$`;
