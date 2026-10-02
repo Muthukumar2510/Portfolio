@@ -37,7 +37,8 @@ Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (to
 
 ## 4. Behaviour
 - Personal first: the hero introduces the person (photo, one-liner, call to action). Infra and live metrics live in "How this site runs", not above the fold.
-- Look like a drawing, not a template: ink (`--ink`) for structure, one `--signal` colour for highlights, grid paper, mono labels. The StoryArt illustrations and the outlined section numbers keep their `--story-*` gradient; don't spread gradients or glows to buttons, panels or text.
+- Look like a drawing, not a template: one ink colour (`--ink`; `--story-*` equal it) for structure and drawings, one `--signal` colour for highlights, mono labels. No gradients or glows anywhere.
+- Paper: the page background is the only grid. Never add grid textures inside cards or panels.
 - Rounded everywhere: controls use `var(--radius-pill)`, cards `var(--radius)`/`var(--radius-lg)`. Only the header and phone tab bar float.
 - Respect `prefers-reduced-motion` for every animation; pause canvases when off-screen.
 - Calm, not busy: motion is one system. `StoryArt` renders each section's shape from `lib/storyShapes.js` (keyed by section id) as inline SVG that draws itself once when the section reveals; the page background is notebook grid paper (blueprint in dark). No canvas, no animation loops, no scroll listeners. A new section gets a shape there, not its own animation.
@@ -50,9 +51,11 @@ Next.js (pages router) + CSS Modules. Every change must pass `npm run check` (to
 - Works on desktop and phone; touch has no hover-only features. Prefer CSS (transform/opacity/stroke-dashoffset) over JS; no `requestAnimationFrame` loops.
 - Respects `prefers-reduced-motion` (static result, no loop) and pauses when the tab is hidden.
 - Never draws over content: illustrations live in a `<Section stage=…>` slot/band/side column. Vector (SVG), never canvas bitmaps.
-- No `filter: blur()` or `backdrop-filter` on large or animated elements (use gradients); animate only transform/opacity.
+- No `filter: blur()` or `backdrop-filter` anywhere that floats over scrolling content (header, tab bar, footer are solid). Animate only transform/opacity/stroke-dashoffset.
+- No endless animations except live data. Any loop that remains (e.g. InfraMap packets) must pause when off screen (IntersectionObserver). At most one sticky element (the header).
+- Decorative images that aren't needed for first paint (watermarks) render client-side when their section approaches, not in the server HTML.
 - Nothing animated may be the LCP element; start heavy work on `requestIdleCallback`.
-- Verify: `npm run check`, `scripts/quality.mjs` (Lighthouse ≥ 85) and `scripts/smoothness.mjs` (avg frame ≤ 20 ms on a 4× throttled phone, no long frames, CLS 0).
+- Verify: `npm run check`, `scripts/quality.mjs` (Lighthouse ≥ 85) and `scripts/smoothness.mjs` (avg frame ≤ 20 ms on a 4× throttled phone, no long frames, CLS 0). Compare performance A/B against a separate build of `main` (never two servers sharing one `.next`).
 
 ## 5. Honesty and safety
 - Never show a status, metric or claim the site can't back with data. Live values come from `/api/trace`, `/api/status`, `/api/visits` or build-time GitHub data; when unavailable, say so instead of faking it.

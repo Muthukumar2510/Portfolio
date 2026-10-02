@@ -21,8 +21,7 @@
 }
 
 .head {
-  position: sticky;
-  top: calc(var(--nav-h) + var(--space-10));
+  position: relative;
 }
 
 /* Big outlined section number ("01", "02"…) from a CSS counter (no data to keep in sync). */
@@ -89,9 +88,6 @@
     padding-bottom: var(--space-5);
     border-right: 0;
     border-bottom: 1px solid color-mix(in srgb, var(--signal) 45%, transparent);
-  }
-  .head {
-    position: static;
   }
   .head::before {
     font-size: var(--text-title);

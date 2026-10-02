@@ -184,28 +184,26 @@ export default function InfraMap({ onTrace }) {
     doTrace();
   }, [doTrace]);
 
-  // Gentle parallax so the diagram responds to the cursor.
+  // Animations (moving packets, blinking dots) run only while the map is on screen, and only in the layout
+  // that is actually visible. Off-screen they are paused, so they cost nothing while you scroll elsewhere.
   useEffect(() => {
     const el = wrapRef.current;
-    if (!window.matchMedia('(pointer: fine)').matches || reduced) return;
-    const onMove = (e) => {
-      const r = el.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = (e.clientY - r.top) / r.height - 0.5;
-      el.style.setProperty('--px', `${(x * 10).toFixed(1)}px`);
-      el.style.setProperty('--py', `${(y * 8).toFixed(1)}px`);
+    if (!el) return;
+    // Same breakpoint as InfraMap.module.css: ≤640px shows the tall layout, wider screens the wide one.
+    const narrow = window.matchMedia('(max-width: 640px)');
+    const setRunning = (on) => {
+      el.dataset.running = on ? 'true' : 'false';
+      el.querySelectorAll('svg').forEach((svg) => {
+        const shown = svg.classList.contains(styles.tall) === narrow.matches;
+        if (on && shown) svg.unpauseAnimations?.();
+        else svg.pauseAnimations?.();
+      });
     };
-    const onLeave = () => {
-      el.style.setProperty('--px', '0px');
-      el.style.setProperty('--py', '0px');
-    };
-    el.addEventListener('pointermove', onMove);
-    el.addEventListener('pointerleave', onLeave);
-    return () => {
-      el.removeEventListener('pointermove', onMove);
-      el.removeEventListener('pointerleave', onLeave);
-    };
-  }, [reduced]);
+    setRunning(false);
+    const io = new IntersectionObserver(([e]) => setRunning(e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const info = describe(trace, rtt, chaos);
   const down = chaos.phase === 'down';

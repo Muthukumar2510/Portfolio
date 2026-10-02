@@ -22,10 +22,6 @@
   place-items: center;
   aspect-ratio: 16 / 9;
   background-color: var(--panel-bg);
-  background-image:
-    linear-gradient(var(--panel-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--panel-line) 1px, transparent 1px);
-  background-size: 24px 24px;
   overflow: hidden;
 }
 

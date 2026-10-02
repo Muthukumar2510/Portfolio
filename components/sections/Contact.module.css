@@ -17,11 +17,6 @@
   padding: var(--space-10);
   color: var(--panel-text);
   background-color: var(--panel-bg);
-  /* Blueprint sheet: fine grid on deep navy. */
-  background-image:
-    linear-gradient(var(--panel-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--panel-line) 1px, transparent 1px);
-  background-size: 24px 24px;
 }
 
 .spec {

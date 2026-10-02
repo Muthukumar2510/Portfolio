@@ -1,7 +1,5 @@
 .wrap {
   position: relative;
-  --px: 0px;
-  --py: 0px;
 }
 
 .lanes {
@@ -52,14 +50,9 @@
   }
 }
 
-.links {
-  transform: translate(calc(var(--px) * 0.5), calc(var(--py) * 0.5));
-  transition: transform 0.4s var(--ease);
-}
-
-.nodes {
-  transform: translate(var(--px), var(--py));
-  transition: transform 0.4s var(--ease);
+/* CSS loops pause with the SVG ones when the map is off screen (data-running is set by InfraMap.js). */
+.wrap:not([data-running='true']) * {
+  animation-play-state: paused !important;
 }
 
 .link {
