@@ -15,6 +15,7 @@ metrics:
     value: 45 min → 4 min
   - label: Rollback
     value: One click
+draft: true # placeholder until the real story is written
 ---
 
 ## The problem
