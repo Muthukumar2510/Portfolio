@@ -20,9 +20,8 @@
 
 .scrolled .bar {
   border-color: var(--border);
-  background: color-mix(in srgb, var(--surface) 90%, transparent);
-  backdrop-filter: saturate(180%) blur(14px);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  /* Solid, not frosted: a backdrop blur over a scrolling page is re-rendered every frame. */
+  background: var(--surface);
   box-shadow: var(--shadow-lg);
 }
 

@@ -29,7 +29,7 @@ function trim(pts, f) {
   return out;
 }
 
-const pathOf = (l, w) => 'M' + trim(l.pts, l.reveal ?? 1).map(([x, y]) => `${(x * w).toFixed(2)} ${(y * H).toFixed(2)}`).join('L');
+const pathOf = (l, w) => 'M' + trim(l.pts, l.reveal ?? 1).map(([x, y]) => `${(x * w).toFixed(1)} ${(y * H).toFixed(1)}`).join('L');
 
 function Drawing({ id, fn, aspect, px, className }) {
   const rect = fn.fit === 'rect';
@@ -56,15 +56,6 @@ function Drawing({ id, fn, aspect, px, className }) {
             style={{ '--i': Math.min(i, 10) }}
           />
         ))}
-      </g>
-      {/* Ambient life: a short light runs along up to three highlighted lines, only while the section is on screen. */}
-      <g stroke={`url(#${gid})`} className={styles.flow}>
-        {lines
-          .filter((l) => l.lit)
-          .slice(0, 3)
-          .map((l, i) => (
-            <path key={i} d={pathOf(l, w)} pathLength="1" style={{ '--i': i }} />
-          ))}
       </g>
     </svg>
   );

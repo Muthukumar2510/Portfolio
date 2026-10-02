@@ -20,7 +20,6 @@ export default function ProjectCover({ project, sizes }) {
   // No screenshot yet: a blueprint sheet with a title block, built from the project's own front matter.
   return (
     <div className={`${styles.frame} ${styles.generated}`} aria-hidden="true">
-      <div className={styles.grid} />
       <div className={styles.glyph}>
         <span className={styles.prompt}>$</span> deploy {project.slug}
         <span className={styles.caret} />

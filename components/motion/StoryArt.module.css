@@ -44,29 +44,6 @@
   transition: stroke-dashoffset var(--dur-draw) var(--ease) calc(var(--i) * var(--stagger-draw));
 }
 
-.flow {
-  display: none;
-}
-
-/* .live is set by lib/useScene.js while the section is on screen, so nothing animates off-screen. */
-:global(.live) .flow {
-  display: inline;
-}
-
-.flow path {
-  stroke-width: calc(4 * var(--u));
-  stroke-dasharray: 0.06 0.94;
-  stroke-dashoffset: 1;
-  opacity: 0.9;
-  animation: flow var(--dur-flow) linear calc(var(--dur-draw) + var(--i) * 0.6s) infinite;
-}
-
-@keyframes flow {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
 .narrowOnly {
   display: none;
 }
@@ -81,9 +58,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :global(.live) .flow {
-    display: none;
-  }
   :global(.js .reveal:not(.in)) .line,
   :global(.js .reveal:not(.in)) .lit {
     stroke-dashoffset: 0;

@@ -4,16 +4,8 @@
   top: var(--space-16);
   width: var(--size-watermark);
   height: var(--size-watermark);
-  fill: none;
-  stroke: var(--watermark-ink);
-  stroke-width: 1.25;
-  stroke-linecap: round;
-  stroke-linejoin: round;
   pointer-events: none;
-}
-
-.mark path {
-  vector-effect: non-scaling-stroke;
+  user-select: none;
 }
 
 .right {
@@ -22,10 +14,6 @@
 
 .left {
   left: calc(-1 * var(--size-watermark) * 0.18);
-}
-
-.dash {
-  stroke-dasharray: 4 6;
 }
 
 /* Phones: smaller and tucked mostly off the right edge, so it never sits behind text. */
