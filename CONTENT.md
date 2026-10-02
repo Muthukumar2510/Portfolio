@@ -32,7 +32,7 @@ Everything in the Lab is an entry. Copy an existing file, rename it, and set `ty
 |---|---|---|
 | `build` | something you made | `status` (live/building/archived), `role`, `stack`, `metrics`, `repo`, `github`, `featured: true` |
 | `teardown` | how a product or connection works | `diagram` (a name from `content/diagrams.js`), `embed: trace` for the live request map |
-| `sketch` | a UI design study | before/after images in the media folder |
+| `sketch` | a UI design study | `before.webp` + `after.webp` in the media folder (a comparison slider); capture them with `npm run sketch -- <slug> before /path` and `… after /path` |
 | `note` | writing, talks and events | `event: true` + `location` for events (photo collage, Talks & moments) |
 
 All entries take `title`, `summary`, `date`, `stack` and `draft: true` (visible only on your machine).

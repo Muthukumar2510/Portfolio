@@ -5,14 +5,16 @@ import { marked } from 'marked';
 import ListPage from '../components/layout/ListPage';
 import Blueprint from '../components/ui/Blueprint';
 import Note from '../components/ui/Note';
+import EntryCard from '../components/cards/EntryCard';
+import grid from '../components/ui/Grid.module.css';
 import { DIAGRAMS, legend } from '../content/diagrams';
-import { getSiteData } from '../lib/content';
+import { getEntries, getSiteData } from '../lib/content';
 import { getDesignTokens } from '../lib/designTokens';
 import styles from '../styles/pages/DesignPage.module.css';
 
 // The living design system: every token (read from styles/tokens.css at build time), the type, the diagram
 // language, and the journal of design decisions (content/design-log.md).
-export default function DesignPage({ tokens, logHtml }) {
+export default function DesignPage({ tokens, logHtml, sketches }) {
   const type = tokens.groups.find((g) => g.title === 'Type');
   return (
     <ListPage
@@ -90,6 +92,22 @@ export default function DesignPage({ tokens, logHtml }) {
           </section>
         ))}
 
+      <section className={styles.block} aria-labelledby="d-studies">
+        <h2 id="d-studies" className={styles.h2}>Studies</h2>
+        <p className={styles.lead}>
+          Every UI experiment becomes a sketch: before, after, and what I learned. Captured with <code>npm run sketch</code>.
+        </p>
+        {sketches.length ? (
+          <div className={grid.three}>
+            {sketches.map((e) => (
+              <EntryCard key={e.slug} entry={e} />
+            ))}
+          </div>
+        ) : (
+          <p className={styles.lead}>No sketches yet.</p>
+        )}
+      </section>
+
       <section className={styles.block} aria-labelledby="d-log">
         <h2 id="d-log" className={styles.h2}>Decisions</h2>
         <div className={`prose ${styles.log}`} dangerouslySetInnerHTML={{ __html: logHtml }} />
@@ -100,5 +118,8 @@ export default function DesignPage({ tokens, logHtml }) {
 
 export function getStaticProps() {
   const raw = fs.readFileSync(path.join(process.cwd(), 'content/design-log.md'), 'utf8');
-  return { props: { site: getSiteData(), tokens: getDesignTokens(), logHtml: marked.parse(matter(raw).content) } };
+  const sketches = getEntries()
+    .filter((e) => e.type === 'sketch')
+    .map(({ preview, ...e }) => e);
+  return { props: { site: getSiteData(), tokens: getDesignTokens(), logHtml: marked.parse(matter(raw).content), sketches } };
 }

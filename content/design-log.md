@@ -3,6 +3,13 @@ title: Design decisions
 ---
 
 One entry per design decision: what changed, why, and what I learned. Newest first.
+Bigger visual changes also get a Sketch entry in the Lab with a before/after pair (`npm run sketch`).
+
+## 2026-10-02 · Every experiment leaves a record
+
+UI changes now come with a before/after Sketch, captured by one command (`npm run sketch -- <slug> before|after`)
+and shown with a comparison slider. The first one is "One grid, one ink".
+**Learned:** the habit only sticks if recording it is cheaper than skipping it.
 
 ## 2026-10-02 · Write the diagram, the site draws it
 
