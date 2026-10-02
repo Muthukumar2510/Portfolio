@@ -2,6 +2,8 @@ import profile from '../../content/profile';
 import Portrait, { hasPortrait } from '../media/Portrait';
 import SocialLinks from '../layout/SocialLinks';
 import Button from '../ui/Button';
+import Note from '../ui/Note';
+import notes from '../../content/notes';
 import { openConsole } from '../../lib/actions';
 import styles from './Hero.module.css';
 
@@ -20,9 +22,9 @@ export default function Hero() {
           <p className={styles.sub}>{profile.bio[0]}</p>
 
           <div className={`${styles.ctas} ${styles.enter}`} style={{ '--i': 2 }}>
-            <Button href="#contact">Let&apos;s talk</Button>
-            <Button href="#projects" variant="ghost">
-              See my work
+            <Button href="/lab">Open the lab</Button>
+            <Button href="/colophon#contact" variant="ghost">
+              Say hello
             </Button>
             {profile.resumeUrl && (
               <Button href={profile.resumeUrl} variant="ghost">
@@ -36,6 +38,9 @@ export default function Hero() {
           <button type="button" className={`${styles.console} ${styles.enter}`} style={{ '--i': 4 }} onClick={openConsole}>
             or explore from the terminal <kbd>`</kbd>
           </button>
+          <Note point="down" className={styles.now}>
+            {notes.now}
+          </Note>
           {profile.status && (
             <p className={`${styles.status} ${styles.enter}`} style={{ '--i': 5 }}>
               {profile.status}

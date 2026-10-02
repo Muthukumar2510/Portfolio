@@ -1,4 +1,5 @@
 ---
+type: build
 title: Infra Blueprint
 summary: Terraform modules for a multi-account AWS landing zone, with guardrails built in.
 status: live

@@ -53,7 +53,7 @@ export default function NotFound() {
         </Button>
       </div>
       <p className={styles.small}>
-        Found a broken link? <Link href="/#contact">Tell me</Link> and I&apos;ll fix it.
+        Found a broken link? <Link href="/colophon#contact">Tell me</Link> and I&apos;ll fix it.
       </p>
     </div>
   );

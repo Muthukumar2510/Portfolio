@@ -1,0 +1,29 @@
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-8);
+  margin: var(--space-6) 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.facts div {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.facts dt {
+  color: var(--muted);
+}
+
+.facts dd {
+  margin: 0;
+  color: var(--signal);
+}
+
+.more {
+  display: inline-block;
+  margin-top: var(--space-5);
+  font-weight: 500;
+  font-size: var(--text-sm);
+}

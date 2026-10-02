@@ -24,28 +24,36 @@ then commit — the site deploys on its own.
 - **Skills**: groups of tools with a `level` from 0–100. Logos appear automatically for known tools.
 - **Certifications**: `id`, `name`, `issuer`, `date`, `expires`, `url` (your Credly link). Valid/expired is worked out from the dates.
 
-## 3. Projects — one file per project in `content/projects/`
+## 3. Notebook entries — one file each in `content/entries/`
 
-Copy an existing file (e.g. `this-site.md`), rename it, and edit the top block:
-`title`, `summary`, `status`, `date`, `role`, `stack`, `metrics`, `featured: true` for the one on top.
-Write the story below the `---` in plain Markdown: the problem, what you decided and why, what changed.
+Everything in the Lab is an entry. Copy an existing file, rename it, and set `type` at the top:
 
-## 4. Writing and events — one file per post in `content/posts/`
+| `type` | For | Useful fields |
+|---|---|---|
+| `build` | something you made | `status` (live/building/archived), `role`, `stack`, `metrics`, `repo`, `github`, `featured: true` |
+| `teardown` | how a product or connection works | `diagram` (a name from `content/diagrams.js`), `embed: trace` for the live request map |
+| `sketch` | a UI design study | before/after images in the media folder |
+| `note` | writing, talks and events | `event: true` + `location` for events (photo collage, Talks & moments) |
 
-Same idea: `title`, `type` (`blog` or `event`), `summary`, `date`, `location`, then the text.
-`draft: true` keeps it visible only on your machine.
+All entries take `title`, `summary`, `date`, `stack` and `draft: true` (visible only on your machine).
+Write the story below the `---` in plain Markdown: the problem, what you decided and why, what broke, what you learned.
+Entries live at `/lab/<file-name>`; old `/projects/…` and `/writing/…` links redirect there.
+
+## 4. Diagrams — `content/diagrams.js`
+
+Describe a system as data (nodes, links, handwritten notes) and the site draws it. See `/design` for the vocabulary.
+Name a diagram in an entry's `diagram:` field to put it at the top of that entry.
 
 ## 5. Photos — `public/media/`
 
 | Put the file here | It appears |
 |---|---|
 | `public/media/profile/` (one photo) | Your framed portrait in the hero |
-| `public/media/projects/<project-file-name>/` | Cover + gallery on that project (first file alphabetically is the cover) |
-| `public/media/posts/<post-file-name>/` | Collage on that post and in **Talks & moments** |
+| `public/media/entries/<entry-file-name>/` | Cover + gallery on that entry (`cover.jpg` or the first file is the cover); events show a collage and appear in **Talks & moments** |
 | `public/media/certs/<id>.png` | The official badge on that certification (download it from Credly) |
 
 The folder name must match the Markdown file name without `.md`
-(`content/posts/kubecon-india-2025.md` → `public/media/posts/kubecon-india-2025/`).
+(`content/entries/kubecon-india-2025.md` → `public/media/entries/kubecon-india-2025/`).
 
 **Then run `npm run media`.** It removes location and camera data (GPS), fixes rotation, caps the size, and
 records the images. CI refuses unprocessed photos, and a GitHub workflow also processes them for you on push.

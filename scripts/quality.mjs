@@ -20,7 +20,7 @@ const REQUIRED_HEADERS = [
   'referrer-policy',
   'permissions-policy',
 ];
-const LH_PAGES = ['/', '/projects/this-site', '/writing'];
+const LH_PAGES = ['/', '/lab/this-site', '/lab'];
 const LH_RUNS = Number(process.env.LH_RUNS || 3);
 const median = (xs) => [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)];
 

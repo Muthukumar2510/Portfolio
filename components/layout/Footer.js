@@ -26,7 +26,7 @@ export default function Footer() {
             </p>
             <p className={styles.tagline}>{profile.tagline}</p>
             <div className={styles.ctas}>
-              <Button href="/#contact">Let&apos;s talk</Button>
+              <Button href="/colophon#contact">Let&apos;s talk</Button>
               {profile.resumeUrl && (
                 <Button href={profile.resumeUrl} variant="ghost">
                   Résumé

@@ -4,6 +4,9 @@ import Seo from './Seo';
 import Gallery from '../media/Gallery';
 import ProjectCover from '../media/ProjectCover';
 import ArchitectureDiagram from '../media/ArchitectureDiagram';
+import InfraMap from '../media/InfraMap';
+import Blueprint from '../ui/Blueprint';
+import { DIAGRAMS } from '../../content/diagrams';
 import Button from '../ui/Button';
 import { TagList } from '../ui/Tag';
 import RepoStats from '../ui/RepoStats';
@@ -13,10 +16,15 @@ import styles from './EntryLayout.module.css';
 
 const statusTone = { live: 'ok', building: 'warn', archived: 'off' };
 
-// Detail page for a project or a post. Events lead with a big photo collage; everything else leads with text.
-export default function EntryLayout({ entry, basePath, backLabel }) {
-  const isProject = entry.collection === 'projects';
-  const isEvent = entry.type === 'event';
+const basePath = '/lab';
+const TYPE_LABEL = { build: 'build', teardown: 'teardown', sketch: 'sketch', note: 'note' };
+
+// A notebook entry. Builds lead with their cover, events with a photo collage, teardowns with their diagram
+// (front matter `diagram:` names one in content/diagrams.js). `embed: trace` adds the live request trace.
+export default function EntryLayout({ entry }) {
+  const isProject = entry.type === 'build';
+  const isEvent = Boolean(entry.event);
+  const diagram = DIAGRAMS[entry.diagram];
   const facts = isProject
     ? [
         ['role', entry.role],
@@ -25,7 +33,7 @@ export default function EntryLayout({ entry, basePath, backLabel }) {
         ['shipped', formatDate(entry.date)],
       ]
     : [
-        ['type', entry.type],
+        ['type', TYPE_LABEL[entry.type] || entry.type],
         ['date', formatDate(entry.date)],
         ['location', entry.location],
         [isEvent ? 'photos' : 'reading', isEvent ? entry.images.length || null : `${entry.readingMinutes} min`],
@@ -42,7 +50,7 @@ export default function EntryLayout({ entry, basePath, backLabel }) {
       />
       <div className={`container ${styles.narrow}`}>
         <Link href={basePath} className={styles.back}>
-          ← {backLabel}
+          ← Lab
         </Link>
         <h1 className={styles.title}>{entry.title}</h1>
         {entry.summary && <p className={styles.summary}>{entry.summary}</p>}
@@ -71,7 +79,9 @@ export default function EntryLayout({ entry, basePath, backLabel }) {
       </div>
 
       <div className={`container ${styles.wide}`}>
-        {isEvent ? (
+        {diagram ? (
+          <Blueprint diagram={diagram} />
+        ) : isEvent ? (
           <Gallery images={entry.images} title={entry.title} album={entry.album} size="hero" />
         ) : isProject ? (
           <ProjectCover project={entry} sizes="(max-width: 1040px) 100vw, 1040px" />
@@ -105,6 +115,12 @@ export default function EntryLayout({ entry, basePath, backLabel }) {
         {entry.architecture && <ArchitectureDiagram spec={entry.architecture} />}
 
         <div className="prose" dangerouslySetInnerHTML={{ __html: entry.html }} />
+
+        {entry.embed === 'trace' && (
+          <div className={styles.embed}>
+            <InfraMap />
+          </div>
+        )}
 
         {!isEvent && <Gallery images={entry.images} title={entry.title} album={entry.album} />}
 

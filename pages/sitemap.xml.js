@@ -4,13 +4,12 @@ import { absolute } from '../lib/seo';
 export async function getServerSideProps({ res }) {
   const urls = [
     { loc: '/', priority: '1.0' },
-    { loc: '/projects', priority: '0.8' },
-    { loc: '/writing', priority: '0.8' },
+    { loc: '/lab', priority: '0.9' },
+    { loc: '/colophon', priority: '0.7' },
     { loc: '/status', priority: '0.5' },
     { loc: '/infra', priority: '0.5' },
     { loc: '/design', priority: '0.5' },
-    ...getCollection('projects').map((p) => ({ loc: `/projects/${p.slug}`, lastmod: p.date, priority: '0.7' })),
-    ...getCollection('posts').map((p) => ({ loc: `/writing/${p.slug}`, lastmod: p.date, priority: '0.6' })),
+    ...getCollection('entries').map((e) => ({ loc: `/lab/${e.slug}`, lastmod: e.date, priority: '0.7' })),
   ];
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

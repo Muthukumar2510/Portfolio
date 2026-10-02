@@ -42,6 +42,15 @@ module.exports = {
       ? `https://github.com/${process.env.VERCEL_GIT_REPO_OWNER}/${process.env.VERCEL_GIT_REPO_SLUG}`
       : 'https://github.com/Muthukumar2510/Portfolio',
   },
+  // Projects and writing became notebook entries under /lab; old links keep working.
+  async redirects() {
+    return [
+      { source: '/projects', destination: '/lab?type=build', permanent: true },
+      { source: '/projects/:slug', destination: '/lab/:slug', permanent: true },
+      { source: '/writing', destination: '/lab?type=note', permanent: true },
+      { source: '/writing/:slug', destination: '/lab/:slug', permanent: true },
+    ];
+  },
   async headers() {
     if (process.env.NODE_ENV !== 'production') return [];
     return [{ source: '/:path*', headers: securityHeaders }];

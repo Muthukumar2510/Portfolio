@@ -59,29 +59,19 @@ const commands = [
     },
   },
   {
+    name: 'lab',
+    description: 'Notebook entries: lab [name] or lab build|teardown|sketch|note',
+    run: (args, site) => labCommand(args, site),
+  },
+  {
     name: 'projects',
-    description: 'Services I have deployed: projects [name]',
-    run: (args, site) => {
-      const hit = args[0] && site.projects.find((p) => p.slug.startsWith(args[0].toLowerCase()));
-      if (hit) {
-        openPath(`/projects/${hit.slug}`);
-        return [`Opening ${hit.title}\u2026`];
-      }
-      scrollToSection('projects');
-      return [
-        ...site.projects.map((p) => `  [${p.status}] ${p.slug.padEnd(18)} ${p.summary}`),
-        { text: "Open one with 'projects <name>', e.g. 'projects " + (site.projects[0]?.slug || '') + "'.", tone: 'muted' },
-      ];
-    },
+    description: 'Things I built (same as: lab build)',
+    run: (args, site) => labCommand(args.length ? args : ['build'], site),
   },
   {
     name: 'posts',
-    description: 'Blog posts and events',
-    run: (args, site) => {
-      scrollToSection('writing');
-      if (!site.posts.length) return ['No posts yet.'];
-      return site.posts.map((p) => `  ${p.date}  [${p.type}] ${p.title}`);
-    },
+    description: 'Writing and events (same as: lab note)',
+    run: (args, site) => labCommand(args.length ? args : ['note'], site),
   },
   {
     name: 'certs',
@@ -218,6 +208,30 @@ const commands = [
   { name: 'pwd', hidden: true, run: () => [`/home/visitor/${profile.domain}`] },
   { name: 'exit', hidden: true, run: () => ['There is no escape. But you can scroll ↓'] },
 ];
+
+const TYPES = ['build', 'teardown', 'sketch', 'note'];
+
+// lab            → every entry
+// lab teardown   → entries of one type
+// lab <slug>     → open that entry
+function labCommand(args, site) {
+  const entries = site.entries || [];
+  const arg = (args[0] || '').toLowerCase();
+  if (arg && !TYPES.includes(arg)) {
+    const hit = entries.find((e) => e.slug.startsWith(arg));
+    if (hit) {
+      openPath(`/lab/${hit.slug}`);
+      return [`Opening ${hit.title}\u2026`];
+    }
+    return [{ text: `No entry matches '${arg}'.`, tone: 'warn' }];
+  }
+  const shown = arg ? entries.filter((e) => e.type === arg) : entries;
+  if (!shown.length) return ['Nothing here yet.'];
+  return [
+    ...shown.map((e) => `  ${e.date}  [${e.type.padEnd(8)}] ${e.slug}`),
+    { text: "Open one with 'lab <name>', e.g. 'lab " + shown[0].slug + "'.", tone: 'muted' },
+  ];
+}
 
 export const commandNames = commands.map((c) => c.name);
 

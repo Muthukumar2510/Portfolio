@@ -19,15 +19,15 @@ export default function Moments({ moments }) {
               {lead.location && ` · ${lead.location}`}
             </p>
             <h3 className={styles.leadTitle}>
-              <Link href={`/writing/${lead.slug}`}>{lead.title}</Link>
+              <Link href={`/lab/${lead.slug}`}>{lead.title}</Link>
             </h3>
           </div>
-          <Link href={`/writing/${lead.slug}`} className={styles.readMore}>
+          <Link href={`/lab/${lead.slug}`} className={styles.readMore}>
             Read the story →
           </Link>
         </header>
         {lead.preview.length > 0 ? (
-          <Gallery images={lead.preview} total={lead.imageCount} title={lead.title} album={lead.album} size="hero" moreHref={`/writing/${lead.slug}`} />
+          <Gallery images={lead.preview} total={lead.imageCount} title={lead.title} album={lead.album} size="hero" moreHref={`/lab/${lead.slug}`} />
         ) : (
           <EmptyAlbum slug={lead.slug} album={lead.album} />
         )}
@@ -37,7 +37,7 @@ export default function Moments({ moments }) {
         <ul className={styles.strip}>
           {rest.map((m) => (
             <li key={m.slug}>
-              <Link href={`/writing/${m.slug}`} className={styles.album}>
+              <Link href={`/lab/${m.slug}`} className={styles.album}>
                 <span className={styles.albumStack} aria-hidden="true">
                   {(m.preview.length ? m.preview.slice(0, 3) : [null]).map((img, i) => (
                     <span key={i} style={img ? { backgroundImage: `url(${img.src})` } : undefined} />
@@ -66,7 +66,7 @@ function EmptyAlbum({ slug, album }) {
       </div>
       <div className={styles.emptyText}>
         <p>Photos go here.</p>
-        <code>public/media/posts/{slug}/</code>
+        <code>public/media/entries/{slug}/</code>
         {album && (
           <a href={album} target="_blank" rel="noopener noreferrer">
             View the album on Google Photos ↗
